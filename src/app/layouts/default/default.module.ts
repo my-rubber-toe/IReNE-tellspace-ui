@@ -5,10 +5,27 @@ import { DocumentsComponent } from "src/app/modules/documents/documents.componen
 import { RouterModule } from "@angular/router";
 import { SharedModule } from "src/app/shared/shared.module";
 import { DocumentEditionModule } from "src/app/modules/document-edition/document-edition.module";
-import { DocumentEditionComponent } from 'src/app/modules/document-edition/document-edition.component';
+import { DocumentEditionComponent } from "src/app/modules/document-edition/document-edition.component";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatDividerModule } from "@angular/material/divider";
+import { DocumentsModule } from "src/app/modules/documents/documents.module";
+import { MaterialModule } from "src/app/material.module";
 
 @NgModule({
-  declarations: [DefaultComponent, DocumentsComponent, DocumentEditionComponent],
-  imports: [CommonModule, RouterModule, SharedModule, DocumentEditionModule]
+  declarations: [
+    DefaultComponent,
+    DocumentsComponent,
+    DocumentEditionComponent
+  ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SharedModule,
+    DocumentEditionModule,
+    DocumentsModule,
+    MatSidenavModule,
+    MatDividerModule,
+    MaterialModule
+  ]
 })
 export class DefaultModule {}

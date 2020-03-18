@@ -6,7 +6,7 @@ import { DocumentOptionsComponent } from "./pages/document-options/document-opti
 import { RouterModule } from "@angular/router";
 import { SectionEditorComponent } from "./pages/section-editor/section-editor.component";
 import { InvalidUrlComponent } from "./pages/invalid-url/invalid-url.component";
-import { DocSidebarComponent } from './components/doc-sidebar/doc-sidebar.component';
+import { DocSidebarComponent } from "./components/doc-sidebar/doc-sidebar.component";
 
 @NgModule({
   declarations: [
@@ -17,6 +17,7 @@ import { DocSidebarComponent } from './components/doc-sidebar/doc-sidebar.compon
     InvalidUrlComponent,
     DocSidebarComponent
   ],
-  imports: [CommonModule, RouterModule]
+  imports: [CommonModule, RouterModule],
+  exports: [DocSidebarComponent]
 })
 export class DocumentEditionModule {}

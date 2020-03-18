@@ -10,16 +10,16 @@ import { InvalidUrlComponent } from "./modules/document-edition/pages/invalid-ur
 
 const routes: Routes = [
   {
-    path: "login",
-    component: LoginComponent
-  },
-  {
     path: "",
     component: DefaultComponent,
     children: [
       {
         path: "docs",
         component: DocumentsComponent
+      },
+      {
+        path: "login",
+        component: LoginComponent
       },
       {
         path: "edit",
@@ -32,16 +32,16 @@ const routes: Routes = [
           {
             path: ":docid/:secid",
             component: SectionEditorComponent
-          },
-          {
-            path: "",
-            component: InvalidUrlComponent
           }
         ]
       },
       {
         path: "",
         component: DocumentsComponent
+      },
+      {
+        path: "**",
+        component: InvalidUrlComponent
       }
     ]
   }

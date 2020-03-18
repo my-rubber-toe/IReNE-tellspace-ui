@@ -1,6 +1,6 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="mat-toolbar">
   <mat-toolbar-row>
-    <button mat-icon-button>
+    <button mat-icon-button *ngIf="router.url !== '/login'">
       <mat-icon>menu</mat-icon>
     </button>
     <span>
@@ -9,7 +9,7 @@
     <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
       <ul fxLayout="row" fxLayoutGap="20px">
         <li>
-          <button mat-icon-button>
+          <button mat-icon-button *ngIf="router.url !== '/login'">
             <mat-icon>settings</mat-icon>
           </button>
         </li>
@@ -19,7 +19,11 @@
           </button>
         </li>
         <li>
-          <button mat-button [matMenuTriggerFor]="menu">
+          <button
+            mat-button
+            [matMenuTriggerFor]="menu"
+            *ngIf="router.url !== '/login'"
+          >
             <mat-icon>person_outline</mat-icon>
           </button>
           <mat-menu #menu="matMenu">

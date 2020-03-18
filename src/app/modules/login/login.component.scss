@@ -1,0 +1,29 @@
+.box.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.center-me {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+}

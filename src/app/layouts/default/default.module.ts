@@ -10,12 +10,14 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatDividerModule } from "@angular/material/divider";
 import { DocumentsModule } from "src/app/modules/documents/documents.module";
 import { MaterialModule } from "src/app/material.module";
+import { LoginComponent } from "src/app/modules/login/login.component";
 
 @NgModule({
   declarations: [
     DefaultComponent,
     DocumentsComponent,
-    DocumentEditionComponent
+    DocumentEditionComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,

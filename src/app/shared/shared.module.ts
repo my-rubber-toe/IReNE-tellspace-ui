@@ -11,7 +11,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { MatListModule } from "@angular/material/list";
 import { MatMenuModule } from "@angular/material/menu";
-import { MatTableModule} from "@angular/material/table";
+import { MatTableModule } from "@angular/material/table";
+import { RouterModule } from "@angular/router";
 @NgModule({
   declarations: [FooterComponent, HeaderComponent],
   imports: [
@@ -23,7 +24,8 @@ import { MatTableModule} from "@angular/material/table";
     MatMenuModule,
     MatListModule,
     MatTableModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    RouterModule
   ],
   exports: [FooterComponent, HeaderComponent]
 })

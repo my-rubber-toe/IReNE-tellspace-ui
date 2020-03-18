@@ -1,1 +1,7 @@
-<p>section-editor works!</p>
+<form [style.fontSize.px]="26">
+  <mat-form-field class="example-full-width">
+    <mat-label>Section Title</mat-label>
+    <input matInput placeholder="Untitled Section" value="" />
+  </mat-form-field>
+</form>
+<ckeditor [editor]="Editor" data="<p>Hello, world!</p>"></ckeditor>

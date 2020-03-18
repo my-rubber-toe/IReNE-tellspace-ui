@@ -7,6 +7,8 @@ import { RouterModule } from "@angular/router";
 import { SectionEditorComponent } from "./pages/section-editor/section-editor.component";
 import { InvalidUrlComponent } from "./pages/invalid-url/invalid-url.component";
 import { DocSidebarComponent } from "./components/doc-sidebar/doc-sidebar.component";
+import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
+import { MaterialModule } from 'src/app/material.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,7 @@ import { DocSidebarComponent } from "./components/doc-sidebar/doc-sidebar.compon
     InvalidUrlComponent,
     DocSidebarComponent
   ],
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, CKEditorModule, MaterialModule],
   exports: [DocSidebarComponent]
 })
 export class DocumentEditionModule {}

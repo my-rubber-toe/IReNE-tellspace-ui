@@ -4,9 +4,9 @@ import { DefaultComponent } from "./layouts/default/default.component";
 import { DocumentsComponent } from "./modules/documents/documents.component";
 import { LoginComponent } from "./modules/login/login.component";
 import { DocumentEditionComponent } from "./modules/document-edition/document-edition.component";
-import { SectionEditorComponent } from "./modules/document-edition/section-editor/section-editor.component";
-import { DocumentOptionsComponent } from "./modules/document-edition/document-options/document-options.component";
-import { InvalidUrlComponent } from "./modules/document-edition/invalid-url/invalid-url.component";
+import { SectionEditorComponent } from "./modules/document-edition/pages/section-editor/section-editor.component";
+import { DocumentOptionsComponent } from "./modules/document-edition/pages/document-options/document-options.component";
+import { InvalidUrlComponent } from "./modules/document-edition/pages/invalid-url/invalid-url.component";
 
 const routes: Routes = [
   {

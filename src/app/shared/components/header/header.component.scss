@@ -1,3 +1,10 @@
+@import "~@angular/material/theming";
+
 ul li {
   list-style: none;
+}
+
+.header-container {
+  margin-bottom: 16px;
+  @include mat-elevation(8);
 }

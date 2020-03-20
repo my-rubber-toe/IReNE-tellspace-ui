@@ -4,4 +4,4 @@
     <input matInput placeholder="Untitled Section" value="" />
   </mat-form-field>
 </form>
-<ckeditor [editor]="Editor" data="<p>Hello, world!</p>"></ckeditor>
+<ckeditor [(ngModel)]="model.editorData" [editor]="Editor"></ckeditor>

@@ -1,15 +1,3 @@
-.box.flex {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 :host {
   display: flex;
   flex-direction: column;
@@ -20,7 +8,7 @@ body {
   margin: 0;
 }
 
-.center-me {
+.login-box {
   display: flex;
   justify-content: center;
   align-items: center;

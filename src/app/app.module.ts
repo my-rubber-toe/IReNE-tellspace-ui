@@ -4,7 +4,11 @@ import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { DefaultModule } from "./layouts/default/default.module";
+import { DefaultModule } from "./core/default.module";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+
+// used to create fake backend
+import { fakeBackendProvider } from "src/mock-backend/mock-backend-interceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -12,9 +16,13 @@ import { DefaultModule } from "./layouts/default/default.module";
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     DefaultModule
   ],
-  providers: [],
+  providers: [
+    // provider used to create fake backend
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { DefaultComponent } from "./layouts/default/default.component";
+import { DefaultComponent } from "./core/default.component";
 import { DocumentsComponent } from "./modules/documents/documents.component";
 import { LoginComponent } from "./modules/login/login.component";
 import { DocumentEditionComponent } from "./modules/document-edition/document-edition.component";

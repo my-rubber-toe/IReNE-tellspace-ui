@@ -11,8 +11,8 @@ export class SectionEditorComponent implements OnInit {
   constructor() {}
 
   public model = {
-    editorData: '<p>Hello, world!</p>'
-};
+    editorData: "<p>Hello, world!</p>"
+  };
 
   ngOnInit(): void {}
 }

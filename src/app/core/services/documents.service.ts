@@ -7,7 +7,6 @@ import { Author } from "src/app/interfaces/author";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError, map, tap } from "rxjs/operators";
 import { ContentSection } from "src/app/interfaces/content-section";
-import { url } from "inspector";
 
 @Injectable({
   providedIn: "root"
@@ -20,33 +19,6 @@ export class DocumentsService {
   private httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })
   };
-
-  private MOCK: Metadata[] = [
-    {
-      id: "1234",
-      title: "A case study",
-      description: "string",
-      published: true,
-      incidentDate: new Date(2012, 4),
-      creationDate: new Date(2012, 12)
-    },
-    {
-      id: "4321",
-      title: "Another case study",
-      description: "string",
-      published: true,
-      incidentDate: new Date(2010, 9),
-      creationDate: new Date(2012, 7)
-    },
-    {
-      id: "1234",
-      title: "A case study",
-      description: "string",
-      published: true,
-      incidentDate: new Date(2012, 4),
-      creationDate: new Date(2012, 12)
-    }
-  ];
 
   /** GET document metadata. Will 404 if there are no documents */
   public getDocuments(): Observable<Document[]> {
@@ -80,10 +52,11 @@ export class DocumentsService {
       .pipe(catchError(this.handleError<any>("createSection")));
   }
 
-  public removeSection(sec_nbr: number): Observable<any> {
-    const url = `${this.documentsUrl}/edit/section/remove/${sec_nbr}`;
+  /** POST remove a section */
+  public removeSection(sec: ContentSection): Observable<any> {
+    const url = `${this.documentsUrl}/edit/section/remove`;
     return this.http
-      .delete(url, this.httpOptions)
+      .post(url, sec, this.httpOptions)
       .pipe(catchError(this.handleError<any>("deleteSection")));
   }
 

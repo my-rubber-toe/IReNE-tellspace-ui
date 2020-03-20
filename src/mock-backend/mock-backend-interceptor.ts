@@ -108,8 +108,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function removeSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(4));
-      const sec = doc.section.find(x => x.section_nbr == idFromUrl(1));
+      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(3));
+      const sec = doc.section.find(x => x.section_nbr == body.section_nbr);
       sec.section_title = doc.section[doc.section.size() - 1].section_title;
       sec.section_text = doc.section[doc.section.size() - 1].section_text;
       doc.section.pop(doc.section.size() - 1);

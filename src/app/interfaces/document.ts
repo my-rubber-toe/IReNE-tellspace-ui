@@ -4,18 +4,19 @@ import { ContentSection } from "./content-section";
 import { Actor } from "./actor";
 
 export interface Document {
-  id: number;
+  id?: string;
   title: string;
-  description: string;
-  published: boolean;
-  incidentDate: Date;
-  creationDate: Date;
-  tagsDoc: string[];
-  infrasDocList: string[];
-  damageDocList: string[];
-  location: string[];
-  author: Author[];
-  actor: Actor[];
-  section: ContentSection[];
-  Timeline: Timeline[];
+  description?: string;
+  published?: boolean;
+  incident_date: Date;
+  creationDate?: Date;
+  language?: string;
+  tagsDoc?: string[];
+  infrastructure_type: string[];
+  damage_type: string[];
+  location?: string[];
+  authors: Author[];
+  actors: Actor[];
+  section?: ContentSection[];
+  Timeline?: Timeline[];
 }

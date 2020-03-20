@@ -15,9 +15,12 @@ import {
 } from "@angular/common/http";
 import { Observable, of, throwError } from "rxjs";
 import { delay, mergeMap, materialize, dematerialize } from "rxjs/operators";
+import { ContentSection } from "src/app/interfaces/content-section";
+// import { Document } from "src/app/interfaces/document";
+// import { Metadata } from "src/app/interfaces/metadata";
 
-// array in local storage for registered users
-// let users = JSON.parse(localStorage.getItem("users")) || [];
+// array in local storage for mockCaseStudies
+let CASES = JSON.parse(localStorage.getItem("cases")) || [];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -36,32 +39,36 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function handleRoute() {
       switch (true) {
-        case url.endsWith("/api/documents/") && method === "GET":
+        case url.endsWith("/documents/") && method === "GET":
           return getDocuments();
-        case url.endsWith("/api/documents/create") && method === "POST":
+        case url.endsWith("/documents/create") && method === "POST":
           return createDocument();
         case url.match(/\/documents\/\w/) && method === "GET":
           return getDocumentById();
         case url.endsWith("/edit/title") && method === "PUT":
-          return editDocumentTitle();
+          return edit("DocumentTitle");
         case url.endsWith("/edit/description") && method === "PUT":
-          return editDocumentDescription();
+          return edit("DocumentDescription");
         case url.endsWith("/edit/timeline") && method === "PUT":
-          return editDocumentTimeline();
+          return edit("DocumentTimeline");
         case url.endsWith("/edit/section") && method === "PUT":
           return editDocumentSection();
+        case url.endsWith("/edit/section/create") && method === "POST":
+          return createSection();
+        case url.endsWith("edit/section/remove") && method === "DELETE":
+          return removeSection();
         case url.endsWith("/edit/infraestructure_types") && method === "PUT":
-          return editDocumentInsfraestructureTypes();
+          return edit("DocumentInsfraestructureTypes");
         case url.endsWith("/edit/damage_types") && method === "PUT":
-          return editDocumentDamageTypes();
+          return edit("DocumentDamageTypes");
         case url.endsWith("/edit/actors") && method === "PUT":
-          return editDocumentActors();
+          return edit("DocumentActors");
         case url.endsWith("/edit/locations") && method === "PUT":
-          return editDocumentLocations();
+          return edit("DocumentLocations");
         case url.endsWith("/edit/authors") && method === "PUT":
-          return editDocumentAuthors();
+          return edit("DocumentAuthors");
         case url.endsWith("/edit/tags") && method === "PUT":
-          return editDocumentTags();
+          return edit("DocumentTags");
         default:
           // pass through any requests not handled above
           return next.handle(request);
@@ -70,107 +77,79 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     // route functions
     function getDocuments() {
-      return ok();
+      //   if (!isLoggedIn()) return unauthorized();
+      return ok(CASES);
     }
 
     function createDocument() {
+      const newDocument = body;
+      if (CASES.find((x: { title: any }) => x.title === newDocument.title)) {
+        return error('Title "' + newDocument.title + '" is already taken');
+      }
+      //set id for the document simulating mongo standard
+      newDocument.id = generateMongoObjectId();
+      CASES.push(newDocument);
+      localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();
     }
 
     function getDocumentById() {
-      return ok();
+      //   if (!isLoggedIn()) return unauthorized();
+      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(1));
+      return ok(doc);
     }
 
-    function editDocumentTitle() {
-      return ok();
+    function createSection() {
+      //   if (!isLoggedIn()) return unauthorized();
+      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(3));
+      doc.section.push(new ContentSection(doc.section.size()));
+      return ok(doc);
     }
 
-    function editDocumentDescription() {
-      return ok();
-    }
-
-    function editDocumentTimeline() {
-      return ok();
+    function removeSection() {
+      //   if (!isLoggedIn()) return unauthorized();
+      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(4));
+      const sec = doc.section.find(x => x.section_nbr == idFromUrl(1));
+      sec.section_title = doc.section[doc.section.size() - 1].section_title;
+      sec.section_text = doc.section[doc.section.size() - 1].section_text;
+      doc.section.pop(doc.section.size() - 1);
+      return ok(doc);
     }
 
     function editDocumentSection() {
+      //   if (!isLoggedIn()) return unauthorized();
+      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(3));
+      const sec = doc.section.find(x => x.section_nbr == body.section_nbr);
+      sec.section_title = body.sectio_title;
+      sec.section_text = body.section_text;
       return ok();
     }
 
-    function editDocumentInsfraestructureTypes() {
+    function edit(type: string) {
+      //   if (!isLoggedIn()) return unauthorized();
+      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(3));
+      switch (type) {
+        case "editDocumentTitle":
+          doc.title = body.title;
+        case "editDocumentDescription":
+          doc.description = body.description;
+        case "editDocumentTimeline":
+          doc.timeline = body.timeline;
+        case "editDocumentInsfraestructureTypes":
+          doc.infrasDocList = body.infrasDocList;
+        case "editDocumentDamageTypes":
+          doc.damageDocList = body.damageDocList;
+        case "editDocumentActors":
+          doc.infrasDocList = body.infrasDocList;
+        case "editDocumentLocations":
+          doc.location = body.location;
+        case "editDocumentAuthors":
+          doc.author = body.author;
+        case "editDocumentTags":
+          doc.tagsDoc = body.tagsDoc;
+      }
       return ok();
     }
-
-    function editDocumentDamageTypes() {
-      return ok();
-    }
-
-    function editDocumentActors() {
-      return ok();
-    }
-
-    function editDocumentLocations() {
-      return ok();
-    }
-
-    function editDocumentAuthors() {
-      return ok();
-    }
-
-    function editDocumentTags() {
-      return ok();
-    }
-
-    // function register() {
-    //   const user = body;
-
-    //   if (users.find(x => x.username === user.username)) {
-    //     return error('Username "' + user.username + '" is already taken');
-    //   }
-
-    //   user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
-    //   users.push(user);
-    //   localStorage.setItem("users", JSON.stringify(users));
-
-    //   return ok();
-    // }
-
-    // function authenticate() {
-    //   const { username, password } = body;
-    //   const user = users.find(
-    //     x => x.username === username && x.password === password
-    //   );
-    //   if (!user) return error("Username or password is incorrect");
-    //   return ok({
-    //     id: user.id,
-    //     username: user.username,
-    //     firstName: user.firstName,
-    //     lastName: user.lastName,
-    //     token: "fake-jwt-token"
-    //   });
-    // }
-
-    // function getUsers() {
-    //   if (!isLoggedIn()) return unauthorized();
-    //   return ok(users);
-    // }
-
-    // function getUserById() {
-    //   if (!isLoggedIn()) return unauthorized();
-
-    //   const user = users.find(x => x.id == idFromUrl());
-    //   return ok(user);
-    // }
-
-    // function deleteUser() {
-    //   if (!isLoggedIn()) return unauthorized();
-
-    //   users = users.filter(x => x.id !== idFromUrl());
-    //   localStorage.setItem("users", JSON.stringify(users));
-    //   return ok();
-    // }
-
-    // helper functions
 
     function ok(body?) {
       return of(new HttpResponse({ status: 200, body }));
@@ -188,9 +167,23 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return headers.get("Authorization") === "Bearer fake-jwt-token";
     }
 
-    function idFromUrl() {
+    function idFromUrl(index: number) {
       const urlParts = url.split("/");
-      return parseInt(urlParts[urlParts.length - 3]);
+      return urlParts[urlParts.length - index];
+    }
+
+    /**Function to generate object id following mongo db guidelines*/
+
+    function generateMongoObjectId(): string {
+      var timestamp = ((new Date().getTime() / 1000) | 0).toString(16);
+      return (
+        timestamp +
+        "xxxxxxxxxxxxxxxx"
+          .replace(/[x]/g, function() {
+            return ((Math.random() * 16) | 0).toString(16);
+          })
+          .toLowerCase()
+      );
     }
   }
 }

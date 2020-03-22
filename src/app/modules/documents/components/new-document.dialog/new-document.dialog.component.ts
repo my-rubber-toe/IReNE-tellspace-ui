@@ -8,8 +8,8 @@ import {
   Validators
 } from "@angular/forms";
 
-import { Document } from "src/app/interfaces/document";
-import { DocumentsService } from "src/app/core/services/documents.service";
+import { Document } from "@app/interfaces/document";
+import { DocumentsService } from "@app/core/services/documents.service";
 
 @Component({
   selector: "app-new-document.dialog",

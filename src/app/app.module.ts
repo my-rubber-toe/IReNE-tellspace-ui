@@ -8,7 +8,7 @@ import { DefaultModule } from "./core/default.module";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 // used to create fake backend
-import { fakeBackendProvider } from "src/mock-backend/mock-backend-interceptor";
+import { fakeBackendProvider } from "./mock-backend/mock-backend-interceptor";
 
 @NgModule({
   declarations: [AppComponent],

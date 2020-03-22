@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Document } from "src/app/interfaces/document";
+import { Document } from "@app/interfaces/document";
 import { Observable, of, Subject } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError, map, tap } from "rxjs/operators";
-import { ContentSection } from "src/app/interfaces/content-section";
-import { Category } from "src/app/interfaces/category";
+import { ContentSection } from "@app/interfaces/content-section";
+import { Category } from "@app/interfaces/category";
 
 @Injectable({
   providedIn: "root"

@@ -8,7 +8,7 @@ import { SectionEditorComponent } from "./pages/section-editor/section-editor.co
 import { InvalidUrlComponent } from "./pages/invalid-url/invalid-url.component";
 import { DocSidebarComponent } from "./components/doc-sidebar/doc-sidebar.component";
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
-import { MaterialModule } from 'src/app/material.module';
+import { MaterialModule } from "@app/material.module";
 
 @NgModule({
   declarations: [

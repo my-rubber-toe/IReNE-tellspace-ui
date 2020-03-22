@@ -15,8 +15,8 @@ import {
 } from "@angular/common/http";
 import { Observable, of, throwError } from "rxjs";
 import { delay, mergeMap, materialize, dematerialize } from "rxjs/operators";
-import { ContentSection } from "src/app/interfaces/content-section";
-import { Document } from "src/app/interfaces/document";
+import { ContentSection } from "@app/interfaces/content-section";
+import { Document } from "@app/interfaces/document";
 // import { Metadata } from "src/app/interfaces/metadata";
 
 // array in local storage for mockCaseStudies

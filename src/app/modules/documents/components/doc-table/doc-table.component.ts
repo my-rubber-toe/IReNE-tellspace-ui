@@ -22,28 +22,23 @@ export class DocTableComponent implements OnInit {
   displayedColumns: string[] = [
     "title",
     "published",
-    "incidentDate",
+    "incident_date",
     "creationDate"
   ];
   dataSource;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  private metadata: Document[];
+  isLoading = true;
 
   constructor(private docService: DocumentsService, private router: Router) {}
 
   ngOnInit() {
-    this.getMetadata();
+    this.dataSource = this.docService.getMetadataStream();
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-  }
-
-  getMetadata(): void {
-    this.docService
-      .getDocuments()
-      .subscribe(metadata => (this.metadata = metadata));
-    this.dataSource = new MatTableDataSource(this.metadata);
+    this.docService.getDocuments();
+    this.isLoading = false;
   }
 
   /**Method to navigate to the editor of the clicked case study */

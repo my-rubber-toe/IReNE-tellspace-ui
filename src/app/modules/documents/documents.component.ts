@@ -15,6 +15,5 @@ export class DocumentsComponent implements OnInit {
   public promptNewDocumentForm(): void {
     const dialogConfig = new MatDialogConfig();
     this.dialog.open(NewDocumentDialogComponent, dialogConfig);
-    //alert("newForm");
   }
 }

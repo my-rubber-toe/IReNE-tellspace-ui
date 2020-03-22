@@ -16,7 +16,7 @@ import {
 import { Observable, of, throwError } from "rxjs";
 import { delay, mergeMap, materialize, dematerialize } from "rxjs/operators";
 import { ContentSection } from "src/app/interfaces/content-section";
-// import { Document } from "src/app/interfaces/document";
+import { Document } from "src/app/interfaces/document";
 // import { Metadata } from "src/app/interfaces/metadata";
 
 // array in local storage for mockCaseStudies
@@ -38,8 +38,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       .pipe(dematerialize());
 
     function handleRoute() {
+      console.log("Hi from fake backend");
       switch (true) {
-        case url.endsWith("/documents/") && method === "GET":
+        case url.endsWith("/documents") && method === "GET":
           return getDocuments();
         case url.endsWith("/documents/create") && method === "POST":
           return createDocument();
@@ -69,6 +70,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return edit("DocumentAuthors");
         case url.endsWith("/edit/tags") && method === "PUT":
           return edit("DocumentTags");
+        case url.endsWith("/general/infrastructure_types") && method === "GET":
+          return getMockInfrastructureTypes();
+        case url.endsWith("/general/damage_types") && method === "GET":
+          return getMockDamageTypes();
+        case url.endsWith("/general/tags") && method === "GET":
+          return getMockDamageTypes();
         default:
           // pass through any requests not handled above
           return next.handle(request);
@@ -82,12 +89,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function createDocument() {
-      const newDocument = body;
-      if (CASES.find((x: { title: any }) => x.title === newDocument.title)) {
-        return error('Title "' + newDocument.title + '" is already taken');
-      }
+      console.log("creating document");
+      const newDocument: Document = Object.assign(new Document(), body);
+      //if (CASES.find((x: { title: any }) => x.title === newDocument.title)) {
+      //  return error('Title "' + newDocument.title + '" is already taken');
+      // }
       //set id for the document simulating mongo standard
       newDocument.id = generateMongoObjectId();
+      newDocument.creationDate = new Date();
+      newDocument.section = [
+        new ContentSection(1),
+        new ContentSection(2),
+        new ContentSection(3)
+      ];
       CASES.push(newDocument);
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();
@@ -150,6 +164,31 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       }
       return ok();
     }
+
+    function getMockDamageTypes() {
+      console.log("Howdy from damage types");
+      return ok({
+        type: Object,
+        categories: ["Earthquake", "Hurricane", "Flood", "Erosion", "Tornado"]
+      });
+    }
+
+    function getMockInfrastructureTypes() {
+      return ok({
+        type: Object,
+        categories: [
+          "Transportation",
+          "Energy",
+          "Water",
+          "Security",
+          "Ports",
+          "Structure",
+          "Construction"
+        ]
+      });
+    }
+
+    //System Functions
 
     function ok(body?) {
       return of(new HttpResponse({ status: 200, body }));

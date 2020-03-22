@@ -1,12 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Document } from "src/app/interfaces/document";
-import { Metadata } from "src/app/interfaces/metadata";
-import { analyzeAndValidateNgModules } from "@angular/compiler";
-import { Observable, of } from "rxjs";
-import { Author } from "src/app/interfaces/author";
+import { Observable, of, Subject } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError, map, tap } from "rxjs/operators";
 import { ContentSection } from "src/app/interfaces/content-section";
+import { Category } from "src/app/interfaces/category";
 
 @Injectable({
   providedIn: "root"
@@ -14,22 +12,37 @@ import { ContentSection } from "src/app/interfaces/content-section";
 export class DocumentsService {
   constructor(private http: HttpClient) {}
 
-  private documentsUrl = "api/tellspace/documents"; // URL to web api
+  private rootUrl = "api/tellspace/"; // URL to web api
 
   private httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })
   };
+  //Observable data streams for views
+  private documentMetadataSource = new Subject<Document[]>();
+  documentMetadataStream$ = this.documentMetadataSource.asObservable();
+
+  /**Message channel function to tell the doc table to update after new document creation */
+  public getMetadataStream(): Observable<Document[]> {
+    return this.documentMetadataStream$;
+  }
+
+  //Route Client Functions:
 
   /** GET document metadata. Will 404 if there are no documents */
-  public getDocuments(): Observable<Document[]> {
-    return this.http
-      .get<Document[]>(this.documentsUrl)
-      .pipe(catchError(this.handleError<Document[]>("getDocuments", [])));
+  public getDocuments(): void {
+    const url = `${this.rootUrl}/documents`;
+    this.http
+      .get<Document[]>(url)
+      .pipe(catchError(this.handleError<Document[]>("getDocuments", [])))
+      .subscribe(documentsMetadata => {
+        this.documentMetadataSource.next(documentsMetadata);
+      });
   }
 
   /** POST new document on the server */
   public createDocument(newDoc: Document): Observable<any> {
-    const url = `${this.documentsUrl}/create`;
+    console.log("sending create");
+    const url = `${this.rootUrl}/documents/create`;
     return this.http
       .post(url, newDoc, this.httpOptions)
       .pipe(catchError(this.handleError<any>("createDocument")));
@@ -37,7 +50,7 @@ export class DocumentsService {
 
   /** GET document by id. Will 404 if id not found */
   public getDocumentById(id: string): Observable<Document> {
-    const url = `${this.documentsUrl}/${id}`;
+    const url = `${this.rootUrl}/documents/${id}`;
     return this.http.get<Document>(url).pipe(
       tap(_ => console.log(`getDocumentByID id=${id}`)),
       catchError(this.handleError<Document>(`getDocumentById id=${id}`))
@@ -46,7 +59,7 @@ export class DocumentsService {
 
   /** POST new section */
   public createSection(): Observable<any> {
-    const url = `${this.documentsUrl}/edit/section/create`;
+    const url = `${this.rootUrl}/documents/edit/section/create`;
     return this.http
       .post(url, {}, this.httpOptions)
       .pipe(catchError(this.handleError<any>("createSection")));
@@ -54,7 +67,7 @@ export class DocumentsService {
 
   /** POST remove a section */
   public removeSection(sec: ContentSection): Observable<any> {
-    const url = `${this.documentsUrl}/edit/section/remove`;
+    const url = `${this.rootUrl}/documents/edit/section/remove`;
     return this.http
       .post(url, sec, this.httpOptions)
       .pipe(catchError(this.handleError<any>("deleteSection")));
@@ -62,7 +75,7 @@ export class DocumentsService {
 
   /** PUT: update the document section on the server */
   public editDocumentSection(sec: ContentSection): Observable<any> {
-    const url = `${this.documentsUrl}/edit/section`;
+    const url = `${this.rootUrl}/document/edit/section`;
     return this.http.put(url, sec, this.httpOptions).pipe(
       tap(_ => console.log(`edited section title=${sec.section_title}`)),
       catchError(
@@ -75,11 +88,41 @@ export class DocumentsService {
    * @argument type document field to edit on the server.
    */
   public edit(type: string, body: any): Observable<any> {
-    const url = `${this.documentsUrl}/edit/${type}`;
+    const url = `${this.rootUrl}/documents/edit/${type}`;
     return this.http.put(url, body, this.httpOptions).pipe(
       tap(_ => console.log(`edit type=${type}`)),
       catchError(this.handleError<any>(`edit type=${type}`))
     );
+  }
+
+  /** GET infraestructure types defined on server */
+  public getInfrastructureTypes(): Observable<Category> {
+    const url = `${this.rootUrl}/general/infrastructure_types`;
+    return this.http
+      .get<Category>(url)
+      .pipe(
+        catchError(
+          this.handleError<Category>("getInfrastructureTypes", new Category())
+        )
+      );
+  }
+
+  /** GET damage types defined on server */
+  public getDamageTypes(): Observable<Category> {
+    const url = `${this.rootUrl}/general/damage_types`;
+    return this.http
+      .get<Category>(url)
+      .pipe(
+        catchError(this.handleError<Category>("getDamageTypes", new Category()))
+      );
+  }
+
+  /** GET tags defined on server */
+  public getTags(): Observable<Category> {
+    const url = `${this.rootUrl}/general/tags`;
+    return this.http
+      .get<Category>(url)
+      .pipe(catchError(this.handleError<Category>("getTags", new Category())));
   }
 
   /**

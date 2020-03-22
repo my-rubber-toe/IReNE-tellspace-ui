@@ -1,5 +1,5 @@
-import { Component, Inject } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Component, OnInit, EventEmitter, Output } from "@angular/core";
+import { MatDialogRef } from "@angular/material/dialog";
 import {
   FormBuilder,
   FormArray,
@@ -16,17 +16,13 @@ import { DocumentsService } from "src/app/core/services/documents.service";
   templateUrl: "./new-document.dialog.component.html",
   styleUrls: ["./new-document.dialog.component.scss"]
 })
-export class NewDocumentDialogComponent {
+export class NewDocumentDialogComponent implements OnInit {
+  @Output() submited = new EventEmitter<boolean>();
+
   createDocumentForm: FormGroup;
 
-  toppingList: string[] = [
-    "Extra cheese",
-    "Mushroom",
-    "Onion",
-    "Pepperoni",
-    "Sausage",
-    "Tomato"
-  ];
+  public infrastructureList: string[] = ["infraestructure"];
+  public damageTypeList: string[] = ["damage_type"];
 
   constructor(
     public dialogRef: MatDialogRef<NewDocumentDialogComponent>,
@@ -34,6 +30,15 @@ export class NewDocumentDialogComponent {
     private fb: FormBuilder
   ) {
     this.createDocumentForm = this.generateDocumentCreationForm();
+  }
+
+  ngOnInit(): void {
+    this.docService
+      .getInfrastructureTypes()
+      .subscribe(types => (this.infrastructureList = types.categories));
+    this.docService
+      .getDamageTypes()
+      .subscribe(types => (this.damageTypeList = types.categories));
   }
 
   private generateDocumentCreationForm(): FormGroup {
@@ -112,7 +117,9 @@ export class NewDocumentDialogComponent {
       new Document(),
       this.createDocumentForm.value
     );
-    //  this.docService.createDocument(doc);
+    this.docService
+      .createDocument(doc)
+      .subscribe(x => this.docService.getDocuments());
     this.dialogRef.close();
   }
 }

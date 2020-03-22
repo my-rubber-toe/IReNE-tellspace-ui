@@ -29,9 +29,11 @@
     <mat-form-field class="example-full-width">
       <mat-label>Infrastructure Type</mat-label>
       <mat-select formControlName="infrastructure_type" multiple>
-        <mat-option *ngFor="let topping of toppingList" [value]="topping">{{
-          topping
-        }}</mat-option>
+        <mat-option
+          *ngFor="let infra_type of infrastructureList"
+          [value]="infra_type"
+          >{{ infra_type }}</mat-option
+        >
       </mat-select>
     </mat-form-field>
 
@@ -40,8 +42,8 @@
     <mat-form-field class="example-full-width">
       <mat-label>Damage Type</mat-label>
       <mat-select formControlName="damage_type" multiple>
-        <mat-option *ngFor="let topping of toppingList" [value]="topping">{{
-          topping
+        <mat-option *ngFor="let dtype of damageTypeList" [value]="dtype">{{
+          dtype
         }}</mat-option>
       </mat-select>
     </mat-form-field>

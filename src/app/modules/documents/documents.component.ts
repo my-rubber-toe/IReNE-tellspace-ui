@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { NewDocumentDialogComponent } from "./components/new-document.dialog/new-document.dialog.component";
 
 @Component({
   selector: "app-documents",
@@ -6,11 +8,13 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./documents.component.scss"]
 })
 export class DocumentsComponent implements OnInit {
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {}
 
   public promptNewDocumentForm(): void {
-    alert("newForm");
+    const dialogConfig = new MatDialogConfig();
+    this.dialog.open(NewDocumentDialogComponent, dialogConfig);
+    //alert("newForm");
   }
 }

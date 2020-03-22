@@ -1,4 +1,4 @@
-export interface Author {
+export class Author {
   author_FN: string[];
   author_LN: string[];
   author_email: string;

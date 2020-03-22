@@ -1,0 +1,132 @@
+<!--Template for document creation form-->
+<h1 mat-dialog-title>Create Case Study</h1>
+<div mat-dialog-content>
+  <form [formGroup]="createDocumentForm">
+    <mat-form-field class="example-full-width">
+      <mat-label>Title</mat-label>
+      <input
+        formControlName="title"
+        matInput
+        placeholder="Untitled Case Study"
+      />
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field color="accent" class="example-full-width">
+      <mat-label>Incident Date</mat-label>
+      <input
+        formControlName="incident_date"
+        matInput
+        [matDatepicker]="picker"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Infrastructure Type</mat-label>
+      <mat-select formControlName="infrastructure_type" multiple>
+        <mat-option *ngFor="let topping of toppingList" [value]="topping">{{
+          topping
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Damage Type</mat-label>
+      <mat-select formControlName="damage_type" multiple>
+        <mat-option *ngFor="let topping of toppingList" [value]="topping">{{
+          topping
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+
+    <ng-container
+      *ngFor="let authorFormGroup of getAuthors().controls; let i = index"
+    >
+      <div [formGroup]="authorFormGroup">
+        <br />
+        <mat-card>
+          <mat-form-field>
+            <mat-label>Author {{ i + 1 }} Name</mat-label>
+            <input formControlName="author_FN" matInput />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Author {{ i + 1 }} Lastname</mat-label>
+            <input formControlName="author_LN" matInput />
+          </mat-form-field>
+          <br />
+          <mat-form-field class="example-full-width">
+            <mat-label>Author {{ i + 1 }} Email</mat-label>
+            <input
+              matInput
+              placeholder="irene.riseup@upr.edu"
+              formControlName="author_email"
+            />
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Author {{ i + 1 }} Faculty</mat-label>
+            <input formControlName="author_faculty" matInput />
+          </mat-form-field>
+
+          <button (click)="removeAuthor(i)" mat-icon-button color="primary">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card>
+      </div>
+    </ng-container>
+
+    <button (click)="addAuthor()" mat-button color="primary">
+      Add Another Author
+    </button>
+
+    <br />
+
+    <ng-container
+      *ngFor="let actorFormGroup of getActors().controls; let i = index"
+    >
+      <div [formGroup]="actorFormGroup">
+        <br />
+        <mat-card>
+          <mat-form-field>
+            <mat-label>Actor {{ i + 1 }} Name</mat-label>
+            <input formControlName="actor_FN" matInput />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Actor {{ i + 1 }} Lastname</mat-label>
+            <input formControlName="actor_LN" matInput />
+          </mat-form-field>
+          <br />
+          <mat-form-field class="example-full-width">
+            <mat-label>Actor {{ i + 1 }} Role</mat-label>
+            <input formControlName="actor_role" matInput />
+          </mat-form-field>
+
+          <button (click)="removeActor(i)" mat-icon-button color="primary">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card>
+      </div>
+    </ng-container>
+    <button (click)="addActor()" mat-button color="primary">
+      Add Another Actor
+    </button>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button
+    mat-button
+    color="primary"
+    type="submit"
+    (click)="onSubmit()"
+    [disabled]="!createDocumentForm.valid"
+  >
+    Submit
+  </button>
+</div>

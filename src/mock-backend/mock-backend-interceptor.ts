@@ -55,7 +55,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return editDocumentSection();
         case url.endsWith("/edit/section/create") && method === "POST":
           return createSection();
-        case url.endsWith("edit/section/remove") && method === "DELETE":
+        case url.endsWith("edit/section/remove") && method === "POST":
           return removeSection();
         case url.endsWith("/edit/infraestructure_types") && method === "PUT":
           return edit("DocumentInsfraestructureTypes");

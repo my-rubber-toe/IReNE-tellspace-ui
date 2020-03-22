@@ -2,11 +2,13 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { DocTableComponent } from "./components/doc-table/doc-table.component";
 import { MaterialModule } from "src/app/material.module";
-import { DashSidebarComponent } from "./components/dash-sidebar/dash-sidebar.component";
+import { NewDocumentDialogComponent } from "./components/new-document.dialog/new-document.dialog.component";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
-  declarations: [DocTableComponent, DashSidebarComponent],
-  imports: [CommonModule, MaterialModule],
-  exports: [DocTableComponent, DashSidebarComponent]
+  declarations: [DocTableComponent, NewDocumentDialogComponent],
+  imports: [CommonModule, MaterialModule, ReactiveFormsModule],
+  exports: [DocTableComponent],
+  entryComponents: [NewDocumentDialogComponent]
 })
 export class DocumentsModule {}

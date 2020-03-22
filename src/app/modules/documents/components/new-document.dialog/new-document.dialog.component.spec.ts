@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashSidebarComponent } from './dash-sidebar.component';
+import { NewDocument.DialogComponent } from './new-document.dialog.component';
 
-describe('DashSidebarComponent', () => {
-  let component: DashSidebarComponent;
-  let fixture: ComponentFixture<DashSidebarComponent>;
+describe('NewDocument.DialogComponent', () => {
+  let component: NewDocument.DialogComponent;
+  let fixture: ComponentFixture<NewDocument.DialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashSidebarComponent ]
+      declarations: [ NewDocument.DialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DashSidebarComponent);
+    fixture = TestBed.createComponent(NewDocument.DialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,9 +1,19 @@
 <div class="header-container" [class.mat-elevation-z8]>
   <mat-toolbar color="primary" class="mat-toolbar">
     <mat-toolbar-row>
-      <button mat-icon-button *ngIf="router.url !== '/login'">
+      <button
+        mat-button
+        [matMenuTriggerFor]="menu1"
+        *ngIf="router.url !== '/login'"
+      >
         <mat-icon>menu</mat-icon>
       </button>
+      <mat-menu #menu1="matMenu">
+        <button mat-menu-item (click)="navigateToDashBoard()">
+          <mat-icon>dashboard</mat-icon>
+          My Documents
+        </button>
+      </mat-menu>
       <span>
         IReNE | TellSpace
       </span>
@@ -22,12 +32,12 @@
           <li>
             <button
               mat-button
-              [matMenuTriggerFor]="menu"
+              [matMenuTriggerFor]="menu2"
               *ngIf="router.url !== '/login'"
             >
               <mat-icon>person_outline</mat-icon>
             </button>
-            <mat-menu #menu="matMenu">
+            <mat-menu #menu2="matMenu">
               <button mat-menu-item>
                 <mat-icon>exit_to_app</mat-icon>
                 Sign out

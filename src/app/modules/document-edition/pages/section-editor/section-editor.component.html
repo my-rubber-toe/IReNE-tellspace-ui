@@ -1,7 +1,16 @@
-<form [style.fontSize.px]="26">
+<div>
   <mat-form-field class="example-full-width">
     <mat-label>Section Title</mat-label>
     <input matInput placeholder="Untitled Section" value="" />
   </mat-form-field>
-</form>
+  <button mat-button [matMenuTriggerFor]="menu4">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu4="matMenu">
+    <button mat-menu-item>
+      <mat-icon>delete</mat-icon>
+      Delete This Section
+    </button>
+  </mat-menu>
+</div>
 <ckeditor [(ngModel)]="model.editorData" [editor]="Editor"></ckeditor>

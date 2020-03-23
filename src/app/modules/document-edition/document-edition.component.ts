@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DocumentEditionComponent implements OnInit {
 
+  public isSaving : boolean;
+
   constructor() { }
 
   ngOnInit(): void {

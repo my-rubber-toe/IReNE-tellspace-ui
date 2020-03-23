@@ -3,8 +3,8 @@ export class ContentSection {
   section_title: string;
   section_text: string;
 
-  constructor(position: number) {
-    this.section_title = "Untitled";
+  constructor(position: number, title: string) {
+    this.section_title = title;
     this.section_nbr = position;
   }
 }

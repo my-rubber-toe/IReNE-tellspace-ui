@@ -8,7 +8,7 @@ import {
   Validators
 } from "@angular/forms";
 
-import { Document } from "@app/interfaces/document";
+import { Document } from "@app/models/document";
 import { DocumentsService } from "@app/core/services/documents.service";
 
 @Component({

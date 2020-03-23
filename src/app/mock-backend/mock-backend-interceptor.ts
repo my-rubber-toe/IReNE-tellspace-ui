@@ -15,8 +15,8 @@ import {
 } from "@angular/common/http";
 import { Observable, of, throwError } from "rxjs";
 import { delay, mergeMap, materialize, dematerialize } from "rxjs/operators";
-import { ContentSection } from "@app/interfaces/content-section";
-import { Document } from "@app/interfaces/document";
+import { ContentSection } from "@app/models/content-section";
+import { Document } from "@app/models/document";
 // import { Metadata } from "src/app/interfaces/metadata";
 
 // array in local storage for mockCaseStudies
@@ -98,10 +98,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       newDocument.id = generateMongoObjectId();
       newDocument.creationDate = new Date();
       newDocument.section = [
-        new ContentSection(1),
-        new ContentSection(2),
-        new ContentSection(3)
+        new ContentSection(1, "Abstract"),
+        new ContentSection(2, "Introduction"),
+        new ContentSection(3, "Body")
       ];
+      newDocument.language = "english";
       CASES.push(newDocument);
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();
@@ -116,7 +117,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function createSection() {
       //   if (!isLoggedIn()) return unauthorized();
       const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(3));
-      doc.section.push(new ContentSection(doc.section.size()));
+      doc.section.push(new ContentSection(doc.section.size(), "Untitled"));
       return ok(doc);
     }
 

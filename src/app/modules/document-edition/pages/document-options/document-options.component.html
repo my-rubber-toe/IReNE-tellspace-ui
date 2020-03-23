@@ -1,1 +1,82 @@
-<p>document-options works!</p>
+<h1>
+  {{ doc.title }}
+  <button mat-icon-button (click)="editTitlePrompt()">
+    <mat-icon>edit</mat-icon>
+  </button>
+</h1>
+
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Description
+      </mat-panel-title>
+      <mat-panel-description>
+        Briefly Describe What Your Case Study
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <mat-label>Describe Case Study</mat-label>
+        <textarea
+          matInput
+          placeholder="Ex. The subject of this study is..."
+        ></textarea>
+      </mat-form-field>
+    </form>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Tags and Categories
+      </mat-panel-title>
+      <mat-panel-description
+        >Identify keywords, categories about the case
+        study</mat-panel-description
+      >
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <mat-label>Infrastructure Type</mat-label>
+      <mat-select multiple>
+        <mat-option
+          *ngFor="let infra_type of infrastructureList"
+          [value]="infra_type"
+          >{{ infra_type }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Damage Type</mat-label>
+      <mat-select multiple>
+        <mat-option *ngFor="let dtype of damageTypeList" [value]="dtype">{{
+          dtype
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Location and Language
+      </mat-panel-title>
+      <mat-panel-description>Where is the problem?</mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Authors and Actors
+      </mat-panel-title>
+      <mat-panel-description>
+        Who are you?
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel>
+</mat-accordion>

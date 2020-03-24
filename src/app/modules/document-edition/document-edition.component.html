@@ -1,23 +1,8 @@
-<mat-card
-  ><p style="text-align:left;">
-    <b>Case Study Edition</b>
-    <span style="float:right;">
-      <div *ngIf="isSaving; then thenBlock; else elseBlock"></div>
-      <ng-template #thenBlock><i>"Saving..."</i></ng-template>
-      <ng-template #elseBlock><i>"Saved"</i></ng-template>
-    </span>
-  </p></mat-card
->
-
-<div>
-  <div>
-    <mat-drawer-container>
-      <mat-drawer mode="side" opened>
-        <app-doc-sidebar></app-doc-sidebar>
-      </mat-drawer>
-      <mat-drawer-content>
-        <router-outlet></router-outlet>
-      </mat-drawer-content>
-    </mat-drawer-container>
-  </div>
-</div>
+<mat-drawer-container>
+  <mat-drawer mode="side" opened>
+    <app-doc-sidebar></app-doc-sidebar>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

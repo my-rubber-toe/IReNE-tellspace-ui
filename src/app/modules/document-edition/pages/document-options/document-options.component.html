@@ -1,82 +1,168 @@
-<h1>
-  {{ doc.title }}
-  <button mat-icon-button (click)="editTitlePrompt()">
-    <mat-icon>edit</mat-icon>
-  </button>
-</h1>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <ul class="flex-container">
+      <li>
+        <span>
+          <h1>
+            {{ doc.title }}
+          </h1></span
+        >
+      </li>
+      <li>
+        <button mat-button color="primary" (click)="editTitlePrompt()">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </li>
+    </ul>
+  </mat-toolbar-row>
+</mat-toolbar>
 
 <mat-accordion>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Description
+        <b>Description</b>
       </mat-panel-title>
       <mat-panel-description>
-        Briefly Describe What Your Case Study
+        Briefly describe what your case study is about
       </mat-panel-description>
     </mat-expansion-panel-header>
-
-    <form class="example-form">
-      <mat-form-field class="example-full-width">
-        <mat-label>Describe Case Study</mat-label>
-        <textarea
-          matInput
-          placeholder="Ex. The subject of this study is..."
-        ></textarea>
-      </mat-form-field>
-    </form>
+    <div class="flex-container">
+      <div>
+        <p>{{ doc.description }}</p>
+      </div>
+      <button
+        class="item-right"
+        mat-button
+        color="primary"
+        (click)="editTitlePrompt()"
+      >
+        Edit Description
+      </button>
+    </div>
   </mat-expansion-panel>
 
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Tags and Categories
+        <b>Tags and Categories</b>
       </mat-panel-title>
       <mat-panel-description
         >Identify keywords, categories about the case
         study</mat-panel-description
       >
     </mat-expansion-panel-header>
+    <h4>
+      Infrastructure Types
+      <button mat-button color="primary" (click)="editTitlePrompt()">
+        Edit
+      </button>
+    </h4>
+    <mat-chip-list>
+      <ng-container *ngFor="let infra_type of infrastructureList"
+        ><mat-chip>{{ infra_type }}</mat-chip></ng-container
+      >
+    </mat-chip-list>
+    <br />
+    <mat-divider></mat-divider>
+    <br />
 
-    <mat-form-field>
-      <mat-label>Infrastructure Type</mat-label>
-      <mat-select multiple>
-        <mat-option
-          *ngFor="let infra_type of infrastructureList"
-          [value]="infra_type"
-          >{{ infra_type }}</mat-option
+    <h4>
+      Damage Types
+      <button mat-button color="primary" (click)="editTitlePrompt()">
+        Edit
+      </button>
+    </h4>
+    <mat-chip-list>
+      <ng-container *ngFor="let dtype of damageTypeList">
+        <mat-chip>{{ dtype }}</mat-chip>
+      </ng-container>
+    </mat-chip-list>
+
+    <br />
+    <mat-divider></mat-divider>
+    <br />
+
+    <h4>
+      Tags
+      <button mat-button color="primary" (click)="editTitlePrompt()">
+        Edit
+      </button>
+    </h4>
+    <mat-form-field class="example-full-width" floatLabel="never">
+      <mat-chip-list #tagList>
+        <mat-chip
+          *ngFor="let tag of doc.tags"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(tag)"
+          >{{ tag
+          }}<mat-icon matChipRemove *ngIf="removable"
+            >cancel</mat-icon
+          ></mat-chip
         >
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Damage Type</mat-label>
-      <mat-select multiple>
-        <mat-option *ngFor="let dtype of damageTypeList" [value]="dtype">{{
-          dtype
-        }}</mat-option>
-      </mat-select>
+        <input
+          *ngIf="removable"
+          placeholder="Type new tag here"
+          [matChipInputFor]="tagList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)"
+        />
+      </mat-chip-list>
     </mat-form-field>
   </mat-expansion-panel>
 
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Location and Language
+        <b> Location</b>
       </mat-panel-title>
       <mat-panel-description>Where is the problem?</mat-panel-description>
     </mat-expansion-panel-header>
+    City: {{ doc.location }}
+    <button mat-button color="primary" (click)="editTitlePrompt()">
+      Edit
+    </button>
   </mat-expansion-panel>
 
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Authors and Actors
+        <b>Authors</b>
       </mat-panel-title>
       <mat-panel-description>
         Who are you?
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <p>I'm visible because I am open</p>
+    <h4>
+      Authors
+      <button mat-button color="primary" (click)="editTitlePrompt()">
+        Edit
+      </button>
+    </h4>
+    <ng-container *ngFor="let author of doc.authors">
+      <mat-card>{{ author.author_FN }} {{ author.author_LN }}</mat-card>
+    </ng-container>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <b>Actors</b>
+      </mat-panel-title>
+      <mat-panel-description>
+        Who are the stakeholders?
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <h4>
+      Actors
+      <button mat-button color="primary" (click)="editTitlePrompt()">
+        Edit
+      </button>
+    </h4>
+    <ng-container *ngFor="let actor of doc.actors">
+      <mat-card>{{ actor.actor_FN }} {{ actor.actor_LN }}</mat-card>
+    </ng-container>
   </mat-expansion-panel>
 </mat-accordion>

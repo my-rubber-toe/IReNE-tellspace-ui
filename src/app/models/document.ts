@@ -18,5 +18,6 @@ export class Document {
   authors: Author[];
   actors: Actor[];
   section?: ContentSection[];
-  Timeline?: Timeline[];
+  timeline?: Timeline[];
+  tags?: string[];
 }

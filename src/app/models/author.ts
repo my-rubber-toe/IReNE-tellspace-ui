@@ -1,6 +1,6 @@
 export class Author {
-  author_FN: string[];
-  author_LN: string[];
+  author_FN: string;
+  author_LN: string;
   author_email: string;
   author_faculty: string;
 }

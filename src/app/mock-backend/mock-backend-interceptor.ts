@@ -46,6 +46,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return createDocument();
         case url.match(/\/documents\/\w/) && method === "GET":
           return getDocumentById();
+        case url.match(/\/remove\/\w/) && method === "DELETE":
+          return removeDocument();
         case url.endsWith("/edit/title") && method === "PUT":
           return edit("DocumentTitle");
         case url.endsWith("/edit/description") && method === "PUT":
@@ -114,10 +116,18 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return ok(doc);
     }
 
+    function removeDocument() {
+      //   if (!isLoggedIn()) return unauthorized();
+      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(1));
+      console.log("removed in backend");
+      return ok();
+    }
+
     function createSection() {
       //   if (!isLoggedIn()) return unauthorized();
       const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(3));
       doc.section.push(new ContentSection(doc.section.size(), "Untitled"));
+      localStorage.setItem("cases", JSON.stringify(CASES));
       return ok(doc);
     }
 
@@ -125,9 +135,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       //   if (!isLoggedIn()) return unauthorized();
       const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(3));
       const sec = doc.section.find(x => x.section_nbr == body.section_nbr);
+      sec.section_nbr = doc.section.size() - 1;
       sec.section_title = doc.section[doc.section.size() - 1].section_title;
       sec.section_text = doc.section[doc.section.size() - 1].section_text;
       doc.section.pop(doc.section.size() - 1);
+      localStorage.setItem("cases", JSON.stringify(CASES));
       return ok(doc);
     }
 
@@ -137,6 +149,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       const sec = doc.section.find(x => x.section_nbr == body.section_nbr);
       sec.section_title = body.sectio_title;
       sec.section_text = body.section_text;
+      localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();
     }
 
@@ -163,6 +176,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         case "editDocumentTags":
           doc.tagsDoc = body.tagsDoc;
       }
+      localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();
     }
 

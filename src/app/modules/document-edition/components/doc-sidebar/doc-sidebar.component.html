@@ -2,29 +2,27 @@
   <div class="toolbar">
     <p>
       <button mat-button>
-        <h2 mat-subheader>{{ documentVM.title }}</h2>
+        <h2 mat-subheader>{{ docTitle }}</h2>
       </button>
       <button mat-raised-button>Add Section</button>
-      <button mat-button [matMenuTriggerFor]="menu3">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu3="matMenu">
-        <button mat-menu-item>
-          <mat-icon>delete</mat-icon>
-          Delete Section
-        </button>
-      </mat-menu>
     </p>
   </div>
   <mat-divider></mat-divider>
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/edit/33/33"
-    >Mock Section</a
-  >
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/edit/33/33"
-    >Mock Section</a
-  >
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/edit/33/33"
-    >Mock Section</a
-  >
-  <button mat-raised-button>Configure Timeline</button>
+  <a
+    *ngFor="let section of sections"
+    mat-list-item
+    routerLinkActive="list-item-active"
+    routerLink="edit/{{ docID }}/{{ section.section_nbr }}"
+    ><div>
+      {{ section.section_title }}
+      <button
+        mat-button
+        class="show-on-hover"
+        isRoundButton="true"
+        (click)="removeSection(section.section_nbr)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </a>
 </mat-nav-list>

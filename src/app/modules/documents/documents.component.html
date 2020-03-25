@@ -1,18 +1,20 @@
 <div class="documents-page">
   <div class="title">
-    <h1><strong>My Case Studies</strong></h1>
+    <h1>
+      My Case Studies
+    </h1>
+    <div #changeButton class="new-button" id="create-doc-button">
+      <button
+        mat-button
+        (click)="promptNewDocumentForm()"
+        matTooltip="Create New Case Study"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
   </div>
   <mat-divider></mat-divider>
   <div>
     <app-doc-table></app-doc-table>
-  </div>
-  <div class="new-button">
-    <button
-      mat-fab
-      (click)="promptNewDocumentForm()"
-      matTooltip="Create New Case Study"
-    >
-      <mat-icon>add</mat-icon>
-    </button>
   </div>
 </div>

@@ -1,4 +1,4 @@
-<div class="header-container" [class.mat-elevation-z8]>
+<div class="header-container" role="heading" [class.mat-elevation-z8]>
   <mat-toolbar color="primary" class="mat-toolbar">
     <mat-toolbar-row>
       <button
@@ -19,11 +19,6 @@
       </span>
       <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
         <ul fxLayout="row" fxLayoutGap="20px">
-          <li>
-            <button mat-icon-button *ngIf="router.url !== '/login'">
-              <mat-icon>settings</mat-icon>
-            </button>
-          </li>
           <li>
             <button mat-icon-button>
               <mat-icon>help_outline</mat-icon>

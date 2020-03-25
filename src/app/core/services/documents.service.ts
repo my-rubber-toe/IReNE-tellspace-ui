@@ -12,31 +12,20 @@ import { Category } from "@app/models/category";
 export class DocumentsService {
   constructor(private http: HttpClient) {}
 
-  private rootUrl = "api/tellspace/"; // URL to web api
+  private rootUrl = "api/tellspace"; // URL to web api
 
   private httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })
   };
-  //Observable data streams for views
-  private documentMetadataSource = new Subject<Document[]>();
-  documentMetadataStream$ = this.documentMetadataSource.asObservable();
-
-  /**Message channel function to tell the doc table to update after new document creation */
-  public getMetadataStream(): Observable<Document[]> {
-    return this.documentMetadataStream$;
-  }
 
   //Route Client Functions:
 
   /** GET document metadata. Will 404 if there are no documents */
-  public getDocuments(): void {
+  public getDocuments(): Observable<Document[]> {
     const url = `${this.rootUrl}/documents`;
-    this.http
-      .get<Document[]>(url)
-      .pipe(catchError(this.handleError<Document[]>("getDocuments", [])))
-      .subscribe(documentsMetadata => {
-        this.documentMetadataSource.next(documentsMetadata);
-      });
+    return this.http
+      .get<Document[]>(url, this.httpOptions)
+      .pipe(catchError(this.handleError<Document[]>("getDocuments", [])));
   }
 
   /** POST new document on the server */
@@ -46,6 +35,15 @@ export class DocumentsService {
     return this.http
       .post(url, newDoc, this.httpOptions)
       .pipe(catchError(this.handleError<any>("createDocument")));
+  }
+
+  /** DELETE document on the server */
+  public removeDocument(id: string): Observable<any> {
+    const url = `${this.rootUrl}/documents/remove/${id}`;
+    return this.http.delete(url, this.httpOptions).pipe(
+      tap(_ => console.log(`removeDocument id=${id}`)),
+      catchError(this.handleError<any>(`remove document id=${id}`))
+    );
   }
 
   /** GET document by id. Will 404 if id not found */

@@ -1,8 +1,8 @@
-<mat-drawer-container>
-  <mat-drawer mode="side" opened>
+<mat-sidenav-container [style.marginTop.px]="56">
+  <mat-sidenav [fixedInViewport]="true" fixedTopGap="56" mode="side" opened>
     <app-doc-sidebar></app-doc-sidebar>
-  </mat-drawer>
-  <mat-drawer-content>
+  </mat-sidenav>
+  <mat-sidenav-content>
     <router-outlet></router-outlet>
-  </mat-drawer-content>
-</mat-drawer-container>
+  </mat-sidenav-content>
+</mat-sidenav-container>

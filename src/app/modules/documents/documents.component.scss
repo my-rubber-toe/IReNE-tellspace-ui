@@ -1,25 +1,23 @@
-:host {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-mat-drawer {
-  width: 350px;
-}
-
-mat-drawer-container {
-  height: 100%;
-}
-
 .documents-page {
-  padding-top: 1%;
+  padding-top: 70px;
   padding-left: 5%;
   padding-right: 5%;
 }
 
-.new-button {
-  position: absolute;
-  top: 10%;
-  left: 1%;
+.title {
+  /* We first create a flex layout context */
+  display: flex;
+  flex-flow: row wrap;
+  gap: 20px;
+
+  justify-content: baseline;
+
+  padding: 5px;
+  margin: 0;
+  list-style: none;
+}
+
+/* This is to solve a bug from angular material that the button remains focused. See: https://github.com/angular/components/issues/8420*/
+.mat-button-focus-overlay {
+  background-color: transparent !important;
 }

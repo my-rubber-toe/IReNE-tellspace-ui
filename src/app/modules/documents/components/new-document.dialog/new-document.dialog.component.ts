@@ -54,15 +54,19 @@ export class NewDocumentDialogComponent implements OnInit {
           author_LN: ["", Validators.required],
           author_email: ["", Validators.email],
           author_faculty: ["", Validators.required]
-        })
+        }),
+        Validators.required
       ]),
-      actors: this.fb.array([
-        this.fb.group({
-          actor_FN: ["", Validators.required],
-          actor_LN: ["", Validators.required],
-          actor_role: ["", Validators.required]
-        })
-      ])
+      actors: this.fb.array(
+        [
+          this.fb.group({
+            actor_FN: ["", Validators.required],
+            actor_LN: ["", Validators.required],
+            actor_role: ["", Validators.required]
+          })
+        ],
+        Validators.required
+      )
     });
   }
 
@@ -117,9 +121,7 @@ export class NewDocumentDialogComponent implements OnInit {
       new Document(),
       this.createDocumentForm.value
     );
-    this.docService
-      .createDocument(doc)
-      .subscribe(x => this.docService.getDocuments());
-    this.dialogRef.close();
+    this.docService.createDocument(doc).subscribe();
+    this.dialogRef.close(true);
   }
 }

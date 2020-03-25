@@ -19,15 +19,23 @@
   <ng-container matColumnDef="incident_date">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Incident Date</th>
     <td mat-cell *matCellDef="let element" (click)="editDocument(element)">
-      {{ element.incident_date | date: 'MM/dd/yyyy' }}
+      {{ element.incident_date | date: "MM/dd/yyyy" }}
     </td>
   </ng-container>
 
   <!-- Symbol Column -->
   <ng-container matColumnDef="creationDate">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Creation Date</th>
-    <td mat-cell *matCellDef="let element" (click)="editDocument(element)">
-      {{ element.creationDate | date: 'MM/dd/yyyy' }}
+    <td mat-cell *matCellDef="let element">
+      {{ element.creationDate | date: "MM/dd/yyyy" }}
+      <button
+        mat-button
+        class="show-on-hover"
+        isRoundButton="true"
+        (click)="removeDocument(element.id)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
     </td>
   </ng-container>
 

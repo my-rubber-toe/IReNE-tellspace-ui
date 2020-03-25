@@ -7,6 +7,9 @@ import { DocumentEditionComponent } from "./modules/document-edition/document-ed
 import { SectionEditorComponent } from "./modules/document-edition/pages/section-editor/section-editor.component";
 import { DocumentOptionsComponent } from "./modules/document-edition/pages/document-options/document-options.component";
 import { InvalidUrlComponent } from "./modules/document-edition/pages/invalid-url/invalid-url.component";
+import { TimelineEditorComponent } from "./modules/document-edition/components/timeline-editor/timeline-editor.component";
+import { CaseDocumentResolverService } from "@app/core/services/case-document-resolver.service";
+import { AuthGuard } from "./core/guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -14,30 +17,44 @@ const routes: Routes = [
     component: DefaultComponent,
     children: [
       {
-        path: "docs",
-        component: DocumentsComponent
-      },
-      {
         path: "login",
         component: LoginComponent
       },
       {
-        path: "edit",
-        component: DocumentEditionComponent,
+        path: "",
+        //canActivateChild: [AuthGuard],
         children: [
           {
-            path: ":docid",
-            component: DocumentOptionsComponent
+            path: "docs",
+            component: DocumentsComponent
           },
           {
-            path: ":docid/:secid",
-            component: SectionEditorComponent
+            path: "edit/:docid",
+            component: DocumentEditionComponent,
+            resolve: {
+              caseDocument: CaseDocumentResolverService
+            },
+            children: [
+              {
+                path: "s/:secid",
+                component: SectionEditorComponent
+              },
+              {
+                path: "timeline",
+                component: TimelineEditorComponent
+              },
+              {
+                path: "",
+                component: DocumentOptionsComponent
+              },
+            ]
+          },
+          {
+            path: "",
+            redirectTo: "/docs",
+            pathMatch: "full"
           }
         ]
-      },
-      {
-        path: "",
-        component: DocumentsComponent
       },
       {
         path: "**",

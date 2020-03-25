@@ -1,6 +1,12 @@
 <mat-sidenav-container [style.marginTop.px]="56">
   <mat-sidenav [fixedInViewport]="true" fixedTopGap="56" mode="side" opened>
-    <app-doc-sidebar></app-doc-sidebar>
+    <app-doc-sidebar
+      [docTitle]="caseDocument.title"
+      [docID]="caseDocument.id"
+      [sections]="caseDocument.section"
+      (removed)="onRemoved($event)"
+      (added)="onAdded()"
+    ></app-doc-sidebar>
   </mat-sidenav>
   <mat-sidenav-content>
     <router-outlet></router-outlet>

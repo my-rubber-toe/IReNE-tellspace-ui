@@ -20,7 +20,7 @@ import { Document } from "@app/models/document";
 // import { Metadata } from "src/app/interfaces/metadata";
 
 // array in local storage for mockCaseStudies
-let CASES = JSON.parse(localStorage.getItem("cases")) || [];
+let CASES = (JSON.parse(localStorage.getItem("cases")) || []) as Document[];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -112,41 +112,43 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function getDocumentById() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(1));
+      console.log("the backend id " + idFromUrl(1));
+      const doc: Document = CASES.find(x => x.id === idFromUrl(1));
+      console.log(doc);
       return ok(doc);
     }
 
     function removeDocument() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(1));
+      const doc = CASES.find((x: Document) => x.id == idFromUrl(1));
       console.log("removed in backend");
       return ok();
     }
 
     function createSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(3));
-      doc.section.push(new ContentSection(doc.section.size(), "Untitled"));
+      const doc = CASES.find((x: Document) => x.id === idFromUrl(3));
+      doc.section.push(new ContentSection(doc.section.length, "Untitled"));
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok(doc);
     }
 
     function removeSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(3));
-      const sec = doc.section.find(x => x.section_nbr == body.section_nbr);
-      sec.section_nbr = doc.section.size() - 1;
-      sec.section_title = doc.section[doc.section.size() - 1].section_title;
-      sec.section_text = doc.section[doc.section.size() - 1].section_text;
-      doc.section.pop(doc.section.size() - 1);
+      const doc: Document = CASES.find((x: Document) => x.id === idFromUrl(3));
+      const sec: ContentSection = doc.section[body.section_nbr];
+      sec.section_nbr = doc.section.length - 1;
+      sec.section_title = doc.section[doc.section.length - 1].section_title;
+      sec.section_text = doc.section[doc.section.length - 1].section_text;
+      doc.section.pop();
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok(doc);
     }
 
     function editDocumentSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(3));
-      const sec = doc.section.find(x => x.section_nbr == body.section_nbr);
+      const doc: Document = CASES.find((x: Document) => x.id === idFromUrl(3));
+      const sec: ContentSection = doc.section[body.section_nbr];
       sec.section_title = body.sectio_title;
       sec.section_text = body.section_text;
       localStorage.setItem("cases", JSON.stringify(CASES));
@@ -155,7 +157,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function edit(type: string) {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: { id: string }) => x.id == idFromUrl(3));
+      const doc: Document = CASES.find((x: Document) => x.id === idFromUrl(3));
       switch (type) {
         case "editDocumentTitle":
           doc.title = body.title;
@@ -164,15 +166,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         case "editDocumentTimeline":
           doc.timeline = body.timeline;
         case "editDocumentInsfraestructureTypes":
-          doc.infrasDocList = body.infrasDocList;
+          doc.infrastructure_type = body.infrastructure_type;
         case "editDocumentDamageTypes":
-          doc.damageDocList = body.damageDocList;
+          doc.damage_type = body.damage_type;
         case "editDocumentActors":
-          doc.infrasDocList = body.infrasDocList;
+          doc.actors = body.actors;
         case "editDocumentLocations":
           doc.location = body.location;
         case "editDocumentAuthors":
-          doc.author = body.author;
+          doc.authors = body.authors;
         case "editDocumentTags":
           doc.tagsDoc = body.tagsDoc;
       }
@@ -221,7 +223,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return headers.get("Authorization") === "Bearer fake-jwt-token";
     }
 
-    function idFromUrl(index: number) {
+    function idFromUrl(index: number): string {
       const urlParts = url.split("/");
       return urlParts[urlParts.length - index];
     }

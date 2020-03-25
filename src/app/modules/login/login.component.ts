@@ -5,6 +5,7 @@ import {
   MatCardHeader
 } from "@angular/material/card";
 import { Router } from "@angular/router";
+import { AuthService } from "@app/core/services/auth.service";
 
 @Component({
   selector: "app-login",
@@ -12,12 +13,18 @@ import { Router } from "@angular/router";
   styleUrls: ["./login.component.scss"]
 })
 export class LoginComponent implements OnInit {
-  constructor(public router: Router) {}
+  constructor(public router: Router, private auth: AuthService) {}
 
   ngOnInit(): void {}
 
   public login(): void {
     console.log("login initiated");
-    this.router.navigateByUrl("docs");
+    this.auth.login().subscribe(valid => {
+      if (valid) {
+        this.router.navigateByUrl("docs");
+      } else {
+        alert("Unauthorized account");
+      }
+    });
   }
 }

@@ -8,12 +8,13 @@
     </p>
   </div>
   <mat-divider></mat-divider>
-  <a
-    *ngFor="let section of sections"
-    mat-list-item
-    routerLinkActive="list-item-active"
-    routerLink="edit/{{ docID }}/{{ section.section_nbr }}"
-    ><div>
+  <div>
+    <a
+      *ngFor="let section of sections"
+      mat-list-item
+      routerLinkActive="list-item-active"
+      routerLink="s/{{ section.section_nbr }}"
+    >
       {{ section.section_title }}
       <button
         mat-button
@@ -23,6 +24,6 @@
       >
         <mat-icon>delete</mat-icon>
       </button>
-    </div>
-  </a>
+    </a>
+  </div>
 </mat-nav-list>

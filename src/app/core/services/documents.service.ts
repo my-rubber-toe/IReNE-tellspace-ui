@@ -64,10 +64,10 @@ export class DocumentsService {
   }
 
   /** POST remove a section */
-  public removeSection(sec: ContentSection): Observable<any> {
+  public removeSection(id: string): Observable<any> {
     const url = `${this.rootUrl}/documents/edit/section/remove`;
     return this.http
-      .post(url, sec, this.httpOptions)
+      .post(url, { sec_nbr: id }, this.httpOptions)
       .pipe(catchError(this.handleError<any>("deleteSection")));
   }
 

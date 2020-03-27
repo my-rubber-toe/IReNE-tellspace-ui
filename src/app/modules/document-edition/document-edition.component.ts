@@ -7,20 +7,6 @@ import { DocumentEditionService } from "@app/core/services/document-edition.serv
   templateUrl: "./document-edition.component.html",
   styleUrls: ["./document-edition.component.scss"]
 })
-export class DocumentEditionComponent implements OnInit {
+export class DocumentEditionComponent {
   public isSaving: boolean;
-
-  constructor(private editService: DocumentEditionService) {}
-
-  caseDocument: CaseDocument;
-
-  ngOnInit(): void {
-    this.editService
-      .getDocumentStream()
-      .subscribe(x => (this.caseDocument = x));
-  }
-
-  onAdded() {
-    this.editService.createSection();
-  }
 }

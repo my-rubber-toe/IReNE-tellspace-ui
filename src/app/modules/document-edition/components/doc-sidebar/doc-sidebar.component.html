@@ -5,13 +5,15 @@
       (click)="navigateToCaseStudyRoot()"
       matTooltip="Case Study Options"
     >
-      <h2 mat-subheader>{{ docTitle }}</h2>
+      <h2 mat-subheader>{{ caseDocument.title }}</h2>
     </button>
-    <button class="link-button" mat-stroked-button>Add Section</button>
+    <button class="link-button" (click)="addSection()" mat-stroked-button>
+      Add Section
+    </button>
   </div>
   <mat-divider></mat-divider>
 
-  <ng-container *ngFor="let section of sections">
+  <ng-container *ngFor="let section of caseDocument.section">
     <div>
       <a
         mat-list-item

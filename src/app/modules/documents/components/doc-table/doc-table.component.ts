@@ -38,7 +38,9 @@ export class DocTableComponent implements OnInit {
     this.dataSource = new MatTableDataSource();
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    this.docService.getDocuments().subscribe(x => (this.dataSource.data = x));
+    this.docService
+      .getDocuments()
+      .subscribe(x => (this.dataSource.data = JSON.parse(x) as CaseDocument[]));
     this.isLoading = false;
   }
 
@@ -48,7 +50,9 @@ export class DocTableComponent implements OnInit {
   }
 
   refresh(): void {
-    this.docService.getDocuments().subscribe(x => (this.dataSource.data = x));
+    this.docService
+      .getDocuments()
+      .subscribe(x => (this.dataSource.data = JSON.parse(x) as CaseDocument[]));
   }
 
   removeDocument(id: string): void {
@@ -64,8 +68,10 @@ export class DocTableComponent implements OnInit {
       if (result.value) {
         this.docService
           .removeDocument(id)
-          .subscribe(_ =>
-            Swal.fire("Deleted!", "Your file has been deleted.", "success")
+          .subscribe(_ =>{
+            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            this.refresh();
+          }
           );
       }
     });

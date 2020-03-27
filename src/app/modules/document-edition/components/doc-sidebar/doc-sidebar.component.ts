@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { ContentSection } from "@app/models/content-section";
+import { DocumentEditionService } from "@app/core/services/document-edition.service";
+import { CaseDocument } from "@app/models/case-document";
 
 @Component({
   selector: "app-doc-sidebar",
@@ -8,21 +9,24 @@ import { ContentSection } from "@app/models/content-section";
   styleUrls: ["./doc-sidebar.component.scss"]
 })
 export class DocSidebarComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private editService: DocumentEditionService,
+    private router: Router
+  ) {}
 
-  @Input() docTitle: string;
+  caseDocument: CaseDocument;
 
-  @Input() docID: string;
+  ngOnInit(): void {
+    this.editService
+      .getDocumentStream()
+      .subscribe(x => (this.caseDocument = x));
+  }
 
-  @Input() sections: ContentSection[];
-
-  @Output() added = new EventEmitter<any>();
-
-  public addSection(): void {
-    this.added.emit();
+  addSection() {
+    this.editService.createSection();
   }
 
   public navigateToCaseStudyRoot(): void {
-    this.router.navigateByUrl(`/edit/${this.docID}`);
+    this.router.navigateByUrl(`/edit/${this.caseDocument.id}`);
   }
 }

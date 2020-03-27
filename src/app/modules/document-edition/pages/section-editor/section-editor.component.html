@@ -13,4 +13,7 @@
     </button>
   </mat-menu>
 </div>
-<ckeditor [(ngModel)]="model.editorData" [editor]="Editor"></ckeditor>
+<ckeditor
+  [data]="activeDoc.section[activeSection].section_text"
+  [editor]="Editor"
+></ckeditor>

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Subject, Observable } from "rxjs";
+import { Subject, Observable, BehaviorSubject } from "rxjs";
 import { CaseDocument } from "@app/models/case-document";
 import { DocumentsService } from "./documents.service";
 import { ContentSection } from "@app/models/content-section";
@@ -17,7 +17,9 @@ export class DocumentEditionService {
   private activeCaseDocument: CaseDocument;
 
   /**Stream source to track changes on the active case document */
-  private caseDocumentSource = new Subject<CaseDocument>();
+  private caseDocumentSource = new BehaviorSubject<CaseDocument>(
+    new CaseDocument()
+  );
 
   /**Stream of the active case document*/
   private documentStream$ = this.caseDocumentSource.asObservable();
@@ -126,18 +128,24 @@ export class DocumentEditionService {
   }
 
   public createSection() {
-    this.docService.createSection().subscribe(x => {
+    console.log("this.createSection executed");
+    this.docService.createSection(this.activeCaseDocument.id).subscribe(x => {
       this.activeCaseDocument.section.push(
-        new ContentSection(this.activeCaseDocument.section.length, "Untitled")
+        new ContentSection(
+          this.activeCaseDocument.section.length,
+          "Create Section Works"
+        )
       );
       this.updateSource();
     });
   }
 
-  public removeSection(id: number) {
-    this.docService.removeSection(id).subscribe(x => {
-      this.activeCaseDocument.section.splice(id, 1);
-      this.updateSource();
-    });
+  public removeSection(sectionPosition: number) {
+    this.docService
+      .removeSection(this.activeCaseDocument.id, sectionPosition)
+      .subscribe(x => {
+        this.activeCaseDocument.section.splice(sectionPosition, 1);
+        this.updateSource();
+      });
   }
 }

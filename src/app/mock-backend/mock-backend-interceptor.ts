@@ -87,7 +87,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     // route functions
     function getDocuments() {
       //   if (!isLoggedIn()) return unauthorized();
-      return ok(CASES);
+      return ok(JSON.stringify(CASES));
     }
 
     function createDocument() {
@@ -115,28 +115,34 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       console.log("the backend id " + idFromUrl(1));
       const doc: CaseDocument = CASES.find(x => x.id === idFromUrl(1));
       console.log(doc);
-      return ok(doc);
+      return ok(Object.assign(new CaseDocument(), doc));
     }
 
     function removeDocument() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: CaseDocument) => x.id == idFromUrl(1));
-      console.log("removed in backend");
+      let doc = CASES.find((x: CaseDocument) => x.id == idFromUrl(1));
+      let size = CASES.length;
+      if (doc && size > 0) {
+        doc = CASES[size - 1];
+        console.log("Removing in backend");
+        console.log(CASES.pop());
+      } else return error({ error: "Document not found" });
       return ok();
     }
 
     function createSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: CaseDocument) => x.id === idFromUrl(3));
-      doc.section.push(new ContentSection(doc.section.length, "Untitled"));
-      localStorage.setItem("cases", JSON.stringify(CASES));
-      return ok(doc);
+      //const doc = CASES.find((x: CaseDocument) => x.id === idFromUrl(4));
+      console.log("created on backend");
+      // doc.section.push(new ContentSection(doc.section.length, "Server Title"));
+      //localStorage.setItem("cases", JSON.stringify(CASES));
+      return ok();
     }
 
     function removeSection() {
       //   if (!isLoggedIn()) return unauthorized();
       const doc: CaseDocument = CASES.find(
-        (x: CaseDocument) => x.id === idFromUrl(3)
+        (x: CaseDocument) => x.id === idFromUrl(4)
       );
       const sec: ContentSection = doc.section[body.section_nbr];
       sec.section_nbr = doc.section.length - 1;
@@ -150,7 +156,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function editDocumentSection() {
       //   if (!isLoggedIn()) return unauthorized();
       const doc: CaseDocument = CASES.find(
-        (x: CaseDocument) => x.id === idFromUrl(3)
+        (x: CaseDocument) => x.id === idFromUrl(4)
       );
       const sec: ContentSection = doc.section[body.section_nbr];
       sec.section_title = body.sectio_title;
@@ -229,6 +235,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return headers.get("Authorization") === "Bearer fake-jwt-token";
     }
 
+    /**Returns string from the url coresponding to index position right to left, where index 1 returns the last string on the url. */
     function idFromUrl(index: number): string {
       const urlParts = url.split("/");
       return urlParts[urlParts.length - index];

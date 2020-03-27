@@ -3,7 +3,7 @@ import { Timeline } from "./timeline";
 import { ContentSection } from "./content-section";
 import { Actor } from "./actor";
 
-export class Document {
+export class CaseDocument {
   id?: string;
   title: string;
   description?: string;

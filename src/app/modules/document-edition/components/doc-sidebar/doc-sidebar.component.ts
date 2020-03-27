@@ -16,13 +16,7 @@ export class DocSidebarComponent {
 
   @Input() sections: ContentSection[];
 
-  @Output() removed = new EventEmitter<string>();
-
   @Output() added = new EventEmitter<any>();
-
-  public removeSection(sectionID: string): void {
-    this.removed.emit(sectionID);
-  }
 
   public addSection(): void {
     this.added.emit();

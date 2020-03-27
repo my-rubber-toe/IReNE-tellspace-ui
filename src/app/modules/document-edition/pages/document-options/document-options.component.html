@@ -17,152 +17,119 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <b>Description</b>
-      </mat-panel-title>
-      <mat-panel-description>
-        Briefly describe what your case study is about
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <div class="flex-container">
-      <div>
-        <p>{{ doc.description }}</p>
-      </div>
-      <button
-        class="item-right"
-        mat-button
-        color="primary"
-        (click)="editTitlePrompt()"
-      >
-        Edit Description
-      </button>
-    </div>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <b>Tags and Categories</b>
-      </mat-panel-title>
-      <mat-panel-description
-        >Identify keywords, categories about the case
-        study</mat-panel-description
-      >
-    </mat-expansion-panel-header>
-    <h4>
-      Infrastructure Types
-      <button mat-button color="primary" (click)="editTitlePrompt()">
-        Edit
-      </button>
-    </h4>
-    <mat-chip-list>
-      <ng-container *ngFor="let infra_type of infrastructureList"
-        ><mat-chip>{{ infra_type }}</mat-chip></ng-container
-      >
-    </mat-chip-list>
-    <br />
-    <mat-divider></mat-divider>
-    <br />
-
-    <h4>
-      Damage Types
-      <button mat-button color="primary" (click)="editTitlePrompt()">
-        Edit
-      </button>
-    </h4>
-    <mat-chip-list>
-      <ng-container *ngFor="let dtype of damageTypeList">
-        <mat-chip>{{ dtype }}</mat-chip>
-      </ng-container>
-    </mat-chip-list>
-
-    <br />
-    <mat-divider></mat-divider>
-    <br />
-
-    <h4>
-      Tags
-      <button mat-button color="primary" (click)="editTitlePrompt()">
-        Edit
-      </button>
-    </h4>
-    <mat-form-field class="example-full-width" floatLabel="never">
-      <mat-chip-list #tagList>
-        <mat-chip
-          *ngFor="let tag of doc.tags"
-          [selectable]="selectable"
-          [removable]="removable"
-          (removed)="remove(tag)"
-          >{{ tag
-          }}<mat-icon matChipRemove *ngIf="removable"
-            >cancel</mat-icon
-          ></mat-chip
+<mat-tab-group>
+  <mat-tab label="Description">
+    <ng-template matTabContent>
+      <div class="flex-container">
+        <div>
+          <p>{{ doc.description }}</p>
+        </div>
+        <button
+          class="item-right"
+          mat-button
+          color="primary"
+          (click)="editTitlePrompt()"
         >
-        <input
-          *ngIf="removable"
-          placeholder="Type new tag here"
-          [matChipInputFor]="tagList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="addOnBlur"
-          (matChipInputTokenEnd)="add($event)"
-        />
+          Edit Description
+        </button>
+      </div>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Tags and Categories">
+    <ng-template matTabContent>
+      <h4>
+        Infrastructure Types
+        <button mat-button color="primary" (click)="editTitlePrompt()">
+          Edit
+        </button>
+      </h4>
+      <mat-chip-list>
+        <ng-container *ngFor="let infra_type of infrastructureList"
+          ><mat-chip>{{ infra_type }}</mat-chip></ng-container
+        >
       </mat-chip-list>
-    </mat-form-field>
-  </mat-expansion-panel>
+      <br />
+      <mat-divider></mat-divider>
+      <br />
 
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <b> Location</b>
-      </mat-panel-title>
-      <mat-panel-description>Where is the problem?</mat-panel-description>
-    </mat-expansion-panel-header>
-    City: {{ doc.location }}
-    <button mat-button color="primary" (click)="editTitlePrompt()">
-      Edit
-    </button>
-  </mat-expansion-panel>
+      <h4>
+        Damage Types
+        <button mat-button color="primary" (click)="editTitlePrompt()">
+          Edit
+        </button>
+      </h4>
+      <mat-chip-list>
+        <ng-container *ngFor="let dtype of damageTypeList">
+          <mat-chip>{{ dtype }}</mat-chip>
+        </ng-container>
+      </mat-chip-list>
 
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <b>Authors</b>
-      </mat-panel-title>
-      <mat-panel-description>
-        Who are you?
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <h4>
-      Authors
+      <br />
+      <mat-divider></mat-divider>
+      <br />
+
+      <h4>
+        Tags
+        <button mat-button color="primary" (click)="editTitlePrompt()">
+          Edit
+        </button>
+      </h4>
+      <mat-form-field class="example-full-width" floatLabel="never">
+        <mat-chip-list #tagList>
+          <mat-chip
+            *ngFor="let tag of doc.tags"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(tag)"
+            >{{ tag
+            }}<mat-icon matChipRemove *ngIf="removable"
+              >cancel</mat-icon
+            ></mat-chip
+          >
+          <input
+            *ngIf="removable"
+            placeholder="Type new tag here"
+            [matChipInputFor]="tagList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Dates and Locations">
+    <ng-template matTabContent>
+      City: {{ doc.location }}
       <button mat-button color="primary" (click)="editTitlePrompt()">
         Edit
       </button>
-    </h4>
-    <ng-container *ngFor="let author of doc.authors">
-      <mat-card>{{ author.author_FN }} {{ author.author_LN }}</mat-card>
-    </ng-container>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <b>Actors</b>
-      </mat-panel-title>
-      <mat-panel-description>
-        Who are the stakeholders?
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <h4>
-      Actors
-      <button mat-button color="primary" (click)="editTitlePrompt()">
-        Edit
-      </button>
-    </h4>
-    <ng-container *ngFor="let actor of doc.actors">
-      <mat-card>{{ actor.actor_FN }} {{ actor.actor_LN }}</mat-card>
-    </ng-container>
-  </mat-expansion-panel>
-</mat-accordion>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Authors">
+    <ng-template matTabContent>
+      <h4>
+        Authors
+        <button mat-button color="primary" (click)="editTitlePrompt()">
+          Edit
+        </button>
+      </h4>
+      <ng-container *ngFor="let author of doc.authors">
+        <mat-card>{{ author.author_FN }} {{ author.author_LN }}</mat-card>
+      </ng-container>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Actors">
+    <ng-template matTabContent>
+      <h4>
+        Actors
+        <button mat-button color="primary" (click)="editTitlePrompt()">
+          Edit
+        </button>
+      </h4>
+      <ng-container *ngFor="let actor of doc.actors">
+        <mat-card>{{ actor.actor_FN }} {{ actor.actor_LN }}</mat-card>
+      </ng-container>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

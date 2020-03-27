@@ -5,7 +5,7 @@ import { ParametersEditorComponent } from "./components/parameters-editor/parame
 import { DocumentOptionsComponent } from "./pages/document-options/document-options.component";
 import { RouterModule } from "@angular/router";
 import { SectionEditorComponent } from "./pages/section-editor/section-editor.component";
-import { InvalidUrlComponent } from "./pages/invalid-url/invalid-url.component";
+import { InvalidUrlComponent } from "../invalid-url/invalid-url.component";
 import { DocSidebarComponent } from "./components/doc-sidebar/doc-sidebar.component";
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { MaterialModule } from "@app/material.module";

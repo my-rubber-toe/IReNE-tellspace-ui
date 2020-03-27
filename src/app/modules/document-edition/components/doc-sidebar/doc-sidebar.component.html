@@ -1,29 +1,25 @@
 <mat-nav-list>
   <div class="toolbar">
-    <p>
-      <button mat-button>
-        <h2 mat-subheader>{{ docTitle }}</h2>
-      </button>
-      <button mat-raised-button>Add Section</button>
-    </p>
+    <button
+      mat-button
+      (click)="navigateToCaseStudyRoot()"
+      matTooltip="Case Study Options"
+    >
+      <h2 mat-subheader>{{ docTitle }}</h2>
+    </button>
+    <button class="link-button" mat-stroked-button>Add Section</button>
   </div>
   <mat-divider></mat-divider>
-  <div>
-    <a
-      *ngFor="let section of sections"
-      mat-list-item
-      routerLinkActive="list-item-active"
-      routerLink="s/{{ section.section_nbr }}"
-    >
-      {{ section.section_title }}
-      <button
-        mat-button
-        class="show-on-hover"
-        isRoundButton="true"
-        (click)="removeSection(section.section_nbr)"
+
+  <ng-container *ngFor="let section of sections">
+    <div>
+      <a
+        mat-list-item
+        routerLinkActive="list-item-active"
+        routerLink="s/{{ section.section_nbr }}"
       >
-        <mat-icon>delete</mat-icon>
-      </button>
-    </a>
-  </div>
+        {{ section.section_title }}
+      </a>
+    </div>
+  </ng-container>
 </mat-nav-list>

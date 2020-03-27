@@ -8,7 +8,7 @@ import {
   Validators
 } from "@angular/forms";
 
-import { Document } from "@app/models/document";
+import { CaseDocument } from "@app/models/case-document";
 import { DocumentsService } from "@app/core/services/documents.service";
 
 @Component({
@@ -117,8 +117,8 @@ export class NewDocumentDialogComponent implements OnInit {
 
   onSubmit(): void {
     //Shallow Copy of the form model
-    let doc: Document = Object.assign(
-      new Document(),
+    let doc: CaseDocument = Object.assign(
+      new CaseDocument(),
       this.createDocumentForm.value
     );
     this.docService.createDocument(doc).subscribe();

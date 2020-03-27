@@ -11,11 +11,9 @@ ul li {
 }
 
 .flex-container {
-  /* We first create a flex layout context */
   display: flex;
   flex-flow: row wrap;
 
-  /* Then we define how is distributed the remaining space */
   justify-content: space-around;
 
   padding: 0;

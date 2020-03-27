@@ -16,11 +16,11 @@ import {
 import { Observable, of, throwError } from "rxjs";
 import { delay, mergeMap, materialize, dematerialize } from "rxjs/operators";
 import { ContentSection } from "@app/models/content-section";
-import { Document } from "@app/models/document";
+import { CaseDocument } from "@app/models/case-document";
 // import { Metadata } from "src/app/interfaces/metadata";
 
 // array in local storage for mockCaseStudies
-let CASES = (JSON.parse(localStorage.getItem("cases")) || []) as Document[];
+let CASES = (JSON.parse(localStorage.getItem("cases")) || []) as CaseDocument[];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -60,7 +60,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return createSection();
         case url.endsWith("edit/section/remove") && method === "POST":
           return removeSection();
-        case url.endsWith("/edit/infraestructure_types") && method === "PUT":
+        case url.endsWith("/edit/infrastructure_types") && method === "PUT":
           return edit("DocumentInsfraestructureTypes");
         case url.endsWith("/edit/damage_types") && method === "PUT":
           return edit("DocumentDamageTypes");
@@ -92,7 +92,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function createDocument() {
       console.log("creating document");
-      const newDocument: Document = Object.assign(new Document(), body);
+      const newDocument: CaseDocument = Object.assign(new CaseDocument(), body);
       //if (CASES.find((x: { title: any }) => x.title === newDocument.title)) {
       //  return error('Title "' + newDocument.title + '" is already taken');
       // }
@@ -113,21 +113,21 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function getDocumentById() {
       //   if (!isLoggedIn()) return unauthorized();
       console.log("the backend id " + idFromUrl(1));
-      const doc: Document = CASES.find(x => x.id === idFromUrl(1));
+      const doc: CaseDocument = CASES.find(x => x.id === idFromUrl(1));
       console.log(doc);
       return ok(doc);
     }
 
     function removeDocument() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: Document) => x.id == idFromUrl(1));
+      const doc = CASES.find((x: CaseDocument) => x.id == idFromUrl(1));
       console.log("removed in backend");
       return ok();
     }
 
     function createSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: Document) => x.id === idFromUrl(3));
+      const doc = CASES.find((x: CaseDocument) => x.id === idFromUrl(3));
       doc.section.push(new ContentSection(doc.section.length, "Untitled"));
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok(doc);
@@ -135,7 +135,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function removeSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc: Document = CASES.find((x: Document) => x.id === idFromUrl(3));
+      const doc: CaseDocument = CASES.find(
+        (x: CaseDocument) => x.id === idFromUrl(3)
+      );
       const sec: ContentSection = doc.section[body.section_nbr];
       sec.section_nbr = doc.section.length - 1;
       sec.section_title = doc.section[doc.section.length - 1].section_title;
@@ -147,7 +149,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function editDocumentSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc: Document = CASES.find((x: Document) => x.id === idFromUrl(3));
+      const doc: CaseDocument = CASES.find(
+        (x: CaseDocument) => x.id === idFromUrl(3)
+      );
       const sec: ContentSection = doc.section[body.section_nbr];
       sec.section_title = body.sectio_title;
       sec.section_text = body.section_text;
@@ -157,7 +161,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function edit(type: string) {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc: Document = CASES.find((x: Document) => x.id === idFromUrl(3));
+      const doc: CaseDocument = CASES.find(
+        (x: CaseDocument) => x.id === idFromUrl(3)
+      );
       switch (type) {
         case "editDocumentTitle":
           doc.title = body.title;

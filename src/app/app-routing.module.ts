@@ -6,7 +6,7 @@ import { LoginComponent } from "./modules/login/login.component";
 import { DocumentEditionComponent } from "./modules/document-edition/document-edition.component";
 import { SectionEditorComponent } from "./modules/document-edition/pages/section-editor/section-editor.component";
 import { DocumentOptionsComponent } from "./modules/document-edition/pages/document-options/document-options.component";
-import { InvalidUrlComponent } from "./modules/document-edition/pages/invalid-url/invalid-url.component";
+import { InvalidUrlComponent } from "./modules/invalid-url/invalid-url.component";
 import { TimelineEditorComponent } from "./modules/document-edition/components/timeline-editor/timeline-editor.component";
 import { CaseDocumentResolverService } from "@app/core/services/case-document-resolver.service";
 import { AuthGuard } from "./core/guards/auth.guard";
@@ -38,10 +38,6 @@ const routes: Routes = [
               {
                 path: "s/:secid",
                 component: SectionEditorComponent
-              },
-              {
-                path: "timeline",
-                component: TimelineEditorComponent
               },
               {
                 path: "",

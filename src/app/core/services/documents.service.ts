@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Document } from "@app/models/document";
+import { CaseDocument } from "@app/models/case-document";
 import { Observable, of, Subject } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError, map, tap } from "rxjs/operators";
@@ -21,15 +21,15 @@ export class DocumentsService {
   //Route Client Functions:
 
   /** GET document metadata. Will 404 if there are no documents */
-  public getDocuments(): Observable<Document[]> {
+  public getDocuments(): Observable<CaseDocument[]> {
     const url = `${this.rootUrl}/documents`;
     return this.http
-      .get<Document[]>(url, this.httpOptions)
-      .pipe(catchError(this.handleError<Document[]>("getDocuments", [])));
+      .get<CaseDocument[]>(url, this.httpOptions)
+      .pipe(catchError(this.handleError<CaseDocument[]>("getDocuments", [])));
   }
 
   /** POST new document on the server */
-  public createDocument(newDoc: Document): Observable<any> {
+  public createDocument(newDoc: CaseDocument): Observable<any> {
     console.log("sending create");
     const url = `${this.rootUrl}/documents/create`;
     return this.http
@@ -47,11 +47,11 @@ export class DocumentsService {
   }
 
   /** GET document by id. Will 404 if id not found */
-  public getDocumentById(id: string): Observable<Document> {
+  public getDocumentById(id: string): Observable<CaseDocument> {
     const url = `${this.rootUrl}/documents/${id}`;
-    return this.http.get<Document>(url).pipe(
+    return this.http.get<CaseDocument>(url).pipe(
       tap(_ => console.log(`getDocumentByID id=${id}`)),
-      catchError(this.handleError<Document>(`getDocumentById id=${id}`))
+      catchError(this.handleError<CaseDocument>(`getDocumentById id=${id}`))
     );
   }
 
@@ -64,7 +64,7 @@ export class DocumentsService {
   }
 
   /** POST remove a section */
-  public removeSection(id: string): Observable<any> {
+  public removeSection(id: number): Observable<any> {
     const url = `${this.rootUrl}/documents/edit/section/remove`;
     return this.http
       .post(url, { sec_nbr: id }, this.httpOptions)

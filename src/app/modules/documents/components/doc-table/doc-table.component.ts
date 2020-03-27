@@ -5,7 +5,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
-import { Document } from "@app/models/document";
+import { CaseDocument } from "@app/models/case-document";
 import { DocumentsService } from "@app/core/services/documents.service";
 import { Router } from "@angular/router";
 import { MatTableDataSource } from "@angular/material/table";
@@ -30,7 +30,7 @@ export class DocTableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   isLoading = true;
-  dataSource: MatTableDataSource<Document>;
+  dataSource: MatTableDataSource<CaseDocument>;
 
   constructor(private docService: DocumentsService, private router: Router) {}
 
@@ -43,7 +43,7 @@ export class DocTableComponent implements OnInit {
   }
 
   /**Method to navigate to the editor of the clicked case study */
-  editDocument(element: Document) {
+  editDocument(element: CaseDocument) {
     this.router.navigateByUrl("/edit/" + element.id);
   }
 

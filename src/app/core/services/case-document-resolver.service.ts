@@ -8,19 +8,24 @@ import {
 import { Observable, of, EMPTY } from "rxjs";
 import { mergeMap, take } from "rxjs/operators";
 
-import { Document } from "@app/models/Document";
+import { CaseDocument } from "@app/models/case-document";
 import { DocumentsService } from "@app/core/services/documents.service";
+import { DocumentEditionService } from "./document-edition.service";
 
 @Injectable({
   providedIn: "root"
 })
-export class CaseDocumentResolverService implements Resolve<Document> {
-  constructor(private docService: DocumentsService, private router: Router) {}
+export class CaseDocumentResolverService implements Resolve<CaseDocument> {
+  constructor(
+    private docService: DocumentsService,
+    private editService: DocumentEditionService,
+    private router: Router
+  ) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<Document> | Observable<never> {
+  ): Observable<CaseDocument> | Observable<never> {
     let id = route.paramMap.get("docid");
 
     return this.docService.getDocumentById(id).pipe(
@@ -28,6 +33,7 @@ export class CaseDocumentResolverService implements Resolve<Document> {
       mergeMap(caseDoc => {
         console.log(caseDoc);
         if (caseDoc) {
+          this.editService.setActiveCaseDocument(caseDoc);
           return of(caseDoc);
         } else {
           // id not found

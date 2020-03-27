@@ -1,7 +1,17 @@
-div:hover .show-on-hover {
-  visibility: visible;
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  flex-direction: column;
+  gap: 10px;
 }
 
-div .show-on-hover {
-  visibility: hidden;
+.link-button {
+  width: 100%;
+}
+
+button {
+  white-space: pre-wrap;
 }

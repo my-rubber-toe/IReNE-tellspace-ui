@@ -20,19 +20,16 @@
 <mat-tab-group>
   <mat-tab label="Description">
     <ng-template matTabContent>
-      <div class="flex-container">
-        <div>
-          <p>{{ doc.description }}</p>
-        </div>
-        <button
-          class="item-right"
-          mat-button
-          color="primary"
-          (click)="editTitlePrompt()"
-        >
-          Edit Description
-        </button>
-      </div>
+      <p>{{ doc.description }}</p>
+
+      <button
+        class="item-right"
+        mat-button
+        color="primary"
+        (click)="editTitlePrompt()"
+      >
+        Edit Description
+      </button>
     </ng-template>
   </mat-tab>
   <mat-tab label="Tags and Categories">
@@ -44,7 +41,7 @@
         </button>
       </h4>
       <mat-chip-list>
-        <ng-container *ngFor="let infra_type of infrastructureList"
+        <ng-container *ngFor="let infra_type of doc.infrastructure_type"
           ><mat-chip>{{ infra_type }}</mat-chip></ng-container
         >
       </mat-chip-list>
@@ -59,7 +56,7 @@
         </button>
       </h4>
       <mat-chip-list>
-        <ng-container *ngFor="let dtype of damageTypeList">
+        <ng-container *ngFor="let dtype of doc.damage_type">
           <mat-chip>{{ dtype }}</mat-chip>
         </ng-container>
       </mat-chip-list>

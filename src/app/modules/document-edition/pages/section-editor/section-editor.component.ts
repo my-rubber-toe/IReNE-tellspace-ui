@@ -6,6 +6,7 @@ import { CaseDocument } from "@app/models/case-document";
 import { Observable } from "rxjs";
 import { switchMap } from "rxjs/operators";
 import { ActivatedRoute } from "@angular/router";
+import { FormControl } from "@angular/forms";
 
 @Component({
   selector: "app-section-editor",
@@ -23,14 +24,12 @@ export class SectionEditorComponent implements OnInit {
   activeDoc: CaseDocument;
   activeSection: number;
 
-  ngOnInit(): void {
-    this.activeDoc$ = this.route.paramMap.pipe(
-      switchMap(params => {
-        this.activeSection = +params.get("secid");
-        return this.editService.getDocumentStream();
-      })
-    );
+  title = new FormControl("");
 
-    this.activeDoc$.subscribe(res => (this.activeDoc = res));
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(
+      params => (this.activeSection = +params.get("secid"))
+    );
+    this.editService.getDocumentStream().subscribe(x => (this.activeDoc = x));
   }
 }

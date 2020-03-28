@@ -5,10 +5,10 @@ import {
   FormArray,
   FormGroup,
   FormControl,
-  Validators
+  Validators,
+  FormGroupName
 } from "@angular/forms";
 
-import { CaseDocument } from "@app/models/case-document";
 import { DocumentsService } from "@app/core/services/documents.service";
 
 @Component({
@@ -17,9 +17,8 @@ import { DocumentsService } from "@app/core/services/documents.service";
   styleUrls: ["./new-document.dialog.component.scss"]
 })
 export class NewDocumentDialogComponent implements OnInit {
-  @Output() submited = new EventEmitter<boolean>();
-
   createDocumentForm: FormGroup;
+  metadata: FormGroupName;
 
   public infrastructureList: string[] = ["infraestructure"];
   public damageTypeList: string[] = ["damage_type"];
@@ -28,8 +27,23 @@ export class NewDocumentDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<NewDocumentDialogComponent>,
     public docService: DocumentsService,
     private fb: FormBuilder
-  ) {
-    this.createDocumentForm = this.generateDocumentCreationForm();
+  ) {}
+
+  private initAuthors(): FormGroup {
+    return this.fb.group({
+      author_FN: ["", Validators.required],
+      author_LN: ["", Validators.required],
+      author_email: ["", Validators.email],
+      author_faculty: ["", Validators.required]
+    });
+  }
+
+  private initActors(): FormGroup {
+    return this.fb.group({
+      actor_FN: ["", Validators.required],
+      actor_LN: ["", Validators.required],
+      actor_role: ["", Validators.required]
+    });
   }
 
   ngOnInit(): void {
@@ -39,89 +53,42 @@ export class NewDocumentDialogComponent implements OnInit {
     this.docService
       .getDamageTypes()
       .subscribe(types => (this.damageTypeList = types.categories));
-  }
 
-  private generateDocumentCreationForm(): FormGroup {
-    //Form Control Names correspond to field names on models.
-    return this.fb.group({
+    this.createDocumentForm = this.fb.group({
       title: ["", Validators.required],
       incident_date: ["", Validators.required],
       infrastructure_type: ["", Validators.required],
       damage_type: ["", Validators.required],
-      authors: this.fb.array([
-        this.fb.group({
-          author_FN: ["", Validators.required],
-          author_LN: ["", Validators.required],
-          author_email: ["", Validators.email],
-          author_faculty: ["", Validators.required]
-        }),
-        Validators.required
-      ]),
-      actors: this.fb.array(
-        [
-          this.fb.group({
-            actor_FN: ["", Validators.required],
-            actor_LN: ["", Validators.required],
-            actor_role: ["", Validators.required]
-          })
-        ],
-        Validators.required
-      )
+      authors: this.fb.array([this.initAuthors()]),
+      actors: this.fb.array([this.initActors()])
     });
   }
 
-  //Form Functions
-  getAuthors(): FormArray {
-    return this.createDocumentForm.get("authors") as FormArray;
-  }
-
-  getActors(): FormArray {
-    return this.createDocumentForm.get("actors") as FormArray;
-  }
   addAuthor() {
-    let authorsArray = this.getAuthors();
-    let newAuthor: FormGroup = this.fb.group({
-      author_FN: ["", Validators.required],
-      author_LN: ["", Validators.required],
-      author_email: ["", Validators.email],
-      author_faculty: ["", Validators.required]
-    });
-    authorsArray.push(newAuthor);
-  }
-
-  addActor() {
-    let actorsArray = this.getActors();
-    let newActor: FormGroup = this.fb.group({
-      actor_FN: ["", Validators.required],
-      actor_LN: ["", Validators.required],
-      actor_role: ["", Validators.required]
-    });
-    actorsArray.push(newActor);
+    const control = this.createDocumentForm.get("authors")[
+      "controls"
+    ] as FormArray;
+    control.push(this.initAuthors());
   }
 
   removeAuthor(i: number) {
-    let infrastructuresArray = this.createDocumentForm.controls
-      .authors as FormArray;
-    infrastructuresArray.removeAt(i);
+    let authorArray = this.createDocumentForm.controls.authors as FormArray;
+    authorArray.removeAt(i);
+  }
+
+  addActor() {
+    const control = this.createDocumentForm.get("actors")[
+      "controls"
+    ] as FormArray;
+    control.push(this.initActors());
   }
 
   removeActor(i: number) {
-    let infrastructuresArray = this.createDocumentForm.controls
-      .actors as FormArray;
-    infrastructuresArray.removeAt(i);
-  }
-
-  getErrorMessage() {
-    return this.createDocumentForm.hasError("required") ? "Required field" : "";
+    let actorArray = this.createDocumentForm.controls.actors as FormArray;
+    actorArray.removeAt(i);
   }
 
   onSubmit(): void {
-    //Shallow Copy of the form model
-    let doc: CaseDocument = Object.assign(
-      new CaseDocument(),
-      this.createDocumentForm.value
-    );
-    this.docService.createDocument(doc).subscribe();
-    this.dialogRef.close(true);
+    this.dialogRef.close(this.createDocumentForm.getRawValue());
   }
 }

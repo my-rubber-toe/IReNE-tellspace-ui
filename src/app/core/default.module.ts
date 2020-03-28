@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { DefaultComponent } from "./default.component";
-import { DocumentsComponent } from "@app/modules/documents/documents.component";
+import { DocumentsDashboardComponent } from "@app/modules/documents/documents-dashboard.component";
 import { RouterModule } from "@angular/router";
 import { SharedModule } from "@app/shared/shared.module";
 import { DocumentEditionModule } from "@app/modules/document-edition/document-edition.module";
@@ -15,7 +15,7 @@ import { LoginComponent } from "@app/modules/login/login.component";
 @NgModule({
   declarations: [
     DefaultComponent,
-    DocumentsComponent,
+    DocumentsDashboardComponent,
     DocumentEditionComponent,
     LoginComponent
   ],

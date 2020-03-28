@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError, map, tap } from "rxjs/operators";
 import { ContentSection } from "@app/models/content-section";
 import { Category } from "@app/models/category";
+import { CaseDocumentCreateRequest } from '@app/models/case-document-create-request';
 
 @Injectable({
   providedIn: "root"
@@ -29,11 +30,11 @@ export class DocumentsService {
   }
 
   /** POST new document on the server */
-  public createDocument(newDoc: CaseDocument): Observable<any> {
+  public createDocument(req: CaseDocumentCreateRequest): Observable<any> {
     console.log("sending create");
     const url = `${this.rootUrl}/documents/create`;
     return this.http
-      .post(url, newDoc, this.httpOptions)
+      .post(url, req, this.httpOptions)
       .pipe(catchError(this.handleError<any>("createDocument")));
   }
 

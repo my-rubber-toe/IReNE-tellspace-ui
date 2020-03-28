@@ -1,7 +1,12 @@
 <div>
   <mat-form-field class="example-full-width">
     <mat-label>Section Title</mat-label>
-    <input matInput placeholder="Untitled Section" value="" />
+    <input
+      matInput
+      [formControl]="title"
+      placeholder="Untitled Section"
+      value=""
+    />
   </mat-form-field>
   <button mat-button [matMenuTriggerFor]="menu4">
     <mat-icon>menu</mat-icon>

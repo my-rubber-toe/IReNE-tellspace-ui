@@ -2,8 +2,9 @@ import { Author } from "./author";
 import { Timeline } from "./timeline";
 import { ContentSection } from "./content-section";
 import { Actor } from "./actor";
+import { CaseDocumentCreateRequest } from './case-document-create-request';
 
-export class CaseDocument {
+export class CaseDocument implements CaseDocumentCreateRequest {
   id?: string;
   title: string;
   description?: string;

@@ -1,21 +1,13 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  min-width: 450px;
-}
-
-.container > * {
+.example-card {
+  /* max-width: 400px; */
   width: 100%;
+  margin-top: 4em;
 }
 
-.form {
-  display: flex;
-  padding-top: 6px;
-}
-
-.mat-form-field {
-  font-size: 16px;
-  flex-grow: 1;
+.example-form {
+  /* min-width: 150px;
+  max-width: 500px; */
+  width: 100%;
 }
 
 .example-full-width {

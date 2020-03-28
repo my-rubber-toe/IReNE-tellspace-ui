@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { DefaultComponent } from "./core/default.component";
-import { DocumentsComponent } from "./modules/documents/documents.component";
+import { DocumentsDashboardComponent } from "./modules/documents/documents-dashboard.component";
 import { LoginComponent } from "./modules/login/login.component";
 import { DocumentEditionComponent } from "./modules/document-edition/document-edition.component";
 import { SectionEditorComponent } from "./modules/document-edition/pages/section-editor/section-editor.component";
@@ -26,7 +26,7 @@ const routes: Routes = [
         children: [
           {
             path: "docs",
-            component: DocumentsComponent
+            component: DocumentsDashboardComponent
           },
           {
             path: "edit/:docid",
@@ -42,7 +42,7 @@ const routes: Routes = [
               {
                 path: "",
                 component: DocumentOptionsComponent
-              },
+              }
             ]
           },
           {

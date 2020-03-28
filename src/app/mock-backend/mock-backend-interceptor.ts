@@ -17,6 +17,9 @@ import { Observable, of, throwError } from "rxjs";
 import { delay, mergeMap, materialize, dematerialize } from "rxjs/operators";
 import { ContentSection } from "@app/models/content-section";
 import { CaseDocument } from "@app/models/case-document";
+import { CaseDocumentCreateRequest } from "@app/models/case-document-create-request";
+import { Actor } from "@app/models/actor";
+import { Author } from "@app/models/author";
 // import { Metadata } from "src/app/interfaces/metadata";
 
 // array in local storage for mockCaseStudies
@@ -91,14 +94,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function createDocument() {
-      console.log("creating document");
-      const newDocument: CaseDocument = Object.assign(new CaseDocument(), body);
-      //if (CASES.find((x: { title: any }) => x.title === newDocument.title)) {
-      //  return error('Title "' + newDocument.title + '" is already taken');
-      // }
+      console.log("creating document", body);
+      let newDocument: CaseDocument = Object.assign(new CaseDocument(), body);
+      newDocument.actors = body.actors.map(x => x as Actor);
+      newDocument.authors = body.authors.map(x => x as Author);
       //set id for the document simulating mongo standard
       newDocument.id = generateMongoObjectId();
       newDocument.creationDate = new Date();
+      newDocument.description = " Hola soy el server ...";
       newDocument.section = [
         new ContentSection(1, "Abstract"),
         new ContentSection(2, "Introduction"),
@@ -126,6 +129,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         doc = CASES[size - 1];
         console.log("Removing in backend");
         console.log(CASES.pop());
+        localStorage.setItem("cases", JSON.stringify(CASES));
       } else return error({ error: "Document not found" });
       return ok();
     }

@@ -7,7 +7,6 @@ import { DocumentEditionComponent } from "./modules/document-edition/document-ed
 import { SectionEditorComponent } from "./modules/document-edition/pages/section-editor/section-editor.component";
 import { DocumentOptionsComponent } from "./modules/document-edition/pages/document-options/document-options.component";
 import { InvalidUrlComponent } from "./modules/invalid-url/invalid-url.component";
-import { TimelineEditorComponent } from "./modules/document-edition/components/timeline-editor/timeline-editor.component";
 import { CaseDocumentResolverService } from "@app/core/services/case-document-resolver.service";
 import { AuthGuard } from "./core/guards/auth.guard";
 

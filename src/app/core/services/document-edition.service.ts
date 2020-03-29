@@ -49,7 +49,7 @@ export class DocumentEditionService {
   }
 
   /**Changes the active document description to the given string and updates the backend*/
-  public editDescription(descriptionText: string) {
+  public editDescription(descriptionText: string){
     this.activeCaseDocument.description = descriptionText;
     this.docService
       .edit("description", { description: descriptionText })

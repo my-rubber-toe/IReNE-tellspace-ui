@@ -21,10 +21,12 @@ export class DocumentsDashboardComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     let dialogRef = this.dialog.open(NewDocumentDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      if (result) console.log("this data ", result);
-      this.docService
-        .createDocument(result as CaseDocumentCreateRequest)
-        .subscribe(x => this.docTable.refresh());
+      if (result) {
+        console.log("this data ", result);
+        this.docService
+          .createDocument(result as CaseDocumentCreateRequest)
+          .subscribe(x => this.docTable.refresh());
+      }
     });
   }
 }

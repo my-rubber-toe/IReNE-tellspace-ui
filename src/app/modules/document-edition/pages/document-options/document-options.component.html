@@ -20,16 +20,9 @@
 <mat-tab-group>
   <mat-tab label="Description">
     <ng-template matTabContent>
-      <p>{{ doc.description }}</p>
-
-      <button
-        class="item-right"
-        mat-button
-        color="primary"
-        (click)="editTitlePrompt()"
-      >
-        Edit Description
-      </button>
+      <app-description-editor
+        [description]="doc.description"
+      ></app-description-editor>
     </ng-template>
   </mat-tab>
   <mat-tab label="Tags and Categories">

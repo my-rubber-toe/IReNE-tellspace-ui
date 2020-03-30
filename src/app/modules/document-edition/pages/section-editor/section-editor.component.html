@@ -1,4 +1,4 @@
-<div>
+<div class="section-editor-container">
   <mat-form-field class="example-full-width">
     <mat-label>Section Title</mat-label>
     <input
@@ -17,8 +17,11 @@
       Delete This Section
     </button>
   </mat-menu>
+  <ckeditor
+  #editor
+    [editor]="Editor"
+    [config]="EditorConfig"
+    [(ngModel)]="model.editorData"
+  ></ckeditor>
 </div>
-<ckeditor
-  [data]="activeDoc.section[activeSection].section_text"
-  [editor]="Editor"
-></ckeditor>
+

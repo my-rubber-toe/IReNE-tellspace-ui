@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError, map, tap } from "rxjs/operators";
 import { ContentSection } from "@app/models/content-section";
 import { Category } from "@app/models/category";
-import { CaseDocumentCreateRequest } from '@app/models/case-document-create-request';
+import { CaseDocumentCreateRequest } from "@app/models/case-document-create-request";
 
 @Injectable({
   providedIn: "root"
@@ -77,8 +77,12 @@ export class DocumentsService {
   }
 
   /** PUT: update the document section on the server */
-  public editDocumentSection(sec: ContentSection): Observable<any> {
-    const url = `${this.rootUrl}/document/edit/section`;
+  public editDocumentSection(
+    docid: string,
+    sec: ContentSection
+  ): Observable<any> {
+    const url = `${this.rootUrl}/document//${docid}/edit/section`;
+    console.log(sec);
     return this.http.put(url, sec, this.httpOptions).pipe(
       tap(_ => console.log(`edited section title=${sec.section_title}`)),
       catchError(

@@ -1,53 +1,98 @@
-import {
-  Component,
-  OnInit,
-} from "@angular/core";
-
-import { DocumentEditionService } from "@app/core/services/document-edition.service";
-import { ActivatedRoute } from "@angular/router";
-import { FormControl } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import * as ClassicEditorWithAutosave from "@app/../assets/ckeditor.js";
-
+import { debounceTime } from "rxjs/operators";
+import { ContentSection } from "@app/models/content-section";
+import { DocumentEditionService } from "@app/core/services/document-edition.service";
+/**Component that handles the section edition editor and implements CKEditor*/
 @Component({
   selector: "app-section-editor",
   templateUrl: "./section-editor.component.html",
   styleUrls: ["./section-editor.component.scss"]
 })
 export class SectionEditorComponent implements OnInit {
+  /**Constant for the time to wait before sending an update request upon modification of title or text content. */
+  public static readonly DEBOUNCE_TIME: number = 3000; //275; //This debounce is for user interface, service has another for server
+
   public Editor = ClassicEditorWithAutosave;
 
   public EditorConfig = {
     autosave: {
       // The minimum amount of time the Autosave plugin is waiting after the last data change.
-      waitingTime: 5000,
+      waitingTime: SectionEditorComponent.DEBOUNCE_TIME,
       save: editor => this.saveData(editor.getData())
     }
   };
 
   sectionInitialData: string;
+
   activeSection: number;
+
+  isSaved: boolean;
 
   public model = {
     editorData: "<p>Hello, world!</p>"
   };
-  title = new FormControl("");
+
+  titleForm: FormGroup;
+
   constructor(
+    private fb: FormBuilder,
     private editService: DocumentEditionService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.editService
+      .getSaveStatus()
+      .subscribe(status => (this.isSaved = status));
+
+    this.titleForm = this.fb.group({ title: ["", Validators.required] });
+
     this.route.paramMap.subscribe(params => {
+      //<--Initial Data Loading executed when url changes to a section.
       this.activeSection = +params.get("secid");
-      this.model.editorData = `<p>This is section ${this.activeSection}</p>`;
       console.log(
         "section_editor refreshed with section number: ",
         this.activeSection
       );
+
+      const section = this.editService.getActiveSection(this.activeSection);
+      if (section != null) {
+        //<--If section exists in the active document set data on view editors.
+        this.model.editorData = section.section_text
+          ? section.section_text
+          : "";
+        this.titleForm.setValue({ title: section.section_title });
+      } else {
+        this.router.navigateByUrl("invalid"); //<--Section number does not exist in the active case document, redirects to invalid.
+      }
     });
+
+    this.titleForm.valueChanges
+      .pipe(debounceTime(SectionEditorComponent.DEBOUNCE_TIME))
+      .subscribe(value => {
+        if (this.titleForm.valid) {
+          console.log("We could autosave!", value);
+          this.uploadData();
+        }
+      });
   }
 
   saveData(data: string) {
     console.log("saved", data);
+    this.uploadData();
+  }
+
+  uploadData() {
+    this.editService.editSection(
+      new ContentSection(
+        this.activeSection,
+        this.titleForm.value.title,
+        this.model.editorData
+      )
+    );
   }
 }

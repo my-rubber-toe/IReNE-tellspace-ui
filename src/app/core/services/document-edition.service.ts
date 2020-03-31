@@ -6,6 +6,7 @@ import { ContentSection } from "@app/models/content-section";
 import { Timeline } from "@app/models/timeline";
 import { Actor } from "@app/models/actor";
 import { Author } from "@app/models/author";
+import { debounceTime } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
@@ -23,6 +24,10 @@ export class DocumentEditionService {
 
   /**Stream of the active case document*/
   private documentStream$ = this.caseDocumentSource.asObservable();
+
+  private isSaved = new BehaviorSubject<boolean>(true);
+
+  private isSavedStream$ = this.isSaved.asObservable();
 
   /**Gets an observable reference to the active document stream */
   public getDocumentStream(): Observable<CaseDocument> {
@@ -49,7 +54,7 @@ export class DocumentEditionService {
   }
 
   /**Changes the active document description to the given string and updates the backend*/
-  public editDescription(descriptionText: string){
+  public editDescription(descriptionText: string) {
     this.activeCaseDocument.description = descriptionText;
     this.docService
       .edit("description", { description: descriptionText })
@@ -120,11 +125,19 @@ export class DocumentEditionService {
     });
   }
 
+  public getSaveStatus(): Observable<boolean> {
+    return this.isSavedStream$;
+  }
+
   public editSection(sec: ContentSection) {
+    this.isSaved.next(false);
     this.activeCaseDocument.section[sec.section_nbr] = sec;
-    this.docService.editDocumentSection(sec).subscribe(_ => {
-      this.updateSource();
-    });
+    this.updateSource();
+    this.docService
+      .editDocumentSection(this.activeCaseDocument.id, sec)
+      .subscribe(next => {
+        this.isSaved.next(true);
+      });
   }
 
   public createSection() {
@@ -147,5 +160,12 @@ export class DocumentEditionService {
         this.activeCaseDocument.section.splice(sectionPosition, 1);
         this.updateSource();
       });
+  }
+
+  public getActiveSection(sectionPosition: number): ContentSection {
+    if (sectionPosition < this.activeCaseDocument.section.length) {
+      return this.activeCaseDocument.section[sectionPosition];
+    }
+    return new ContentSection(sectionPosition, "HA HA", "<p>LOL</p>");
   }
 }

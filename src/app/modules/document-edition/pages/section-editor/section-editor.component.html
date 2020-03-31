@@ -1,27 +1,33 @@
 <div class="section-editor-container">
-  <mat-form-field class="example-full-width">
-    <mat-label>Section Title</mat-label>
-    <input
-      matInput
-      [formControl]="title"
-      placeholder="Untitled Section"
-      value=""
-    />
-  </mat-form-field>
-  <button mat-button [matMenuTriggerFor]="menu4">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <mat-menu #menu4="matMenu">
-    <button mat-menu-item>
-      <mat-icon>delete</mat-icon>
-      Delete This Section
+  <div class="status-bar">
+    <p *ngIf="isSaved">Saved</p>
+    <p *ngIf="!isSaved">Saving..</p>
+    <button mat-button [matMenuTriggerFor]="menu4">
+      <mat-icon>menu</mat-icon>
     </button>
-  </mat-menu>
+    <mat-menu #menu4="matMenu">
+      <button mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        Delete This Section
+      </button>
+    </mat-menu>
+  </div>
+  <form [formGroup]="titleForm">
+    <mat-form-field class="example-full-width">
+      <mat-label>Section Title</mat-label>
+      <input
+        matInput
+        formControlName="title"
+        name="title"
+        placeholder="Untitled Section"
+        value=""
+      />
+    </mat-form-field>
+  </form>
   <ckeditor
-  #editor
+    #editor
     [editor]="Editor"
     [config]="EditorConfig"
     [(ngModel)]="model.editorData"
   ></ckeditor>
 </div>
-

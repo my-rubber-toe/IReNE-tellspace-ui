@@ -1,5 +1,5 @@
 .example-full-width {
-  width: 92%;
+  width: 100%;
 }
 
 :host ::ng-deep .ck-editor__editable_inline {
@@ -9,4 +9,13 @@
 .section-editor-container {
   display: flexbox;
   padding: 30px;
+}
+
+.status-bar {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: flex-end;
+  align-items: baseline;
+  width: 100%;
 }

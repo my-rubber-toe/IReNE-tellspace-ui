@@ -37,6 +37,7 @@ export class CaseDocumentResolverService implements Resolve<CaseDocument> {
           return of(caseDoc);
         } else {
           // id not found
+          console.log("document not found");
           this.router.navigate(["/invalid"]);
           return EMPTY;
         }

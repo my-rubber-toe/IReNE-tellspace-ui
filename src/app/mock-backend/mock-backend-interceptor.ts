@@ -17,7 +17,6 @@ import { Observable, of, throwError } from "rxjs";
 import { delay, mergeMap, materialize, dematerialize } from "rxjs/operators";
 import { ContentSection } from "@app/models/content-section";
 import { CaseDocument } from "@app/models/case-document";
-import { CaseDocumentCreateRequest } from "@app/models/case-document-create-request";
 import { Actor } from "@app/models/actor";
 import { Author } from "@app/models/author";
 // import { Metadata } from "src/app/interfaces/metadata";
@@ -103,9 +102,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       newDocument.creationDate = new Date();
       newDocument.description = " Hola soy el server ...";
       newDocument.section = [
-        new ContentSection(1, "Abstract"),
-        new ContentSection(2, "Introduction"),
-        new ContentSection(3, "Body")
+        new ContentSection(0, "Abstract"),
+        new ContentSection(1, "Introduction"),
+        new ContentSection(2, "Body")
       ];
       newDocument.language = "english";
       CASES.push(newDocument);
@@ -118,7 +117,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       console.log("the backend id " + idFromUrl(1));
       const doc: CaseDocument = CASES.find(x => x.id === idFromUrl(1));
       console.log(doc);
-      return ok(Object.assign(new CaseDocument(), doc));
+      let copyDoc = Object.assign(new CaseDocument(), doc);
+      copyDoc.section = doc.section.map(x => Object.assign({}, x));
+      copyDoc.authors = doc.authors.map(x => Object.assign({}, x));
+      copyDoc.actors = doc.actors.map(x => Object.assign({}, x));
+      // copyDoc.timeline = doc.timeline.map(x => Object.assign({}, x));
+      return ok(copyDoc);
     }
 
     function removeDocument() {
@@ -136,10 +140,16 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function createSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      //const doc = CASES.find((x: CaseDocument) => x.id === idFromUrl(4));
+      const doc = CASES.find((x: CaseDocument) => x.id === idFromUrl(4));
       console.log("created on backend");
-      // doc.section.push(new ContentSection(doc.section.length, "Server Title"));
-      //localStorage.setItem("cases", JSON.stringify(CASES));
+      doc.section.push(
+        new ContentSection(
+          doc.section.length,
+          "Server Title",
+          "Contents on backend"
+        )
+      );
+      localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();
     }
 
@@ -159,12 +169,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function editDocumentSection() {
       //   if (!isLoggedIn()) return unauthorized();
+
       const doc: CaseDocument = CASES.find(
-        (x: CaseDocument) => x.id === idFromUrl(4)
+        (x: CaseDocument) => x.id === idFromUrl(3)
       );
       const sec: ContentSection = doc.section[body.section_nbr];
-      sec.section_title = body.sectio_title;
+      sec.section_title = body.section_title;
       sec.section_text = body.section_text;
+      console.log(sec);
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();
     }

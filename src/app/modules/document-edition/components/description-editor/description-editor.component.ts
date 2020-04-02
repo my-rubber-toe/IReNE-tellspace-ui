@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { DocumentEditionService } from "@app/core/services/document-edition.service";
 
 /**Manages the edition of case document descriptions. Reactive Form*/
 @Component({
@@ -8,7 +9,7 @@ import { FormControl } from "@angular/forms";
   styleUrls: ["./description-editor.component.scss"]
 })
 export class DescriptionEditorComponent implements OnInit {
-  constructor() {}
+  constructor(private edition: DocumentEditionService) {}
 
   @Input() description: string;
 
@@ -26,6 +27,7 @@ export class DescriptionEditorComponent implements OnInit {
 
   save() {
     console.log("saved description: ", this.descriptionFormControl.value);
+    this.edition.editDescription(this.descriptionFormControl.value);
     this.editDescriptionToggle();
   }
 }

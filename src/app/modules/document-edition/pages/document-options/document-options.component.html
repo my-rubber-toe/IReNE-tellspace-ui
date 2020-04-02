@@ -27,68 +27,22 @@
   </mat-tab>
   <mat-tab label="Tags and Categories">
     <ng-template matTabContent>
-      <h4>
-        Infrastructure Types
-        <button mat-button color="primary" (click)="editTitlePrompt()">
-          Edit
-        </button>
-      </h4>
-      <mat-chip-list>
-        <ng-container *ngFor="let infra_type of doc.infrastructure_type"
-          ><mat-chip>{{ infra_type }}</mat-chip></ng-container
-        >
-      </mat-chip-list>
-      <br />
-      <mat-divider></mat-divider>
-      <br />
-
-      <h4>
-        Damage Types
-        <button mat-button color="primary" (click)="editTitlePrompt()">
-          Edit
-        </button>
-      </h4>
-      <mat-chip-list>
-        <ng-container *ngFor="let dtype of doc.damage_type">
-          <mat-chip>{{ dtype }}</mat-chip>
-        </ng-container>
-      </mat-chip-list>
-
-      <br />
-      <mat-divider></mat-divider>
-      <br />
-
-      <h4>
-        Tags
-        <button mat-button color="primary" (click)="editTitlePrompt()">
-          Edit
-        </button>
-      </h4>
-      <mat-form-field class="example-full-width" floatLabel="never">
-        <mat-chip-list #tagList>
-          <mat-chip
-            *ngFor="let tag of doc.tags"
-            [selectable]="selectable"
-            [removable]="removable"
-            (removed)="remove(tag)"
-            >{{ tag
-            }}<mat-icon matChipRemove *ngIf="removable"
-              >cancel</mat-icon
-            ></mat-chip
-          >
-          <input
-            *ngIf="removable"
-            placeholder="Type new tag here"
-            [matChipInputFor]="tagList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="addOnBlur"
-            (matChipInputTokenEnd)="add($event)"
-          />
-        </mat-chip-list>
-      </mat-form-field>
+      <app-tags-categories-editor
+        [tags]="doc.tags"
+        [infrastructures]="doc.infrastructure_type"
+        [damage_types]="doc.damage_type"
+      ></app-tags-categories-editor>
     </ng-template>
   </mat-tab>
-  <mat-tab label="Dates and Locations">
+  <mat-tab label="Dates">
+    <ng-template matTabContent>
+      City: {{ doc.location }}
+      <button mat-button color="primary" (click)="editTitlePrompt()">
+        Edit
+      </button>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Locations">
     <ng-template matTabContent>
       City: {{ doc.location }}
       <button mat-button color="primary" (click)="editTitlePrompt()">

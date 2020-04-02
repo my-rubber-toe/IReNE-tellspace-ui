@@ -103,33 +103,44 @@ export class DocumentsService {
   }
 
   /** GET infraestructure types defined on server */
-  public getInfrastructureTypes(): Observable<Category> {
+  public getInfrastructureTypes(): Observable<string[]> {
     const url = `${this.rootUrl}/general/infrastructure_types`;
-    return this.http
-      .get<Category>(url)
-      .pipe(
-        catchError(
-          this.handleError<Category>("getInfrastructureTypes", new Category())
-        )
-      );
+    return this.http.get<Category>(url).pipe(
+      catchError(
+        this.handleError<Category>("getInfrastructureTypes", {
+          categories: [""]
+        })
+      ),
+      map((cat: Category) => {
+        return cat.categories;
+      })
+    );
   }
 
   /** GET damage types defined on server */
-  public getDamageTypes(): Observable<Category> {
+  public getDamageTypes(): Observable<string[]> {
     const url = `${this.rootUrl}/general/damage_types`;
-    return this.http
-      .get<Category>(url)
-      .pipe(
-        catchError(this.handleError<Category>("getDamageTypes", new Category()))
-      );
+    return this.http.get<Category>(url, this.httpOptions).pipe(
+      catchError(
+        this.handleError<Category>("getDamageTypes", { categories: [""] })
+      ),
+      map((cat: Category) => {
+        return cat.categories;
+      })
+    );
   }
 
   /** GET tags defined on server */
-  public getTags(): Observable<Category> {
+  public getTags(): Observable<string[]> {
     const url = `${this.rootUrl}/general/tags`;
-    return this.http
-      .get<Category>(url)
-      .pipe(catchError(this.handleError<Category>("getTags", new Category())));
+    return this.http.get<Category>(url, this.httpOptions).pipe(
+      catchError(
+        this.handleError<Category>("getTags", { categories: [""] })
+      ),
+      map((cat: Category) => {
+        return cat.categories;
+      })
+    );
   }
 
   /**

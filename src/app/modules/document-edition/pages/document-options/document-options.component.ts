@@ -22,36 +22,7 @@ export class DocumentOptionsComponent implements OnInit {
     this.editService.getDocumentStream().subscribe(x => (this.doc = x));
   }
 
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-
   editTitlePrompt() {
     alert("Title Needed");
-  }
-
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    // Add our fruit
-    if ((value || "").trim()) {
-      this.doc.tags.push(value.trim());
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = "";
-    }
-  }
-
-  remove(tag: string): void {
-    const index = this.doc.tags.indexOf(tag);
-
-    if (index >= 0) {
-      this.doc.tags.splice(index, 1);
-    }
   }
 }

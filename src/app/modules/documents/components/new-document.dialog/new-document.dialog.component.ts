@@ -49,10 +49,10 @@ export class NewDocumentDialogComponent implements OnInit {
   ngOnInit(): void {
     this.docService
       .getInfrastructureTypes()
-      .subscribe(types => (this.infrastructureList = types.categories));
+      .subscribe(types => (this.infrastructureList = types));
     this.docService
       .getDamageTypes()
-      .subscribe(types => (this.damageTypeList = types.categories));
+      .subscribe(types => (this.damageTypeList = types));
 
     this.createDocumentForm = this.fb.group({
       title: ["", Validators.required],

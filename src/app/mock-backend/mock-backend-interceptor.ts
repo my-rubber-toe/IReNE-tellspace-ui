@@ -107,6 +107,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         new ContentSection(2, "Body")
       ];
       newDocument.language = "english";
+      newDocument.tags = ["Hurricane"];
       CASES.push(newDocument);
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();

@@ -52,15 +52,7 @@
   </mat-tab>
   <mat-tab label="Authors">
     <ng-template matTabContent>
-      <h4>
-        Authors
-        <button mat-button color="primary" (click)="editTitlePrompt()">
-          Edit
-        </button>
-      </h4>
-      <ng-container *ngFor="let author of doc.authors">
-        <mat-card>{{ author.author_FN }} {{ author.author_LN }}</mat-card>
-      </ng-container>
+      <app-authors-editor [authors]="doc.authors"></app-authors-editor>
     </ng-template>
   </mat-tab>
   <mat-tab label="Actors">

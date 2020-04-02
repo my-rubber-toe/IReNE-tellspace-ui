@@ -18,7 +18,7 @@ import { DocumentsService } from "@app/core/services/documents.service";
 })
 export class NewDocumentDialogComponent implements OnInit {
   createDocumentForm: FormGroup;
-  metadata: FormGroupName;
+  //metadata: FormGroupName;
 
   public infrastructureList: string[] = ["infraestructure"];
   public damageTypeList: string[] = ["damage_type"];
@@ -30,20 +30,26 @@ export class NewDocumentDialogComponent implements OnInit {
   ) {}
 
   private initAuthors(): FormGroup {
-    return this.fb.group({
-      author_FN: ["", Validators.required],
-      author_LN: ["", Validators.required],
-      author_email: ["", Validators.email],
-      author_faculty: ["", Validators.required]
-    });
+    return this.fb.group(
+      {
+        author_FN: ["", Validators.required],
+        author_LN: ["", Validators.required],
+        author_email: ["", Validators.email],
+        author_faculty: ["", Validators.required]
+      },
+      Validators.required
+    );
   }
 
   private initActors(): FormGroup {
-    return this.fb.group({
-      actor_FN: ["", Validators.required],
-      actor_LN: ["", Validators.required],
-      actor_role: ["", Validators.required]
-    });
+    return this.fb.group(
+      {
+        actor_FN: ["", Validators.required],
+        actor_LN: ["", Validators.required],
+        actor_role: ["", Validators.required]
+      },
+      Validators.required
+    );
   }
 
   ngOnInit(): void {
@@ -54,14 +60,17 @@ export class NewDocumentDialogComponent implements OnInit {
       .getDamageTypes()
       .subscribe(types => (this.damageTypeList = types));
 
-    this.createDocumentForm = this.fb.group({
-      title: ["", Validators.required],
-      incident_date: ["", Validators.required],
-      infrastructure_type: ["", Validators.required],
-      damage_type: ["", Validators.required],
-      authors: this.fb.array([this.initAuthors()]),
-      actors: this.fb.array([this.initActors()])
-    });
+    this.createDocumentForm = this.fb.group(
+      {
+        title: ["", Validators.required],
+        incident_date: ["", Validators.required],
+        infrastructure_type: ["", Validators.required],
+        damage_type: ["", Validators.required],
+        authors: this.fb.array([this.initAuthors()]),
+        actors: this.fb.array([this.initActors()])
+      },
+      Validators.required
+    );
   }
 
   addAuthor() {

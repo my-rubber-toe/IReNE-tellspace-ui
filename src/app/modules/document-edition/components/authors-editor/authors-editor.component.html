@@ -1,1 +1,88 @@
-<p>authors-editor works!</p>
+<div class="author-container">
+  <form [formGroup]="authorForm">
+    <div formArrayName="authors">
+      <div
+        class="author-container"
+        *ngFor="
+          let author of authorForm.get('authors')['controls'];
+          let i = index
+        "
+      >
+        <div [formGroupName]="i">
+          <mat-card class="author-card">
+            <mat-form-field class="example-full-width">
+              <mat-label>Author {{ i + 1 }} Name</mat-label>
+              <input
+                [readonly]="!editingAuthors"
+                formControlName="author_FN"
+                matInput
+              />
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>Author {{ i + 1 }} Lastname</mat-label>
+              <input
+                [readonly]="!editingAuthors"
+                formControlName="author_LN"
+                matInput
+              />
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>Author {{ i + 1 }} Email</mat-label>
+              <input
+                matInput
+                placeholder="irene.riseup@upr.edu"
+                formControlName="author_email"
+                [readonly]="!editingAuthors"
+              />
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>Author {{ i + 1 }} Faculty</mat-label>
+              <input
+                formControlName="author_faculty"
+                matInput
+                [readonly]="!editingAuthors"
+              />
+            </mat-form-field>
+            <button
+              *ngIf="editingAuthors"
+              (click)="removeAuthor(i)"
+              mat-icon-button
+              color="primary"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div>
+    <button
+      mat-raised-button
+      *ngIf="editingAuthors"
+      color="accent"
+      type="button"
+      (click)="addAuthor()"
+    >
+      Add Author
+    </button>
+  </div>
+</div>
+<div>
+  <div *ngIf="editingAuthors; else elseBlock">
+    <button
+      mat-button
+      color="primary"
+      (click)="saveAuthors()"
+      type="submit"
+      [disabled]="authorForm.invalid"
+    >
+      Save
+    </button>
+  </div>
+  <ng-template #elseBlock>
+    <button mat-button color="primary" (click)="toggleEditingAuthors()">
+      Edit Authors
+    </button>
+  </ng-template>
+</div>

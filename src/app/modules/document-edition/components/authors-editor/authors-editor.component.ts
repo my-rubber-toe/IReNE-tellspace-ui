@@ -1,15 +1,88 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from "@angular/core";
+import { DocumentsService } from "@app/core/services/documents.service";
+import { FormBuilder, FormGroup, Validators, FormArray } from "@angular/forms";
+import { Author } from "@app/models/author";
+import { DocumentEditionService } from "@app/core/services/document-edition.service";
 
 @Component({
-  selector: 'app-authors-editor',
-  templateUrl: './authors-editor.component.html',
-  styleUrls: ['./authors-editor.component.scss']
+  selector: "app-authors-editor",
+  templateUrl: "./authors-editor.component.html",
+  styleUrls: ["./authors-editor.component.scss"]
 })
 export class AuthorsEditorComponent implements OnInit {
+  @Input() authors: Author[];
 
-  constructor() { }
+  authorForm: FormGroup;
 
-  ngOnInit(): void {
+  editingAuthors: boolean = false;
+
+  constructor(
+    public docService: DocumentsService,
+    private fb: FormBuilder,
+    private edition: DocumentEditionService
+  ) {}
+
+  private initAuthors(): FormGroup {
+    return this.fb.group(
+      {
+        author_FN: ["", Validators.required],
+        author_LN: ["", Validators.required],
+        author_email: ["", Validators.email],
+        author_faculty: ["", Validators.required]
+      },
+      Validators.required
+    );
   }
 
+  ngOnInit(): void {
+    this.authorForm = this.fb.group(
+      {
+        authors: this.fb.array([], Validators.required)
+      },
+      Validators.required
+    );
+
+    console.log(this.authorForm.status);
+
+    this.authors.forEach(author => {
+      this.addAuthorX(author);
+    });
+    console.log(this.authorForm.status);
+  }
+
+  addAuthorX(author: Author) {
+    const control = this.authorForm.get("authors") as FormArray;
+    control.push(
+      this.fb.group(
+        {
+          author_FN: [author.author_FN, Validators.required],
+          author_LN: [author.author_LN, Validators.required],
+          author_email: [author.author_email, Validators.email],
+          author_faculty: [author.author_faculty, Validators.required]
+        },
+        Validators.required
+      )
+    );
+  }
+
+  addAuthor() {
+    const control = this.authorForm.get("authors") as FormArray;
+    control.push(this.initAuthors());
+  }
+
+  removeAuthor(i: number) {
+    let authorArray = this.authorForm.controls.authors as FormArray;
+    authorArray.removeAt(i);
+  }
+
+  toggleEditingAuthors() {
+    console.log(this.authorForm.status);
+    this.editingAuthors = !this.editingAuthors;
+  }
+
+  saveAuthors() {
+    console.log("Saved authors: ", this.authorForm.getRawValue());
+    this.edition.editAuthors(this.authorForm.getRawValue());
+    this.toggleEditingAuthors();
+  }
 }

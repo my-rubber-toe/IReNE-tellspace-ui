@@ -102,9 +102,9 @@ export class DocumentEditionService {
   }
 
   /**Changes the active document authors to the given Actor array and updates the backend*/
-  public editAuthors(authors: Author[]) {
-    this.activeCaseDocument.authors = authors;
-    this.docService.edit("actors", { authors: authors }).subscribe(_ => {
+  public editAuthors(authors: any) {
+    this.activeCaseDocument.authors = authors.authors;
+    this.docService.edit("authors", authors).subscribe(_ => {
       this.updateSource();
     });
   }

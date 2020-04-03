@@ -1,1 +1,52 @@
-<p>locations-editor works!</p>
+<mat-card>
+  <mat-card-content>
+    <h3>Locations</h3>
+    <div *ngIf="editingLocations; else elseBlock3A">
+      <mat-form-field style="width: 100%;">
+        <mat-chip-list #chipList aria-label="locations editor">
+          <mat-chip
+            *ngFor="let location of locations"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(location)"
+          >
+            {{ location }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Type Locations And Press Enter"
+            [formControl]="locationsControl"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+    <ng-template #elseBlock3A>
+      <mat-chip-list>
+        <ng-container *ngFor="let location of locations"
+          ><mat-chip>{{ location }}</mat-chip></ng-container
+        >
+      </mat-chip-list>
+    </ng-template>
+  </mat-card-content>
+  <mat-card-actions>
+    <div *ngIf="editingLocations; else elseBlock3B">
+      <button
+        mat-button
+        type="submit"
+        color="primary"
+        (click)="saveLocations()"
+      >
+        Save
+      </button>
+    </div>
+    <ng-template #elseBlock3B>
+      <button mat-button color="primary" (click)="toggleLocationsEditor()">
+        Edit Locations
+      </button>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>

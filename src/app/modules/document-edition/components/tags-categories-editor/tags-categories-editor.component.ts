@@ -56,8 +56,8 @@ export class TagsCategoriesEditorComponent implements OnInit {
   ) {
     this.filteredTagList = this.tagsFormControl.valueChanges.pipe(
       startWith(null),
-      map((fruit: string | null) =>
-        fruit ? this._filter(fruit) : this.alltags.slice()
+      map((tag: string | null) =>
+        tag ? this._filter(tag) : this.alltags.slice()
       )
     );
   }
@@ -126,8 +126,8 @@ export class TagsCategoriesEditorComponent implements OnInit {
     this.tagsFormControl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.tags.indexOf(fruit);
+  remove(tag: string): void {
+    const index = this.tags.indexOf(tag);
 
     if (index >= 0) {
       this.tags.splice(index, 1);

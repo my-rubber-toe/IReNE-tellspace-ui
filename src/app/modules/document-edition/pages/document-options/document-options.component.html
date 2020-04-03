@@ -1,19 +1,31 @@
 <mat-toolbar>
-  <mat-toolbar-row>
-    <ul class="flex-container">
-      <li>
-        <span>
-          <h1>
-            {{ doc.title }}
-          </h1></span
-        >
-      </li>
-      <li>
-        <button mat-button color="primary" (click)="editTitlePrompt()">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </li>
-    </ul>
+  <mat-toolbar-row class="flex-container">
+    <mat-form-field style="width: 100%;" floatLabel="never">
+      <input
+        matInput
+        [formControl]="titleControl"
+        placeholder="Case Title"
+        [readonly]="!editingTitle"
+      />
+    </mat-form-field>
+    <button
+      *ngIf="!editingTitle"
+      mat-button
+      color="primary"
+      matTooltip="Edit Case Title"
+      (click)="toggleTitleEdition()"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button
+      *ngIf="editingTitle"
+      mat-button
+      color="accent"
+      matTooltip="Save Title"
+      (click)="saveTitle()"
+    >
+      <mat-icon>check</mat-icon>
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -37,7 +49,7 @@
   <mat-tab label="Dates">
     <ng-template matTabContent>
       City: {{ doc.location }}
-      <button mat-button color="primary" (click)="editTitlePrompt()">
+      <button mat-button color="primary">
         Edit
       </button>
     </ng-template>
@@ -45,7 +57,7 @@
   <mat-tab label="Locations">
     <ng-template matTabContent>
       City: {{ doc.location }}
-      <button mat-button color="primary" (click)="editTitlePrompt()">
+      <button mat-button color="primary">
         Edit
       </button>
     </ng-template>

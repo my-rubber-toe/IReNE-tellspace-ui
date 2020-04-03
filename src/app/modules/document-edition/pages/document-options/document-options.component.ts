@@ -5,6 +5,7 @@ import { MatChipInputEvent } from "@angular/material/chips";
 import { CaseDocument } from "@app/models/case-document";
 import { Author } from "@app/models/author";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
+import { FormControl, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-document-options",
@@ -14,15 +15,25 @@ import { DocumentEditionService } from "@app/core/services/document-edition.serv
 export class DocumentOptionsComponent implements OnInit {
   doc: CaseDocument;
 
-  infrastructureList: string[] = ["House"];
-  damageTypeList: string[] = ["Storm"];
+  titleControl: FormControl;
+
+  editingTitle: boolean = false;
   constructor(private editService: DocumentEditionService) {}
 
   ngOnInit(): void {
-    this.editService.getDocumentStream().subscribe(x => (this.doc = x));
+    this.titleControl = new FormControl([""], Validators.required);
+    this.editService.getDocumentStream().subscribe(x => {
+      this.doc = x;
+      this.titleControl.setValue(x.title);
+    });
   }
 
-  editTitlePrompt() {
-    alert("Title Needed");
+  toggleTitleEdition() {
+    this.editingTitle = !this.editingTitle;
+  }
+
+  saveTitle() {
+    this.editService.editDocumentTitle(this.titleControl.value);
+    this.toggleTitleEdition();
   }
 }

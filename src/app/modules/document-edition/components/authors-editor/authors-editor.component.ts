@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { DocumentsService } from "@app/core/services/documents.service";
 import { FormBuilder, FormGroup, Validators, FormArray } from "@angular/forms";
 import { Author } from "@app/models/author";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
@@ -17,7 +16,6 @@ export class AuthorsEditorComponent implements OnInit {
   editingAuthors: boolean = false;
 
   constructor(
-    public docService: DocumentsService,
     private fb: FormBuilder,
     private edition: DocumentEditionService
   ) {}

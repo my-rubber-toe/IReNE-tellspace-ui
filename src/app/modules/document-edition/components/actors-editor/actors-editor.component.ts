@@ -6,7 +6,7 @@ import { Actor } from "@app/models/actor";
 @Component({
   selector: "app-actors-editor",
   templateUrl: "./actors-editor.component.html",
-  styleUrls: ["./actors-editor.component.scss"]
+  styleUrls: ["./actors-editor.component.scss"],
 })
 export class ActorsEditorComponent implements OnInit {
   @Input() actors: Actor[];
@@ -25,7 +25,7 @@ export class ActorsEditorComponent implements OnInit {
       {
         actor_FN: ["", Validators.required],
         actor_LN: ["", Validators.required],
-        actor_role: ["", Validators.required]
+        actor_role: ["", Validators.required],
       },
       Validators.required
     );
@@ -34,12 +34,12 @@ export class ActorsEditorComponent implements OnInit {
   ngOnInit(): void {
     this.actorForm = this.fb.group(
       {
-        actors: this.fb.array([], Validators.required)
+        actors: this.fb.array([], Validators.required),
       },
       Validators.required
     );
 
-    this.actors.forEach(actor => {
+    this.actors.forEach((actor) => {
       this.addActorX(actor);
     });
   }
@@ -51,7 +51,7 @@ export class ActorsEditorComponent implements OnInit {
         {
           actor_FN: [actor.actor_FN, Validators.required],
           actor_LN: [actor.actor_LN, Validators.required],
-          actor_role: [actor.actor_role, Validators.required]
+          actor_role: [actor.actor_role, Validators.required],
         },
         Validators.required
       )
@@ -64,7 +64,7 @@ export class ActorsEditorComponent implements OnInit {
   }
 
   removeActor(i: number) {
-    let actorArray = this.actorForm.controls.authors as FormArray;
+    let actorArray = this.actorForm.controls.actors as FormArray;
     actorArray.removeAt(i);
   }
 

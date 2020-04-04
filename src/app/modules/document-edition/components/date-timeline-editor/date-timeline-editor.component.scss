@@ -1,3 +1,4 @@
+@import "~@angular/material/theming";
 :host {
   display: flex;
   flex-direction: column;
@@ -17,6 +18,7 @@
   align-content: flex-start;
   gap: 20px;
   padding: 10px;
+  @include mat-elevation(5);
 }
 
 .incident-date-row {

@@ -1,4 +1,5 @@
-<div class="author-container">
+<mat-card class="author-container">
+  <h3>Authors</h3>
   <form [formGroup]="authorForm">
     <div formArrayName="authors">
       <div
@@ -47,7 +48,7 @@
               *ngIf="editingAuthors"
               (click)="removeAuthor(i)"
               mat-icon-button
-              color="primary"
+              color="warn"
             >
               <mat-icon>delete</mat-icon>
             </button>
@@ -67,22 +68,22 @@
       Add Author
     </button>
   </div>
-</div>
-<div>
-  <div *ngIf="editingAuthors; else elseBlock">
-    <button
-      mat-button
-      color="primary"
-      (click)="saveAuthors()"
-      type="submit"
-      [disabled]="authorForm.invalid"
-    >
-      Save
-    </button>
-  </div>
-  <ng-template #elseBlock>
-    <button mat-button color="primary" (click)="toggleEditingAuthors()">
-      Edit Authors
-    </button>
-  </ng-template>
-</div>
+  <mat-card-actions>
+    <div *ngIf="editingAuthors; else elseBlock">
+      <button
+        mat-button
+        color="primary"
+        (click)="saveAuthors()"
+        type="submit"
+        [disabled]="authorForm.invalid"
+      >
+        Save
+      </button>
+    </div>
+    <ng-template #elseBlock>
+      <button mat-button color="primary" (click)="toggleEditingAuthors()">
+        Edit Authors
+      </button>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>

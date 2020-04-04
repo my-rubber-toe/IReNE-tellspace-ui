@@ -1,4 +1,5 @@
-<div class="actor-container">
+<mat-card class="actor-container">
+  <h3>Actors</h3>
   <form [formGroup]="actorForm">
     <div formArrayName="actors">
       <div
@@ -55,22 +56,22 @@
       Add Author
     </button>
   </div>
-</div>
-<div>
-  <div *ngIf="editingActors; else elseBlock">
-    <button
-      mat-button
-      color="primary"
-      (click)="saveActors()"
-      type="submit"
-      [disabled]="actorForm.invalid"
-    >
-      Save
-    </button>
-  </div>
-  <ng-template #elseBlock>
-    <button mat-button color="primary" (click)="toggleEditingActors()">
-      Edit Actors
-    </button>
-  </ng-template>
-</div>
+  <mat-card-actions>
+    <div *ngIf="editingActors; else elseBlock">
+      <button
+        mat-button
+        color="primary"
+        (click)="saveActors()"
+        type="submit"
+        [disabled]="actorForm.invalid"
+      >
+        Save
+      </button>
+    </div>
+    <ng-template #elseBlock>
+      <button mat-button color="primary" (click)="toggleEditingActors()">
+        Edit Actors
+      </button>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>

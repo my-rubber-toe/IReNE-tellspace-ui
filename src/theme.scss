@@ -1,0 +1,19 @@
+@import "~@angular/material/theming";
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+$tellspace-theme-primary: mat-palette($mat-blue-grey, 700, 300, 900);
+$tellspace-theme-accent: mat-palette($mat-amber);
+$tellspace-theme-warn: mat-palette($mat-red);
+
+// create theme (use mat-dark-theme for themes with dark backgrounds)
+$tellspace-theme: mat-light-theme(
+  $tellspace-theme-primary,
+  $tellspace-theme-accent,
+  $tellspace-theme-warn
+);
+
+@include angular-material-theme($tellspace-theme);

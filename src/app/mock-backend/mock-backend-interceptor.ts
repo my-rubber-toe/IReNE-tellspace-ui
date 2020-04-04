@@ -11,7 +11,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HTTP_INTERCEPTORS
+  HTTP_INTERCEPTORS,
 } from "@angular/common/http";
 import { Observable, of, throwError } from "rxjs";
 import { delay, mergeMap, materialize, dematerialize } from "rxjs/operators";
@@ -95,8 +95,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function createDocument() {
       console.log("creating document", body);
       let newDocument: CaseDocument = Object.assign(new CaseDocument(), body);
-      newDocument.actors = body.actors.map(x => x as Actor);
-      newDocument.authors = body.authors.map(x => x as Author);
+      newDocument.actors = body.actors.map((x) => x as Actor);
+      newDocument.authors = body.authors.map((x) => x as Author);
       //set id for the document simulating mongo standard
       newDocument.id = generateMongoObjectId();
       newDocument.creationDate = new Date();
@@ -104,11 +104,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       newDocument.section = [
         new ContentSection(0, "Abstract"),
         new ContentSection(1, "Introduction"),
-        new ContentSection(2, "Body")
+        new ContentSection(2, "Body"),
       ];
       newDocument.language = "english";
       newDocument.tags = ["Hurricane"];
       newDocument.location = ["San Juan, PR"];
+      newDocument.timeline = [];
       CASES.push(newDocument);
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();
@@ -117,12 +118,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function getDocumentById() {
       //   if (!isLoggedIn()) return unauthorized();
       console.log("the backend id " + idFromUrl(1));
-      const doc: CaseDocument = CASES.find(x => x.id === idFromUrl(1));
+      const doc: CaseDocument = CASES.find((x) => x.id === idFromUrl(1));
       console.log(doc);
       let copyDoc = Object.assign(new CaseDocument(), doc);
-      copyDoc.section = doc.section.map(x => Object.assign({}, x));
-      copyDoc.authors = doc.authors.map(x => Object.assign({}, x));
-      copyDoc.actors = doc.actors.map(x => Object.assign({}, x));
+      copyDoc.section = doc.section.map((x) => Object.assign({}, x));
+      copyDoc.authors = doc.authors.map((x) => Object.assign({}, x));
+      copyDoc.actors = doc.actors.map((x) => Object.assign({}, x));
       // copyDoc.timeline = doc.timeline.map(x => Object.assign({}, x));
       return ok(copyDoc);
     }
@@ -189,24 +190,33 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         (x: CaseDocument) => x.id === idFromUrl(3)
       );
       switch (type) {
-        case "editDocumentTitle":
+        case "DocumentTitle":
           doc.title = body.title;
-        case "editDocumentDescription":
+          break;
+        case "DocumentDescription":
           doc.description = body.description;
-        case "editDocumentTimeline":
+          break;
+        case "DocumentTimeline":
           doc.timeline = body.timeline;
-        case "editDocumentInsfraestructureTypes":
+          break;
+        case "DocumentInsfraestructureTypes":
           doc.infrastructure_type = body.infrastructure_type;
-        case "editDocumentDamageTypes":
+          break;
+        case "DocumentDamageTypes":
           doc.damage_type = body.damage_type;
-        case "editDocumentActors":
+          break;
+        case "DocumentActors":
           doc.actors = body.actors;
-        case "editDocumentLocations":
+          break;
+        case "DocumentLocations":
           doc.location = body.location;
-        case "editDocumentAuthors":
+          break;
+        case "DocumentAuthors":
           doc.authors = body.authors;
-        case "editDocumentTags":
+          break;
+        case "DocumentTags":
           doc.tagsDoc = body.tagsDoc;
+          break;
       }
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();
@@ -216,7 +226,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       console.log("Howdy from damage types");
       return ok({
         type: Object,
-        categories: ["Earthquake", "Hurricane", "Flood", "Erosion", "Tornado"]
+        categories: ["Earthquake", "Hurricane", "Flood", "Erosion", "Tornado"],
       });
     }
 
@@ -230,8 +240,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           "Security",
           "Ports",
           "Structure",
-          "Construction"
-        ]
+          "Construction",
+        ],
       });
     }
 
@@ -266,7 +276,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       return (
         timestamp +
         "xxxxxxxxxxxxxxxx"
-          .replace(/[x]/g, function() {
+          .replace(/[x]/g, function () {
             return ((Math.random() * 16) | 0).toString(16);
           })
           .toLowerCase()
@@ -279,5 +289,5 @@ export const fakeBackendProvider = {
   // use fake backend in place of Http service for backend-less development
   provide: HTTP_INTERCEPTORS,
   useClass: FakeBackendInterceptor,
-  multi: true
+  multi: true,
 };

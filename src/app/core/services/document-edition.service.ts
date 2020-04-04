@@ -9,7 +9,7 @@ import { Author } from "@app/models/author";
 import { debounceTime } from "rxjs/operators";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class DocumentEditionService {
   constructor(private docService: DocumentsService) {}
@@ -48,37 +48,44 @@ export class DocumentEditionService {
   /**Changes the active document title to the given string and updates the backend*/
   public editDocumentTitle(newTitle: string) {
     this.activeCaseDocument.title = newTitle;
-    this.docService.edit("title", { title: newTitle }).subscribe(_ => {
-      this.updateSource();
-    });
+    this.updateSource();
+    this.docService
+      .edit(this.activeCaseDocument.id, "title", { title: newTitle })
+      .subscribe((_) => {
+        alert("Title Saved");
+      });
   }
 
   /**Changes the active document description to the given string and updates the backend*/
   public editDescription(descriptionText: string) {
     this.activeCaseDocument.description = descriptionText;
     this.docService
-      .edit("description", { description: descriptionText })
-      .subscribe(_ => {
+      .edit(this.activeCaseDocument.id, "description", {
+        description: descriptionText,
+      })
+      .subscribe((_) => {
         this.updateSource();
       });
   }
 
   /**Changes the active document timeline to the given timeline array and updates the backend*/
-  public editTimeline(newTimeline: Timeline[]) {
-    this.activeCaseDocument.timeline = newTimeline;
-    this.docService.edit("timeline", { timeline: newTimeline }).subscribe(_ => {
-      this.updateSource();
-    });
+  public editTimeline(newTimeline: any) {
+    this.activeCaseDocument.timeline = newTimeline.timeline;
+    this.docService
+      .edit(this.activeCaseDocument.id, "timeline", newTimeline)
+      .subscribe((_) => {
+        this.updateSource();
+      });
   }
 
   /**Changes the active document infraestructure types to the given string array and updates the backend*/
   public editInfraestructureTypes(infrastructureTypes: string[]) {
     this.activeCaseDocument.infrastructure_type = infrastructureTypes;
     this.docService
-      .edit("infrastructure_types", {
-        infrastructure_type: infrastructureTypes
+      .edit(this.activeCaseDocument.id, "infrastructure_types", {
+        infrastructure_type: infrastructureTypes,
       })
-      .subscribe(_ => {
+      .subscribe((_) => {
         this.updateSource();
       });
   }
@@ -87,8 +94,10 @@ export class DocumentEditionService {
   public editDamageTypes(damageTypes: string[]) {
     this.activeCaseDocument.damage_type = damageTypes;
     this.docService
-      .edit("damage_types", { damage_type: damageTypes })
-      .subscribe(_ => {
+      .edit(this.activeCaseDocument.id, "damage_types", {
+        damage_type: damageTypes,
+      })
+      .subscribe((_) => {
         this.updateSource();
       });
   }
@@ -96,33 +105,47 @@ export class DocumentEditionService {
   /**Changes the active document actors to the given Actor array and updates the backend*/
   public editActors(actors: any) {
     this.activeCaseDocument.actors = actors.actors;
-    this.docService.edit("actors", actors).subscribe(_ => {
-      this.updateSource();
-    });
+    this.docService
+      .edit(this.activeCaseDocument.id, "actors", actors)
+      .subscribe((_) => {
+        this.updateSource();
+      });
   }
 
   /**Changes the active document authors to the given Actor array and updates the backend*/
   public editAuthors(authors: any) {
     this.activeCaseDocument.authors = authors.authors;
-    this.docService.edit("authors", authors).subscribe(_ => {
-      this.updateSource();
-    });
+    this.docService
+      .edit(this.activeCaseDocument.id, "authors", authors)
+      .subscribe((_) => {
+        this.updateSource();
+      });
   }
 
   /**Changes the active document locations to the given string array and updates the backend*/
   public editLocations(locations: string[]) {
     this.activeCaseDocument.location = locations;
-    this.docService.edit("locations", { location: locations }).subscribe(_ => {
-      this.updateSource();
-    });
+    this.docService
+      .edit(this.activeCaseDocument.id, "locations", { location: locations })
+      .subscribe((_) => {
+        this.updateSource();
+      });
   }
 
   /**Changes the active document tags to the given string array and updates the backend*/
   public editTags(tags: string[]) {
     this.activeCaseDocument.tags = tags;
-    this.docService.edit("tags", { tags: tags }).subscribe(_ => {
-      this.updateSource();
-    });
+    this.docService
+      .edit(this.activeCaseDocument.id, "tags", { tags: tags })
+      .subscribe((_) => {
+        this.updateSource();
+      });
+  }
+
+  /**Change the active document incident date to the given date and updates the backend*/
+  public editIncidentDate(incidentDay: Date) {
+    this.activeCaseDocument.incident_date = incidentDay;
+    //TODO connect to endpoint
   }
 
   public getSaveStatus(): Observable<boolean> {
@@ -135,14 +158,14 @@ export class DocumentEditionService {
     this.updateSource();
     this.docService
       .editDocumentSection(this.activeCaseDocument.id, sec)
-      .subscribe(next => {
+      .subscribe((next) => {
         this.isSaved.next(true);
       });
   }
 
   public createSection() {
     console.log("this.createSection executed");
-    this.docService.createSection(this.activeCaseDocument.id).subscribe(x => {
+    this.docService.createSection(this.activeCaseDocument.id).subscribe((x) => {
       this.activeCaseDocument.section.push(
         new ContentSection(
           this.activeCaseDocument.section.length,
@@ -156,7 +179,7 @@ export class DocumentEditionService {
   public removeSection(sectionPosition: number) {
     this.docService
       .removeSection(this.activeCaseDocument.id, sectionPosition)
-      .subscribe(x => {
+      .subscribe((x) => {
         this.activeCaseDocument.section.splice(sectionPosition, 1);
         this.updateSource();
       });
@@ -166,6 +189,6 @@ export class DocumentEditionService {
     if (sectionPosition < this.activeCaseDocument.section.length) {
       return this.activeCaseDocument.section[sectionPosition];
     }
-    return new ContentSection(sectionPosition, "HA HA", "<p>LOL</p>");
+    return null;
   }
 }

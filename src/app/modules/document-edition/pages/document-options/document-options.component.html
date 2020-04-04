@@ -48,10 +48,10 @@
   </mat-tab>
   <mat-tab label="Dates">
     <ng-template matTabContent>
-      City: {{ doc.location }}
-      <button mat-button color="primary">
-        Edit
-      </button>
+      <app-date-timeline-editor
+        [timeline]="doc.timeline"
+        [incident_date]="doc.incident_date"
+      ></app-date-timeline-editor>
     </ng-template>
   </mat-tab>
   <mat-tab label="Locations">

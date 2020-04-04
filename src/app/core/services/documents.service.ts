@@ -8,7 +8,7 @@ import { Category } from "@app/models/category";
 import { CaseDocumentCreateRequest } from "@app/models/case-document-create-request";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class DocumentsService {
   constructor(private http: HttpClient) {}
@@ -16,7 +16,7 @@ export class DocumentsService {
   private rootUrl = "api/tellspace"; // URL to web api
 
   private httpOptions = {
-    headers: new HttpHeaders({ "Content-Type": "application/json" })
+    headers: new HttpHeaders({ "Content-Type": "application/json" }),
   };
 
   //Route Client Functions:
@@ -42,7 +42,7 @@ export class DocumentsService {
   public removeDocument(docid: string): Observable<any> {
     const url = `${this.rootUrl}/documents/remove/${docid}`;
     return this.http.delete(url, this.httpOptions).pipe(
-      tap(_ => console.log(`removeDocument id=${docid}`)),
+      tap((_) => console.log(`removeDocument id=${docid}`)),
       catchError(this.handleError<any>(`remove document docid=${docid}`))
     );
   }
@@ -51,7 +51,7 @@ export class DocumentsService {
   public getDocumentById(docid: string): Observable<CaseDocument> {
     const url = `${this.rootUrl}/documents/${docid}`;
     return this.http.get<CaseDocument>(url).pipe(
-      tap(_ => console.log(`getDocumentByID id=${docid}`)),
+      tap((_) => console.log(`getDocumentByID id=${docid}`)),
       catchError(
         this.handleError<CaseDocument>(`getDocumentById docid=${docid}`)
       )
@@ -62,7 +62,7 @@ export class DocumentsService {
   public createSection(docid: string): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/section/create`;
     return this.http.post(url, {}, this.httpOptions).pipe(
-      tap(_ => console.log(`createSection docid=${docid}`)),
+      tap((_) => console.log(`createSection docid=${docid}`)),
       catchError(this.handleError<any>("createSection"))
     );
   }
@@ -71,7 +71,7 @@ export class DocumentsService {
   public removeSection(docid: string, secid: number): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/section/remove`;
     return this.http.post(url, { sec_nbr: secid }, this.httpOptions).pipe(
-      tap(_ => console.log(`createSection secid=${secid} docid=${docid}`)),
+      tap((_) => console.log(`createSection secid=${secid} docid=${docid}`)),
       catchError(this.handleError<any>("deleteSection"))
     );
   }
@@ -81,10 +81,10 @@ export class DocumentsService {
     docid: string,
     sec: ContentSection
   ): Observable<any> {
-    const url = `${this.rootUrl}/document//${docid}/edit/section`;
+    const url = `${this.rootUrl}/documents/${docid}/edit/section`;
     console.log(sec);
     return this.http.put(url, sec, this.httpOptions).pipe(
-      tap(_ => console.log(`edited section title=${sec.section_title}`)),
+      tap((_) => console.log(`edited section title=${sec.section_title}`)),
       catchError(
         this.handleError<any>(`editDocumentSection title=${sec.section_title}`)
       )
@@ -94,10 +94,10 @@ export class DocumentsService {
   /** PUT: edit document metadata on the server
    * @argument type document field to edit on the server.
    */
-  public edit(type: string, body: any): Observable<any> {
-    const url = `${this.rootUrl}/documents/edit/${type}`;
+  public edit(docid: string, type: string, body: any): Observable<any> {
+    const url = `${this.rootUrl}/documents/${docid}/edit/${type}`;
     return this.http.put(url, body, this.httpOptions).pipe(
-      tap(_ => console.log(`edit type=${type}`)),
+      tap((_) => console.log(`edit type=${type}`)),
       catchError(this.handleError<any>(`edit type=${type}`))
     );
   }
@@ -108,7 +108,7 @@ export class DocumentsService {
     return this.http.get<Category>(url).pipe(
       catchError(
         this.handleError<Category>("getInfrastructureTypes", {
-          categories: [""]
+          categories: [""],
         })
       ),
       map((cat: Category) => {

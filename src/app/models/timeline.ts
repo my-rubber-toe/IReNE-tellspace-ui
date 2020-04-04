@@ -1,4 +1,4 @@
 export interface Timeline{
-    event: string;
-    eventDate: Date;
+    event_description: string;
+    event_date: Date;
 }

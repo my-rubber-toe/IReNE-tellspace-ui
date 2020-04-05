@@ -17,50 +17,50 @@ const routes: Routes = [
     children: [
       {
         path: "login",
-        component: LoginComponent
+        component: LoginComponent,
       },
       {
         path: "",
-        //canActivateChild: [AuthGuard],
+        canActivateChild: [AuthGuard],
         children: [
           {
             path: "docs",
-            component: DocumentsDashboardComponent
+            component: DocumentsDashboardComponent,
           },
           {
             path: "edit/:docid",
             component: DocumentEditionComponent,
             resolve: {
-              caseDocument: CaseDocumentResolverService
+              caseDocument: CaseDocumentResolverService,
             },
             children: [
               {
                 path: "s/:secid",
-                component: SectionEditorComponent
+                component: SectionEditorComponent,
               },
               {
                 path: "",
-                component: DocumentOptionsComponent
-              }
-            ]
+                component: DocumentOptionsComponent,
+              },
+            ],
           },
           {
             path: "",
             redirectTo: "/docs",
-            pathMatch: "full"
-          }
-        ]
+            pathMatch: "full",
+          },
+        ],
       },
       {
         path: "**",
-        component: InvalidUrlComponent
-      }
-    ]
-  }
+        component: InvalidUrlComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

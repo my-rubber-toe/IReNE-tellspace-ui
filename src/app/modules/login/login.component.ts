@@ -2,29 +2,30 @@ import { Component, OnInit } from "@angular/core";
 import {
   MatCardActions,
   MatCardContent,
-  MatCardHeader
+  MatCardHeader,
 } from "@angular/material/card";
 import { Router } from "@angular/router";
-import { AuthService } from "@app/core/services/auth.service";
+import { AuthenticationService } from "@app/core/services/authentication.service";
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"]
+  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
-  constructor(public router: Router, private auth: AuthService) {}
+  constructor(public router: Router, private auth: AuthenticationService) {}
 
   ngOnInit(): void {}
 
   public login(): void {
     console.log("login initiated");
-    this.auth.login().subscribe(valid => {
-      if (valid) {
-        this.router.navigateByUrl("docs");
-      } else {
-        alert("Unauthorized account");
-      }
-    });
+    //this.auth.login().subscribe((valid) => {
+    //  if (valid) {
+     //   this.router.navigateByUrl("docs");
+     // } else {
+     //   alert("Unauthorized account");
+     // }
+   // });
+   this.auth.signinWithGoogle();
   }
 }

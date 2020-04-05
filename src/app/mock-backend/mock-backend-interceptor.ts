@@ -19,6 +19,7 @@ import { ContentSection } from "@app/models/content-section";
 import { CaseDocument } from "@app/models/case-document";
 import { Actor } from "@app/models/actor";
 import { Author } from "@app/models/author";
+import { LoginComponent } from "@app/modules/login/login.component";
 // import { Metadata } from "src/app/interfaces/metadata";
 
 // array in local storage for mockCaseStudies
@@ -42,6 +43,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function handleRoute() {
       console.log("Hi from fake backend");
       switch (true) {
+        case url.match(/\/auth\/\w/) && method === "GET":
+          return login();
         case url.endsWith("/documents") && method === "GET":
           return getDocuments();
         case url.endsWith("/documents/create") && method === "POST":
@@ -87,6 +90,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     // route functions
+    function login() {
+      return ok({
+        access_token: "Bearer fake-jwt-token",
+        refresh_token: "Bearer fake-jwt-token",
+      });
+    }
+
     function getDocuments() {
       //   if (!isLoggedIn()) return unauthorized();
       return ok(JSON.stringify(CASES));

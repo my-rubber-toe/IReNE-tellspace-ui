@@ -92,8 +92,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     // route functions
     function login() {
       return ok({
-        access_token: "Bearer fake-jwt-token",
-        refresh_token: "Bearer fake-jwt-token",
+        access_token: "fake-jwt-token",
+        refresh_token: "fake-jwt-token",
       });
     }
 

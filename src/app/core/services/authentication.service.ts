@@ -7,12 +7,13 @@ import { catchError, map, tap } from "rxjs/operators";
 import { AuthService, GoogleLoginProvider } from "angularx-social-login";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Tokens } from "@app/models/tokens";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthenticationService {
-  isLoggedIn = false;
+  loggedIn = false;
 
   // store the URL so we can redirect after logging in
   redirectUrl: string;
@@ -25,10 +26,11 @@ export class AuthenticationService {
 
   constructor(
     private socialAuthService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
 
-  public signinWithGoogle() {
+  public signin() {
     let socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
 
     this.socialAuthService.signIn(socialPlatformProvider).then(
@@ -43,8 +45,10 @@ export class AuthenticationService {
         this.getLoginToken(userData.idToken).subscribe(
           (result) => {
             Swal.fire("Login Successful", "Welcome to Tell Space", "success");
-            //Swal.close();
             console.log(result);
+            this.setCollaboratorSession(result);
+            this.loggedIn = true;
+            this.router.navigateByUrl(this.redirectUrl || "");
           },
           (error) => {
             Swal.fire(
@@ -65,7 +69,18 @@ export class AuthenticationService {
     return this.http.get<Tokens>(url);
   }
 
+  private setCollaboratorSession(token: Tokens) {
+    localStorage.setItem("access_token", token.access_token);
+    localStorage.setItem("refresh_token", token.refresh_token);
+  }
+
   logout(): void {
-    this.isLoggedIn = false;
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    this.loggedIn = false;
+  }
+
+  public isLoggedIn(): boolean {
+    return this.loggedIn;
   }
 }

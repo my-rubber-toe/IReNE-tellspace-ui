@@ -7,15 +7,12 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { DefaultModule } from "./core/default.module";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
-import {
-  SocialLoginModule,
-  AuthServiceConfig,
-  GoogleLoginProvider,
-} from "angularx-social-login";
+import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 
 import { getAuthServiceConfigs } from "./socialloginConfig";
 // used to create fake backend
-import { fakeBackendProvider } from "./mock-backend/mock-backend-interceptor";
+import { fakeBackendProvider } from "./interceptors/mock-backend-interceptor";
+import { AuthInterceptorProvider } from "./interceptors/auth-interceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +29,7 @@ import { fakeBackendProvider } from "./mock-backend/mock-backend-interceptor";
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs,
     },
+    AuthInterceptorProvider,
     // provider used to create fake backend
     fakeBackendProvider,
   ],

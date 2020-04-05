@@ -19,13 +19,6 @@ export class LoginComponent implements OnInit {
 
   public login(): void {
     console.log("login initiated");
-    //this.auth.login().subscribe((valid) => {
-    //  if (valid) {
-     //   this.router.navigateByUrl("docs");
-     // } else {
-     //   alert("Unauthorized account");
-     // }
-   // });
-   this.auth.signinWithGoogle();
+    this.auth.signin();
   }
 }

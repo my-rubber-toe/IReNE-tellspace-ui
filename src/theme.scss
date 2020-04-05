@@ -5,7 +5,7 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
-$tellspace-theme-primary: mat-palette($mat-blue-grey, 700, 300, 900);
+$tellspace-theme-primary: mat-palette($mat-blue-grey, 800, 300, 900);
 $tellspace-theme-accent: mat-palette($mat-amber);
 $tellspace-theme-warn: mat-palette($mat-red);
 

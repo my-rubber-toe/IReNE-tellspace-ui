@@ -13,12 +13,12 @@
   </div>
   <mat-divider></mat-divider>
 
-  <ng-container *ngFor="let section of caseDocument.section">
+  <ng-container *ngFor="let section of caseDocument.section; let i = index">
     <div>
       <a
         mat-list-item
         routerLinkActive="list-item-active"
-        routerLink="s/{{ section.section_nbr }}"
+        routerLink="s/{{ i }}"
       >
         {{ section.section_title }}
       </a>

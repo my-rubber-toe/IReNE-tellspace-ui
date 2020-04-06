@@ -69,8 +69,8 @@ export class DocumentsService {
 
   /** POST remove a section */
   public removeSection(docid: string, secid: number): Observable<any> {
-    const url = `${this.rootUrl}/documents/${docid}/edit/section/remove`;
-    return this.http.post(url, { sec_nbr: secid }, this.httpOptions).pipe(
+    const url = `${this.rootUrl}/documents/${docid}/edit/section/remove/${secid}`;
+    return this.http.delete(url, this.httpOptions).pipe(
       tap((_) => console.log(`createSection secid=${secid} docid=${docid}`)),
       catchError(this.handleError<any>("deleteSection"))
     );
@@ -79,9 +79,10 @@ export class DocumentsService {
   /** PUT: update the document section on the server */
   public editDocumentSection(
     docid: string,
-    sec: ContentSection
+    sec: ContentSection,
+    pos: number
   ): Observable<any> {
-    const url = `${this.rootUrl}/documents/${docid}/edit/section`;
+    const url = `${this.rootUrl}/documents/${docid}/edit/section/${pos}`;
     console.log(sec);
     return this.http.put(url, sec, this.httpOptions).pipe(
       tap((_) => console.log(`edited section title=${sec.section_title}`)),

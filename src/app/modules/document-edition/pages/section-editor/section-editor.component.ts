@@ -5,11 +5,13 @@ import * as ClassicEditorWithAutosave from "@app/../assets/ckeditor.js";
 import { debounceTime } from "rxjs/operators";
 import { ContentSection } from "@app/models/content-section";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
+import Swal from "sweetalert2";
+import { BehaviorSubject } from "rxjs";
 /**Component that handles the section edition editor and implements CKEditor*/
 @Component({
   selector: "app-section-editor",
   templateUrl: "./section-editor.component.html",
-  styleUrls: ["./section-editor.component.scss"]
+  styleUrls: ["./section-editor.component.scss"],
 })
 export class SectionEditorComponent implements OnInit {
   /**Constant for the time to wait before sending an update request upon modification of title or text content. */
@@ -21,18 +23,20 @@ export class SectionEditorComponent implements OnInit {
     autosave: {
       // The minimum amount of time the Autosave plugin is waiting after the last data change.
       waitingTime: SectionEditorComponent.DEBOUNCE_TIME,
-      save: editor => this.saveData(editor.getData())
-    }
+      save: (editor) => this.saveData(editor.getData()),
+    },
   };
 
   sectionInitialData: string;
 
   activeSection: number;
 
+  savedFlag: BehaviorSubject<boolean> = new BehaviorSubject(true);
+
   isSaved: boolean;
 
   public model = {
-    editorData: "<p>Hello, world!</p>"
+    editorData: "<p>Hello, world!</p>",
   };
 
   titleForm: FormGroup;
@@ -45,13 +49,11 @@ export class SectionEditorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.editService
-      .getSaveStatus()
-      .subscribe(status => (this.isSaved = status));
+    this.savedFlag.subscribe((flag) => (this.isSaved = flag));
 
     this.titleForm = this.fb.group({ title: ["", Validators.required] });
 
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       //<--Initial Data Loading executed when url changes to a section.
       this.activeSection = +params.get("secid");
       console.log(
@@ -73,7 +75,7 @@ export class SectionEditorComponent implements OnInit {
 
     this.titleForm.valueChanges
       .pipe(debounceTime(SectionEditorComponent.DEBOUNCE_TIME))
-      .subscribe(value => {
+      .subscribe((value) => {
         if (this.titleForm.valid) {
           console.log("We could autosave!", value);
           this.uploadData();
@@ -87,12 +89,34 @@ export class SectionEditorComponent implements OnInit {
   }
 
   uploadData() {
-    this.editService.editSection(
-      new ContentSection(
-        this.activeSection,
-        this.titleForm.value.title,
-        this.model.editorData
+    this.savedFlag.next(false);
+    this.editService
+      .editSection(
+        new ContentSection(this.titleForm.value.title, this.model.editorData),
+        this.activeSection
       )
-    );
+      .subscribe((res) => {
+        console.log(this.isSaved);
+        this.savedFlag.next(true);
+      });
+  }
+
+  deleteSection() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This action cannot be undone",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.value) {
+        this.router.navigateByUrl(
+          `edit/${this.editService.getActiveDocumentID()}`
+        );
+        this.editService.removeSection(this.activeSection);
+      }
+    });
   }
 }

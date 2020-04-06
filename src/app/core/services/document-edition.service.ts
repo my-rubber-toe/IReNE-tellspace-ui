@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Subject, Observable, BehaviorSubject } from "rxjs";
+import { Subject, Observable, BehaviorSubject, of } from "rxjs";
 import { CaseDocument } from "@app/models/case-document";
 import { DocumentsService } from "./documents.service";
 import { ContentSection } from "@app/models/content-section";
@@ -25,10 +25,6 @@ export class DocumentEditionService {
   /**Stream of the active case document*/
   private documentStream$ = this.caseDocumentSource.asObservable();
 
-  private isSaved = new BehaviorSubject<boolean>(true);
-
-  private isSavedStream$ = this.isSaved.asObservable();
-
   /**Gets an observable reference to the active document stream */
   public getDocumentStream(): Observable<CaseDocument> {
     return this.documentStream$;
@@ -38,6 +34,10 @@ export class DocumentEditionService {
   public setActiveCaseDocument(caseDocument: CaseDocument) {
     this.activeCaseDocument = caseDocument;
     this.updateSource();
+  }
+
+  public getActiveDocumentID(): string {
+    return this.activeCaseDocument.id;
   }
 
   /**Updates the active case document stream source with the current state of the activeCaseDocument instance*/
@@ -146,29 +146,21 @@ export class DocumentEditionService {
     //TODO connect to endpoint
   }
 
-  public getSaveStatus(): Observable<boolean> {
-    return this.isSavedStream$;
-  }
-
-  public editSection(sec: ContentSection) {
-    this.isSaved.next(false);
-    this.activeCaseDocument.section[sec.section_nbr] = sec;
+  public editSection(sec: ContentSection, position: number): Observable<any> {
+    this.activeCaseDocument.section[position] = sec;
     this.updateSource();
-    this.docService
-      .editDocumentSection(this.activeCaseDocument.id, sec)
-      .subscribe((next) => {
-        this.isSaved.next(true);
-      });
+    return this.docService.editDocumentSection(
+      this.activeCaseDocument.id,
+      sec,
+      position
+    );
   }
 
   public createSection() {
     console.log("this.createSection executed");
     this.docService.createSection(this.activeCaseDocument.id).subscribe((x) => {
       this.activeCaseDocument.section.push(
-        new ContentSection(
-          this.activeCaseDocument.section.length,
-          "Create Section Works"
-        )
+        new ContentSection("Untitled Section", "")
       );
       this.updateSource();
     });

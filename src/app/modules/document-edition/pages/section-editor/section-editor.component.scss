@@ -3,12 +3,12 @@
 }
 
 :host ::ng-deep .ck-editor__editable_inline {
-  min-height: 550px;
+  min-height: 450px;
 }
 
 .section-editor-container {
   display: flexbox;
-  padding: 30px;
+  padding: 10px 30px;
 }
 
 .status-bar {

@@ -47,6 +47,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return logout();
         case url.match(/\/auth\/\w/) && method === "GET":
           return login();
+        case url.endsWith("/edit/section/create") && method === "POST":
+          return createSection();
+        case url.match(/\/edit\/section\/remove\/\w/) && method === "DELETE":
+          return removeSection();
+        case url.match(/\/edit\/section\/\w/) && method === "PUT":
+          return editDocumentSection();
         case url.endsWith("/documents") && method === "GET":
           return getDocuments();
         case url.endsWith("/documents/create") && method === "POST":
@@ -61,12 +67,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return edit("DocumentDescription");
         case url.endsWith("/edit/timeline") && method === "PUT":
           return edit("DocumentTimeline");
-        case url.endsWith("/edit/section") && method === "PUT":
-          return editDocumentSection();
-        case url.endsWith("/edit/section/create") && method === "POST":
-          return createSection();
-        case url.endsWith("edit/section/remove") && method === "POST":
-          return removeSection();
         case url.endsWith("/edit/infrastructure_types") && method === "PUT":
           return edit("DocumentInsfraestructureTypes");
         case url.endsWith("/edit/damage_types") && method === "PUT":
@@ -124,9 +124,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       newDocument.creationDate = new Date();
       newDocument.description = " Hola soy el server ...";
       newDocument.section = [
-        new ContentSection(0, "Abstract"),
-        new ContentSection(1, "Introduction"),
-        new ContentSection(2, "Body"),
+        new ContentSection("Abstract", ""),
+        new ContentSection("Introduction", ""),
+        new ContentSection("Body", ""),
       ];
       newDocument.language = "english";
       newDocument.tags = ["Hurricane"];
@@ -167,13 +167,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       //   if (!isLoggedIn()) return unauthorized();
       const doc = CASES.find((x: CaseDocument) => x.id === idFromUrl(4));
       console.log("created on backend");
-      doc.section.push(
-        new ContentSection(
-          doc.section.length,
-          "Server Title",
-          "Contents on backend"
-        )
-      );
+      doc.section.push(new ContentSection("", ""));
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();
     }
@@ -181,13 +175,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function removeSection() {
       //   if (!isLoggedIn()) return unauthorized();
       const doc: CaseDocument = CASES.find(
-        (x: CaseDocument) => x.id === idFromUrl(4)
+        (x: CaseDocument) => x.id === idFromUrl(5)
       );
-      const sec: ContentSection = doc.section[body.section_nbr];
-      sec.section_nbr = doc.section.length - 1;
-      sec.section_title = doc.section[doc.section.length - 1].section_title;
-      sec.section_text = doc.section[doc.section.length - 1].section_text;
-      doc.section.pop();
+      const index = +idFromUrl(1);
+      if (index >= doc.section.length) {
+        return error("Invalid index");
+      }
+      doc.section.splice(index, 1);
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok(doc);
     }
@@ -196,9 +190,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       //   if (!isLoggedIn()) return unauthorized();
 
       const doc: CaseDocument = CASES.find(
-        (x: CaseDocument) => x.id === idFromUrl(3)
+        (x: CaseDocument) => x.id === idFromUrl(4)
       );
-      const sec: ContentSection = doc.section[body.section_nbr];
+      const sec: ContentSection = doc.section[+idFromUrl(1)];
       sec.section_title = body.section_title;
       sec.section_text = body.section_text;
       console.log(sec);

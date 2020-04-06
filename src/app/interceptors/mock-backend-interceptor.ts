@@ -43,6 +43,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function handleRoute() {
       console.log("Hi from fake backend");
       switch (true) {
+        case url.endsWith("/logout"):
+          return logout();
         case url.match(/\/auth\/\w/) && method === "GET":
           return login();
         case url.endsWith("/documents") && method === "GET":
@@ -91,10 +93,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     // route functions
     function login() {
+      let expireBy = new Date();
+      expireBy.setTime(expireBy.getTime() + 60 * 60000); //1 hour
+      let refreshBy = new Date();
+      refreshBy.setDate(refreshBy.getDate() + 1); //1 day
       return ok({
         access_token: "fake-jwt-token",
         refresh_token: "fake-jwt-token",
+        access_expiration: expireBy,
+        refresh_expiration: refreshBy,
       });
+    }
+
+    function logout() {
+      return ok({ message: "Successfully logged out." });
     }
 
     function getDocuments() {

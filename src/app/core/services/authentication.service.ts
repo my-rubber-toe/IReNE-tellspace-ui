@@ -13,8 +13,6 @@ import { Router } from "@angular/router";
   providedIn: "root",
 })
 export class AuthenticationService {
-  loggedIn = false;
-
   // store the URL so we can redirect after logging in
   redirectUrl: string;
 
@@ -47,7 +45,6 @@ export class AuthenticationService {
             Swal.fire("Login Successful", "Welcome to Tell Space", "success");
             console.log(result);
             this.setCollaboratorSession(result);
-            this.loggedIn = true;
             this.router.navigateByUrl(this.redirectUrl || "");
           },
           (error) => {
@@ -69,18 +66,32 @@ export class AuthenticationService {
     return this.http.get<Tokens>(url);
   }
 
+  private logoutFromServer(): Observable<any> {
+    const url = `${this.rootUrl}/logout`;
+    return this.http.delete(url);
+  }
+
   private setCollaboratorSession(token: Tokens) {
     localStorage.setItem("access_token", token.access_token);
     localStorage.setItem("refresh_token", token.refresh_token);
+    localStorage.setItem("access_expiration", token.access_expiration);
+    localStorage.setItem("refresh_expiration", token.refresh_expiration);
   }
 
   logout(): void {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    this.loggedIn = false;
+    this.logoutFromServer().subscribe((result) => {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("access_expiration");
+      localStorage.removeItem("refresh_expiration");
+      this.socialAuthService.signOut();
+      this.router.navigateByUrl("login");
+      Swal.fire("Logout Successful", "Goodbye", "success");
+    });
   }
 
   public isLoggedIn(): boolean {
-    return this.loggedIn;
+    let expireBy = localStorage.getItem("access_expiration");
+    return new Date() < new Date(expireBy);
   }
 }

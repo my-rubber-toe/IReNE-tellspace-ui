@@ -51,9 +51,7 @@ export class DocumentEditionService {
     this.updateSource();
     this.docService
       .edit(this.activeCaseDocument.id, "title", { title: newTitle })
-      .subscribe((_) => {
-        alert("Title Saved");
-      });
+      .subscribe();
   }
 
   /**Changes the active document description to the given string and updates the backend*/

@@ -1,21 +1,8 @@
 <div class="header-container" role="heading" [class.mat-elevation-z8]>
   <mat-toolbar color="primary" class="toolbar">
     <mat-toolbar-row>
-      <button
-        mat-button
-        [matMenuTriggerFor]="menu1"
-        *ngIf="router.url !== '/login'"
-      >
-        <mat-icon>menu</mat-icon>
-      </button>
-      <mat-menu #menu1="matMenu">
-        <button mat-menu-item (click)="navigateToDashBoard()">
-          <mat-icon>dashboard</mat-icon>
-          My Documents
-        </button>
-      </mat-menu>
       <span>
-        IReNE | TellSpace
+        Interdisciplinary Research Network Extension | TellSpace
       </span>
       <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
         <ul fxLayout="row" fxLayoutGap="20px">
@@ -31,8 +18,17 @@
               *ngIf="router.url !== '/login'"
             >
               <mat-icon>person_outline</mat-icon>
+              {{ collaborator_name }}
             </button>
             <mat-menu #menu2="matMenu">
+              <button mat-menu-item (click)="navigateToDashBoard()">
+                <mat-icon>dashboard</mat-icon>
+                My Documents
+              </button>
+              <button mat-menu-item (click)="navigateToDashBoard()">
+                <mat-icon>person_outline</mat-icon>
+                Profile
+              </button>
               <button (click)="logout()" mat-menu-item>
                 <mat-icon>exit_to_app</mat-icon>
                 Sign out

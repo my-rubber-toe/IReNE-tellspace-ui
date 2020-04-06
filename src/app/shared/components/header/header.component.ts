@@ -8,9 +8,14 @@ import { AuthenticationService } from "@app/core/services/authentication.service
   styleUrls: ["./header.component.scss"],
 })
 export class HeaderComponent implements OnInit {
+  collaborator_name: string = "";
   constructor(public router: Router, private auth: AuthenticationService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.auth
+      .getCollaboratorName()
+      .subscribe((name) => (this.collaborator_name = name));
+  }
 
   public navigateToDashBoard(): void {
     this.router.navigateByUrl("/docs");
@@ -18,5 +23,9 @@ export class HeaderComponent implements OnInit {
 
   public logout(): void {
     this.auth.logout();
+  }
+
+  public navigateToProfile(): void {
+    this.router.navigateByUrl("/me");
   }
 }

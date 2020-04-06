@@ -19,11 +19,9 @@ div .show-on-hover {
 }
 
 .action {
-  /* We first create a flex layout context */
   display: flex;
   flex-flow: row;
   align-items: baseline;
-
   padding: 0;
   margin: 0;
   list-style: none;

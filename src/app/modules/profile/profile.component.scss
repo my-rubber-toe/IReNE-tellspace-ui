@@ -1,0 +1,25 @@
+:host {
+  padding-top: 80px;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.profile-container {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  width: 100%;
+  padding: 20px;
+}
+
+.collaborator-info {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+
+mat-card {
+  width: 50vw;
+}

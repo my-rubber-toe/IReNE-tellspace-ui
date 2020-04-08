@@ -26,6 +26,6 @@ export class HeaderComponent implements OnInit {
   }
 
   public navigateToProfile(): void {
-    this.router.navigateByUrl("/me");
+    this.router.navigateByUrl("/profile");
   }
 }

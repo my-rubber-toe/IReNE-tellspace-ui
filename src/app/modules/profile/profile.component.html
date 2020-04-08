@@ -1,0 +1,19 @@
+<h2>Collaborator Profile</h2>
+<mat-card>
+  <mat-card-content class="profile-container">
+    <div>
+      <img
+        mat-card-image
+        [src]="imageUrl"
+        alt="Collaborator picture"
+        style="width: 10vw;"
+      />
+    </div>
+    <div class="collaborator-info">
+      <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+      <h4>IReNE Collaborator</h4>
+      <p>Email: {{ profile.email }}</p>
+      <p>Faculty: {{ profile.faculty }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>

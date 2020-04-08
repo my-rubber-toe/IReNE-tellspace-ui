@@ -1,7 +1,11 @@
 <div class="header-container" role="heading" [class.mat-elevation-z8]>
   <mat-toolbar color="primary" class="toolbar">
     <mat-toolbar-row>
-      <img src="assets/app_logo_white.png" alt="IReNE Logo" style="width: 4vw;">
+      <img
+        src="assets/app_logo_white.png"
+        alt="IReNE Logo"
+        style="width: 4vw;"
+      />
       <span>
         Interdisciplinary Research Network Extension | TellSpace
       </span>
@@ -9,7 +13,8 @@
         <ul fxLayout="row" fxLayoutGap="20px">
           <li>
             <button
-              mat-button
+              mat-raised-button
+              matTooltip="Collaborator Options"
               [matMenuTriggerFor]="menu2"
               *ngIf="router.url !== '/login'"
             >
@@ -21,7 +26,7 @@
                 <mat-icon>dashboard</mat-icon>
                 My Documents
               </button>
-              <button mat-menu-item (click)="navigateToDashBoard()">
+              <button mat-menu-item (click)="navigateToProfile()">
                 <mat-icon>person_outline</mat-icon>
                 Profile
               </button>

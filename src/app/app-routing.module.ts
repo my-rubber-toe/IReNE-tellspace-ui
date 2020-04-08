@@ -25,7 +25,10 @@ const routes: Routes = [
         children: [
           {
             path: "docs",
-            component: DocumentsDashboardComponent,
+            loadChildren: () =>
+              import("./modules/documents/documents-dashboard.module").then(
+                (m) => m.DocumentsDashboardModule
+              ),
           },
           {
             path: "edit/:docid",
@@ -33,16 +36,17 @@ const routes: Routes = [
             resolve: {
               caseDocument: CaseDocumentResolverService,
             },
-            children: [
-              {
-                path: "s/:secid",
-                component: SectionEditorComponent,
-              },
-              {
-                path: "",
-                component: DocumentOptionsComponent,
-              },
-            ],
+            loadChildren: () =>
+              import("./modules/document-edition/document-edition.module").then(
+                (m) => m.DocumentEditionModule
+              ),
+          },
+          {
+            path: "profile",
+            loadChildren: () =>
+              import("./modules/profile/profile.module").then(
+                (m) => m.ProfileModule
+              ),
           },
           {
             path: "",

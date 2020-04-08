@@ -13,7 +13,7 @@ import { CaseDocumentCreateRequest } from "@app/models/case-document-create-requ
 export class DocumentsService {
   constructor(private http: HttpClient) {}
 
-  private rootUrl = "api/tellspace"; // URL to web api
+  private rootUrl = "api"; // URL to web api
 
   private httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),

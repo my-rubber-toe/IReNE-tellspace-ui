@@ -13,6 +13,7 @@ import { LocationsEditorComponent } from './components/locations-editor/location
 import { DateTimelineEditorComponent } from './components/date-timeline-editor/date-timeline-editor.component';
 import { AuthorsEditorComponent } from './components/authors-editor/authors-editor.component';
 import { ActorsEditorComponent } from './components/actors-editor/actors-editor.component';
+import { DocumentEditionRoutingModule } from './document-edition-routing.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { ActorsEditorComponent } from './components/actors-editor/actors-editor.
     AuthorsEditorComponent,
     ActorsEditorComponent
   ],
-  imports: [CommonModule, RouterModule, CKEditorModule, MaterialModule],
+  imports: [CommonModule, CKEditorModule, MaterialModule, DocumentEditionRoutingModule],
   exports: [DocSidebarComponent]
 })
 export class DocumentEditionModule {}

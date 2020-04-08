@@ -2,12 +2,12 @@ import { Injectable } from "@angular/core";
 import Swal from "sweetalert2";
 
 import { Observable, of, BehaviorSubject } from "rxjs";
-import { catchError, map, tap } from "rxjs/operators";
 
 import { AuthService, GoogleLoginProvider } from "angularx-social-login";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Tokens } from "@app/models/tokens";
 import { Router } from "@angular/router";
+import { Profile } from "@app/models/profile";
 
 @Injectable({
   providedIn: "root",
@@ -16,7 +16,7 @@ export class AuthenticationService {
   // store the URL so we can redirect after logging in
   redirectUrl: string;
 
-  private rootUrl = "api/tellspace/auth"; // URL to web api
+  private rootUrl = "api/auth"; // URL to web api
 
   private httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -51,9 +51,14 @@ export class AuthenticationService {
         this.getLoginToken(userData.idToken).subscribe(
           (result) => {
             Swal.fire("Login Successful", "Welcome to Tell Space", "success");
-            this.setCollaboratorSession(result, userData.name);
+            this.setCollaboratorSession(
+              result,
+              userData.name,
+              userData.photoUrl
+            );
             this.setCollaboratorName(userData.name);
             this.router.navigateByUrl(this.redirectUrl || "");
+            //************* For test purposes User Data is stored on localstorage ********* */ */
           },
           (error) => {
             Swal.fire(
@@ -79,12 +84,17 @@ export class AuthenticationService {
     return this.http.delete(url);
   }
 
-  private setCollaboratorSession(token: Tokens, name: string) {
+  private setCollaboratorSession(
+    token: Tokens,
+    name: string,
+    photoUrl: string
+  ) {
     localStorage.setItem("collaborator_name", name);
     localStorage.setItem("access_token", token.access_token);
     localStorage.setItem("refresh_token", token.refresh_token);
     localStorage.setItem("access_expiration", token.access_expiration);
     localStorage.setItem("refresh_expiration", token.refresh_expiration);
+    localStorage.setItem("photo_url", photoUrl);
   }
 
   logout(): void {
@@ -94,6 +104,7 @@ export class AuthenticationService {
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("access_expiration");
       localStorage.removeItem("refresh_expiration");
+      localStorage.removeItem("photo_url");
       this.socialAuthService.signOut();
       this.router.navigateByUrl("login");
       Swal.fire("Logout Successful", "Goodbye", "success");
@@ -111,5 +122,16 @@ export class AuthenticationService {
 
   private setCollaboratorName(name: string) {
     this.collaborator_source.next(name);
+  }
+
+  public getCollaboratorProfile(): Observable<Profile> {
+    //const url = `${this.rootUrl}/me`;
+    //return this.http.get<Profile>(url);
+    return of({
+      first_name: localStorage.getItem("collaborator_name"),
+      last_name: "",
+      email: "TestEmail",
+      faculty: "TestFaculty",
+    } as Profile);
   }
 }

@@ -6,9 +6,7 @@ import { RouterModule } from "@angular/router";
 import { SharedModule } from "@app/shared/shared.module";
 import { DocumentEditionModule } from "@app/modules/document-edition/document-edition.module";
 import { DocumentEditionComponent } from "@app/modules/document-edition/document-edition.component";
-import { MatSidenavModule } from "@angular/material/sidenav";
-import { MatDividerModule } from "@angular/material/divider";
-import { DocumentsModule } from "@app/modules/documents/documents.module";
+import { DocumentsDashboardModule } from "@app/modules/documents/documents-dashboard.module";
 import { MaterialModule } from "@app/material.module";
 import { LoginComponent } from "@app/modules/login/login.component";
 
@@ -24,9 +22,7 @@ import { LoginComponent } from "@app/modules/login/login.component";
     RouterModule,
     SharedModule,
     DocumentEditionModule,
-    DocumentsModule,
-    MatSidenavModule,
-    MatDividerModule,
+    DocumentsDashboardModule,
     MaterialModule
   ]
 })

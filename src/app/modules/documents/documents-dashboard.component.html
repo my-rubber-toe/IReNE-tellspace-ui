@@ -13,12 +13,13 @@
       </button>
     </div>
     <mat-paginator
+      *ngIf="!isEmpty"
       [pageSizeOptions]="[5, 10]"
       showFirstLastButtons
     ></mat-paginator>
   </div>
   <mat-divider></mat-divider>
   <div>
-    <app-doc-table [paginator]="paginator"></app-doc-table>
+    <app-doc-table [paginator]="paginator" [isEmpty]="isEmpty"></app-doc-table>
   </div>
 </div>

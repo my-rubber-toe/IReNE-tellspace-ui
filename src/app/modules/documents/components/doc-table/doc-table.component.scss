@@ -10,14 +10,6 @@ th.mat-sort-header-sorted {
   background: #ffc107;
 }
 
-div:hover .show-on-hover {
-  visibility: visible;
-}
-
-div .show-on-hover {
-  visibility: hidden;
-}
-
 .action {
   display: flex;
   flex-flow: row;
@@ -25,4 +17,13 @@ div .show-on-hover {
   padding: 0;
   margin: 0;
   list-style: none;
+}
+
+.no-cases-message {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  padding-top: 20vh;
 }

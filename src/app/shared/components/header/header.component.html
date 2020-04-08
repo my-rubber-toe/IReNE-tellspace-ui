@@ -18,7 +18,8 @@
               [matMenuTriggerFor]="menu2"
               *ngIf="router.url !== '/login'"
             >
-              <mat-icon>person_outline</mat-icon>
+              <img mat-button-image [src]="imageUrl" alt="" class="profile-picture" />
+
               {{ collaborator_name }}
             </button>
             <mat-menu #menu2="matMenu">

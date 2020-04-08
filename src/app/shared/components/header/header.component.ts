@@ -9,12 +9,15 @@ import { AuthenticationService } from "@app/core/services/authentication.service
 })
 export class HeaderComponent implements OnInit {
   collaborator_name: string = "";
+  imageUrl = "";
   constructor(public router: Router, private auth: AuthenticationService) {}
 
   ngOnInit(): void {
     this.auth
       .getCollaboratorName()
       .subscribe((name) => (this.collaborator_name = name));
+    let imageUrl = localStorage.getItem("photo_url");
+    if (imageUrl) this.imageUrl = imageUrl;
   }
 
   public navigateToDashBoard(): void {

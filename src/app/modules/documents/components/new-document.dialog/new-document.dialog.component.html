@@ -2,61 +2,62 @@
 <h1 mat-dialog-title>Create Case Study</h1>
 <div mat-dialog-content>
   <form
-    class="example-form"
+    class="create-form"
     [formGroup]="createDocumentForm"
     (ngSubmit)="onSubmit()"
   >
-    <mat-form-field class="example-full-width">
-      <input
-        matInput
-        formControlName="title"
-        name="title"
-        placeholder="Case Study Title"
-      />
-      <mat-error
-        *ngIf="createDocumentForm.get('title')['controls']?.errors?.required"
-        >Please enter a title</mat-error
-      >
-    </mat-form-field>
-    <br />
-
-    <mat-form-field color="accent" class="example-full-width">
-      <mat-label>Incident Date</mat-label>
-      <input
-        matInput
-        [matDatepicker]="picker"
-        formControlName="incident_date"
-        name="incident_date"
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-
-    <br />
-
-    <mat-form-field class="example-full-width">
-      <mat-label>Infrastructure Type</mat-label>
-      <mat-select formControlName="infrastructure_type" multiple>
-        <mat-option
-          *ngFor="let infra_type of infrastructureList"
-          [value]="infra_type"
-          >{{ infra_type }}</mat-option
+    <div>
+      <mat-form-field class="full-width">
+        <input
+          matInput
+          formControlName="title"
+          name="title"
+          placeholder="Case Study Title"
+        />
+        <mat-error
+          *ngIf="createDocumentForm.get('title')['controls']?.errors?.required"
+          >Please enter a title</mat-error
         >
-      </mat-select>
-    </mat-form-field>
+      </mat-form-field>
+      <br />
 
-    <br />
+      <mat-form-field color="accent" class="full-width">
+        <mat-label>Incident Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="incident_date"
+          name="incident_date"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
 
-    <mat-form-field class="example-full-width">
-      <mat-label>Damage Type</mat-label>
-      <mat-select formControlName="damage_type" multiple>
-        <mat-option *ngFor="let dtype of damageTypeList" [value]="dtype">{{
-          dtype
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <br />
+      <br />
 
+      <mat-form-field class="full-width">
+        <mat-label>Infrastructure Type</mat-label>
+        <mat-select formControlName="infrastructure_type" multiple>
+          <mat-option
+            *ngFor="let infra_type of infrastructureList"
+            [value]="infra_type"
+            >{{ infra_type }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field class="full-width">
+        <mat-label>Damage Type</mat-label>
+        <mat-select formControlName="damage_type" multiple>
+          <mat-option *ngFor="let dtype of damageTypeList" [value]="dtype">{{
+            dtype
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br />
+    </div>
     <div formArrayName="authors">
       <div
         *ngFor="
@@ -66,16 +67,16 @@
       >
         <div [formGroupName]="i">
           <mat-card>
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="full-width">
               <mat-label>Author {{ i + 1 }} Name</mat-label>
               <input formControlName="author_FN" matInput />
             </mat-form-field>
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="full-width">
               <mat-label>Author {{ i + 1 }} Lastname</mat-label>
               <input formControlName="author_LN" matInput />
             </mat-form-field>
             <br />
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="full-width">
               <mat-label>Author {{ i + 1 }} Email</mat-label>
               <input
                 matInput
@@ -83,11 +84,16 @@
                 formControlName="author_email"
               />
             </mat-form-field>
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="full-width">
               <mat-label>Author {{ i + 1 }} Faculty</mat-label>
               <input formControlName="author_faculty" matInput />
             </mat-form-field>
-            <button (click)="removeAuthor(i)" mat-icon-button color="primary">
+            <button
+              (click)="removeAuthor(i)"
+              mat-icon-button
+              matTooltip="Remove Author"
+              color="primary"
+            >
               <mat-icon>delete</mat-icon>
             </button>
           </mat-card>
@@ -112,21 +118,26 @@
       >
         <div [formGroupName]="i">
           <mat-card>
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="full-width">
               <mat-label>Actor {{ i + 1 }} Name</mat-label>
               <input formControlName="actor_FN" matInput />
             </mat-form-field>
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="full-width">
               <mat-label>Actor {{ i + 1 }} Lastname</mat-label>
               <input formControlName="actor_LN" matInput />
             </mat-form-field>
             <br />
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="full-width">
               <mat-label>Actor {{ i + 1 }} Role</mat-label>
               <input formControlName="actor_role" matInput />
             </mat-form-field>
 
-            <button (click)="removeActor(i)" mat-icon-button color="primary">
+            <button
+              (click)="removeActor(i)"
+              mat-icon-button
+              matTooltip="Remove Actor"
+              color="primary"
+            >
               <mat-icon>delete</mat-icon>
             </button>
           </mat-card>
@@ -138,7 +149,7 @@
     </button>
     <div mat-dialog-actions>
       <button
-        class="example-full-width"
+        class="full-width"
         mat-raised-button
         color="accent"
         type="submit"

@@ -28,8 +28,10 @@ export class DocTableComponent implements OnInit {
   ];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @Input() paginator: MatPaginator;
+  @Input() isEmpty: boolean;
 
   isLoading = true;
+
   dataSource: MatTableDataSource<CaseDocument>;
 
   constructor(private docService: DocumentsService, private router: Router) {}
@@ -51,6 +53,9 @@ export class DocTableComponent implements OnInit {
     this.docService.getDocuments().subscribe((x) => {
       this.dataSource.data = JSON.parse(x) as CaseDocument[];
       this.isLoading = false;
+      if (this.dataSource.data.length > 0) this.isEmpty = false;
+      else this.isEmpty = true;
+      console.log(this.isEmpty);
     });
   }
 

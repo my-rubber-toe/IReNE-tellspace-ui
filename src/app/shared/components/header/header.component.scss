@@ -13,3 +13,7 @@ ul li {
   z-index: 998;
   @include mat-elevation(8);
 }
+.profile-picture {
+  border-radius: 50%;
+  width: 4vh;
+}

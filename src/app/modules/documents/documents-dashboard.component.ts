@@ -17,6 +17,7 @@ export class DocumentsDashboardComponent implements OnInit {
   @ViewChild(DocTableComponent) docTable: DocTableComponent;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
+  isEmpty:boolean = true;
 
   ngOnInit(): void {}
 

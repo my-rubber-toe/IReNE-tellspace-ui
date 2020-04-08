@@ -2,7 +2,7 @@
  * @packageDocumentation
  */
 
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { CaseDocument } from "@app/models/case-document";
@@ -27,7 +27,7 @@ export class DocTableComponent implements OnInit {
     "creationDate",
   ];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @Input() paginator: MatPaginator;
 
   isLoading = true;
   dataSource: MatTableDataSource<CaseDocument>;

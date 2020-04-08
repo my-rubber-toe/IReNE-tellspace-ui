@@ -95,7 +95,7 @@ export class DateTimelineEditorComponent implements OnInit {
 
   saveIncidentDate() {
     console.log("Saved incident date: ", this.incidentDateControl.value);
-    //this.edition.editIncidentDate(this.incidentDateControl.value as Date);
+    this.edition.editIncidentDate(this.incidentDateControl.value as Date);
     this.toggleEditingIncidentDate();
   }
 }

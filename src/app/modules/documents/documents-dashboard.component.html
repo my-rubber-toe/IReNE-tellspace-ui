@@ -1,8 +1,8 @@
 <div class="documents-page">
   <div class="title">
-    <h1>
+    <h2>
       My Case Studies
-    </h1>
+    </h2>
     <div #changeButton class="new-button" id="create-doc-button">
       <button
         mat-button
@@ -12,9 +12,13 @@
         <mat-icon>add</mat-icon>
       </button>
     </div>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10]"
+      showFirstLastButtons
+    ></mat-paginator>
   </div>
   <mat-divider></mat-divider>
   <div>
-    <app-doc-table></app-doc-table>
+    <app-doc-table [paginator]="paginator"></app-doc-table>
   </div>
 </div>

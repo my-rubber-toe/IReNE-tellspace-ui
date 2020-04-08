@@ -12,13 +12,13 @@ import { AuthGuard } from "./core/guards/auth.guard";
 
 const routes: Routes = [
   {
+    path: "login",
+    component: LoginComponent,
+  },
+  {
     path: "",
     component: DefaultComponent,
     children: [
-      {
-        path: "login",
-        component: LoginComponent,
-      },
       {
         path: "",
         canActivateChild: [AuthGuard],

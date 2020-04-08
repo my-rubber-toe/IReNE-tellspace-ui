@@ -6,11 +6,11 @@
 
 .title {
   /* We first create a flex layout context */
-  display: flex;
-  flex-flow: row wrap;
+  display: inline-flex;
   gap: 20px;
-
-  justify-content: baseline;
+  width: 100%;
+  align-items:baseline;
+  align-content: flex-start;
 
   padding: 5px;
   margin: 0;

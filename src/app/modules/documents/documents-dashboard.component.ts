@@ -4,6 +4,7 @@ import { NewDocumentDialogComponent } from "./components/new-document.dialog/new
 import { DocTableComponent } from "./components/doc-table/doc-table.component";
 import { DocumentsService } from "@app/core/services/documents.service";
 import { CaseDocumentCreateRequest } from "@app/models/case-document-create-request";
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: "app-documents-dashboard",
@@ -14,6 +15,8 @@ export class DocumentsDashboardComponent implements OnInit {
   constructor(public dialog: MatDialog, private docService: DocumentsService) {}
 
   @ViewChild(DocTableComponent) docTable: DocTableComponent;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
 
   ngOnInit(): void {}
 

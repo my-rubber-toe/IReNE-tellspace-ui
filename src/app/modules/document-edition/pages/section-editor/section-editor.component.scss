@@ -1,21 +1,19 @@
-.example-full-width {
-  width: 100%;
-}
-
 :host ::ng-deep .ck-editor__editable_inline {
   min-height: 450px;
 }
 
-.section-editor-container {
-  display: flexbox;
-  padding: 10px 30px;
+:host {
+  padding-left: 20px;
+  padding-right: 30px;
+}
+.mat-icon {
+  font-size: 20px;
 }
 
 .status-bar {
   display: inline-flex;
-  flex-direction: row;
-  gap: 20px;
-  justify-content: flex-end;
-  align-items: baseline;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
   width: 100%;
 }

@@ -7,6 +7,7 @@ import { ContentSection } from "@app/models/content-section";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
 import Swal from "sweetalert2";
 import { BehaviorSubject } from "rxjs";
+import { ChangeEvent } from "@ckeditor/ckeditor5-angular";
 /**Component that handles the section edition editor and implements CKEditor*/
 @Component({
   selector: "app-section-editor",
@@ -77,10 +78,24 @@ export class SectionEditorComponent implements OnInit {
       .pipe(debounceTime(SectionEditorComponent.DEBOUNCE_TIME))
       .subscribe((value) => {
         if (this.titleForm.valid) {
-          console.log("We could autosave!", value);
+          const statusIndicator = document.querySelector(
+            "#snippet-autosave-status"
+          );
+          statusIndicator.classList.add("busy");
+          this.isSaved = false;
           this.uploadData();
         }
       });
+  }
+
+  setSectionEditorFlag(){
+
+  }
+
+  onEditorChange({ editor }: ChangeEvent) {
+    this.isSaved = false;
+    const statusIndicator = document.querySelector("#snippet-autosave-status");
+    statusIndicator.classList.add("busy");
   }
 
   saveData(data: string) {
@@ -89,7 +104,6 @@ export class SectionEditorComponent implements OnInit {
   }
 
   uploadData() {
-    this.savedFlag.next(false);
     this.editService
       .editSection(
         new ContentSection(this.titleForm.value.title, this.model.editorData),
@@ -97,7 +111,11 @@ export class SectionEditorComponent implements OnInit {
       )
       .subscribe((res) => {
         console.log(this.isSaved);
-        this.savedFlag.next(true);
+        const statusIndicator = document.querySelector(
+          "#snippet-autosave-status"
+        );
+        this.isSaved = true;
+        statusIndicator.classList.remove("busy");
       });
   }
 

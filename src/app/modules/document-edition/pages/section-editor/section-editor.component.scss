@@ -1,11 +1,7 @@
 :host ::ng-deep .ck-editor__editable_inline {
-  min-height: 450px;
+  min-height: 400px;
 }
 
-:host {
-  padding-left: 20px;
-  padding-right: 30px;
-}
 .mat-icon {
   font-size: 20px;
 }
@@ -13,7 +9,50 @@
 .status-bar {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
   justify-content: space-between;
   width: 100%;
+  font-size: 20px;
+}
+.section-editor-container {
+  padding: 10px;
+}
+
+//The following .css is based on code provided in the ckeditor5 documentation for autosave
+
+#snippet-autosave-status_spinner {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+#snippet-autosave-status_spinner-label {
+  position: relative;
+}
+
+#snippet-autosave-status_spinner-label::after {
+  content: "Saved!";
+  color: green;
+  display: inline-block;
+}
+
+/* During "Saving" display spinner and change content of label. */
+#snippet-autosave-status.busy #snippet-autosave-status_spinner-label::after {
+  content: "Saving...";
+  color: red;
+}
+
+#snippet-autosave-status.busy #snippet-autosave-status_spinner-loader {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border-top: 3px solid hsl(0, 0%, 70%);
+  border-right: 2px solid transparent;
+  animation: autosave-status-spinner 1s linear infinite;
+}
+
+@keyframes autosave-status-spinner {
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -20,7 +20,11 @@
         routerLinkActive="list-item-active"
         routerLink="s/{{ i }}"
       >
-        {{ section.section_title }}
+        {{
+          section.section_title.length > 35
+            ? (section.section_title | slice: 0:35) + "..."
+            : section.section_title
+        }}
       </a>
     </div>
   </ng-container>

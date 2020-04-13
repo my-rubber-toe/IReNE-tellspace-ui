@@ -10,6 +10,7 @@ import {
 } from "@angular/forms";
 
 import { DocumentsService } from "@app/core/services/documents.service";
+import { DirtyStateErrorMatcher } from '@app/dirty-state-error.matcher';
 
 @Component({
   selector: "app-new-document.dialog",
@@ -22,6 +23,8 @@ export class NewDocumentDialogComponent implements OnInit {
 
   public infrastructureList: string[] = ["infraestructure"];
   public damageTypeList: string[] = ["damage_type"];
+
+  public matcher = new DirtyStateErrorMatcher();
 
   constructor(
     public dialogRef: MatDialogRef<NewDocumentDialogComponent>,

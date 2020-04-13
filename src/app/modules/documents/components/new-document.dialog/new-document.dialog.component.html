@@ -13,6 +13,8 @@
           formControlName="title"
           name="title"
           placeholder="Case Study Title"
+          [errorStateMatcher]="matcher"
+          required
         />
         <mat-error
           *ngIf="createDocumentForm.get('title')['controls']?.errors?.required"
@@ -28,6 +30,8 @@
           [matDatepicker]="picker"
           formControlName="incident_date"
           name="incident_date"
+          [errorStateMatcher]="matcher"
+          required
         />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
@@ -37,7 +41,12 @@
 
       <mat-form-field class="full-width">
         <mat-label>Infrastructure Type</mat-label>
-        <mat-select formControlName="infrastructure_type" multiple>
+        <mat-select
+          formControlName="infrastructure_type"
+          multiple
+          [errorStateMatcher]="matcher"
+          required
+        >
           <mat-option
             *ngFor="let infra_type of infrastructureList"
             [value]="infra_type"
@@ -50,7 +59,12 @@
 
       <mat-form-field class="full-width">
         <mat-label>Damage Type</mat-label>
-        <mat-select formControlName="damage_type" multiple>
+        <mat-select
+          formControlName="damage_type"
+          multiple
+          [errorStateMatcher]="matcher"
+          required
+        >
           <mat-option *ngFor="let dtype of damageTypeList" [value]="dtype">{{
             dtype
           }}</mat-option>
@@ -69,11 +83,21 @@
           <mat-card>
             <mat-form-field class="full-width">
               <mat-label>Author {{ i + 1 }} Name</mat-label>
-              <input formControlName="author_FN" matInput />
+              <input
+                formControlName="author_FN"
+                matInput
+                [errorStateMatcher]="matcher"
+                required
+              />
             </mat-form-field>
             <mat-form-field class="full-width">
               <mat-label>Author {{ i + 1 }} Lastname</mat-label>
-              <input formControlName="author_LN" matInput />
+              <input
+                formControlName="author_LN"
+                matInput
+                [errorStateMatcher]="matcher"
+                required
+              />
             </mat-form-field>
             <br />
             <mat-form-field class="full-width">
@@ -82,11 +106,18 @@
                 matInput
                 placeholder="irene.riseup@upr.edu"
                 formControlName="author_email"
+                [errorStateMatcher]="matcher"
+                required
               />
             </mat-form-field>
             <mat-form-field class="full-width">
               <mat-label>Author {{ i + 1 }} Faculty</mat-label>
-              <input formControlName="author_faculty" matInput />
+              <input
+                formControlName="author_faculty"
+                matInput
+                [errorStateMatcher]="matcher"
+                required
+              />
             </mat-form-field>
             <button
               (click)="removeAuthor(i)"
@@ -120,16 +151,31 @@
           <mat-card>
             <mat-form-field class="full-width">
               <mat-label>Actor {{ i + 1 }} Name</mat-label>
-              <input formControlName="actor_FN" matInput />
+              <input
+                formControlName="actor_FN"
+                matInput
+                [errorStateMatcher]="matcher"
+                required
+              />
             </mat-form-field>
             <mat-form-field class="full-width">
               <mat-label>Actor {{ i + 1 }} Lastname</mat-label>
-              <input formControlName="actor_LN" matInput />
+              <input
+                formControlName="actor_LN"
+                matInput
+                [errorStateMatcher]="matcher"
+                required
+              />
             </mat-form-field>
             <br />
             <mat-form-field class="full-width">
               <mat-label>Actor {{ i + 1 }} Role</mat-label>
-              <input formControlName="actor_role" matInput />
+              <input
+                formControlName="actor_role"
+                matInput
+                [errorStateMatcher]="matcher"
+                required
+              />
             </mat-form-field>
 
             <button

@@ -79,6 +79,13 @@
       >
         Save
       </button>
+      <span
+        *ngIf="
+          authorForm.invalid &&
+          authorForm.get('authors')['controls'].length == 0
+        "
+        >There needs to be at least one author</span
+      >
     </div>
     <ng-template #elseBlock>
       <button mat-button color="primary" (click)="toggleEditingAuthors()">

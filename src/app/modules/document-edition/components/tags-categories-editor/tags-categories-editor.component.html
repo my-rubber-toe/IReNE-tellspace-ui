@@ -28,6 +28,7 @@
         type="submit"
         color="primary"
         (click)="saveinfrastructures()"
+        [disabled]="infrastructuresFormControl.invalid"
       >
         Save
       </button>
@@ -76,7 +77,13 @@
   </mat-card-content>
   <mat-card-actions>
     <div *ngIf="editingDamages; else elseBlock2B">
-      <button mat-button type="submit" color="primary" (click)="saveDamages()">
+      <button
+        mat-button
+        type="submit"
+        color="primary"
+        [disabled]="damagesFormControl.invalid"
+        (click)="saveDamages()"
+      >
         Save
       </button>
     </div>

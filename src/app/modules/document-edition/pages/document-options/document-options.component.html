@@ -1,33 +1,37 @@
-<mat-toolbar>
-  <mat-toolbar-row class="flex-container">
-    <mat-form-field style="width: 100%;" floatLabel="never">
-      <input
-        matInput
-        [formControl]="titleControl"
-        placeholder="Case Title"
-        [readonly]="!editingTitle"
-      />
-    </mat-form-field>
-    <button
-      *ngIf="!editingTitle"
-      mat-button
-      color="primary"
-      matTooltip="Edit Case Title"
-      (click)="toggleTitleEdition()"
-    >
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button
-      *ngIf="editingTitle"
-      mat-button
-      color="accent"
-      matTooltip="Save Title"
-      (click)="saveTitle()"
-    >
-      <mat-icon>check</mat-icon>
-    </button>
-  </mat-toolbar-row>
-</mat-toolbar>
+<div class="status-bar">
+  <mat-form-field style="width: 100%;" floatLabel="never">
+    <mat-label>Section Title</mat-label>
+    <textarea
+      matInput
+      [formControl]="titleControl"
+      placeholder="Case Title"
+      [readonly]="!editingTitle"
+      maxlength="250"
+      value=""
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="3"
+    ></textarea>
+  </mat-form-field>
+  <button
+    *ngIf="!editingTitle"
+    mat-button
+    color="primary"
+    matTooltip="Edit Case Title"
+    (click)="toggleTitleEdition()"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button
+    *ngIf="editingTitle"
+    mat-button
+    color="accent"
+    matTooltip="Save Title"
+    (click)="saveTitle()"
+  >
+    <mat-icon>check</mat-icon>
+  </button>
+</div>
 
 <mat-tab-group>
   <mat-tab label="Description">

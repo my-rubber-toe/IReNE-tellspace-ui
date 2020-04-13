@@ -1,27 +1,11 @@
-:host {
-  padding-left: 20px;
-  padding-right: 30px;
-}
 .mat-icon {
   font-size: 20px;
 }
 
-ul li {
-  list-style: none;
-}
-
-.flex-container {
+.status-bar {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  justify-content: space-around;
-  list-style: none;
+  justify-content: space-between;
   width: 100%;
-}
-
-.item-left {
-  flex-grow: 2;
-}
-.item-right {
-  flex-grow: 1;
+  font-size: 20px;
 }

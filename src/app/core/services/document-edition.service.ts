@@ -7,12 +7,16 @@ import { Timeline } from "@app/models/timeline";
 import { Actor } from "@app/models/actor";
 import { Author } from "@app/models/author";
 import { debounceTime } from "rxjs/operators";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: "root",
 })
 export class DocumentEditionService {
-  constructor(private docService: DocumentsService) {}
+  constructor(
+    private docService: DocumentsService,
+    private snackBar: MatSnackBar
+  ) {}
 
   /**Caches the active Case Document for use of the editors */
   private activeCaseDocument: CaseDocument;
@@ -51,7 +55,7 @@ export class DocumentEditionService {
     this.updateSource();
     this.docService
       .edit(this.activeCaseDocument.id, "title", { title: newTitle })
-      .subscribe();
+      .subscribe((result) => this.snackBar.open("Title Saved"));
   }
 
   /**Changes the active document description to the given string and updates the backend*/
@@ -63,6 +67,7 @@ export class DocumentEditionService {
       })
       .subscribe((_) => {
         this.updateSource();
+        this.snackBar.open("Description Saved");
       });
   }
 
@@ -73,6 +78,7 @@ export class DocumentEditionService {
       .edit(this.activeCaseDocument.id, "timeline", newTimeline)
       .subscribe((_) => {
         this.updateSource();
+        this.snackBar.open("Timeline Saved");
       });
   }
 
@@ -85,6 +91,7 @@ export class DocumentEditionService {
       })
       .subscribe((_) => {
         this.updateSource();
+        this.snackBar.open("Infrastructure Types Saved");
       });
   }
 
@@ -97,6 +104,7 @@ export class DocumentEditionService {
       })
       .subscribe((_) => {
         this.updateSource();
+        this.snackBar.open("Damage Types Saved");
       });
   }
 
@@ -107,6 +115,7 @@ export class DocumentEditionService {
       .edit(this.activeCaseDocument.id, "actors", actors)
       .subscribe((_) => {
         this.updateSource();
+        this.snackBar.open("Actors Saved");
       });
   }
 
@@ -117,6 +126,7 @@ export class DocumentEditionService {
       .edit(this.activeCaseDocument.id, "authors", authors)
       .subscribe((_) => {
         this.updateSource();
+        this.snackBar.open("Authors Saved");
       });
   }
 
@@ -127,6 +137,7 @@ export class DocumentEditionService {
       .edit(this.activeCaseDocument.id, "locations", { location: locations })
       .subscribe((_) => {
         this.updateSource();
+        this.snackBar.open("Locations Saved");
       });
   }
 
@@ -137,6 +148,7 @@ export class DocumentEditionService {
       .edit(this.activeCaseDocument.id, "tags", { tags: tags })
       .subscribe((_) => {
         this.updateSource();
+        this.snackBar.open("Tags Saved");
       });
   }
 

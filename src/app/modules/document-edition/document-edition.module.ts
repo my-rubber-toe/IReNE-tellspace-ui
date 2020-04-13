@@ -7,13 +7,14 @@ import { InvalidUrlComponent } from "../invalid-url/invalid-url.component";
 import { DocSidebarComponent } from "./components/doc-sidebar/doc-sidebar.component";
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 import { MaterialModule } from "@app/material.module";
-import { DescriptionEditorComponent } from './components/description-editor/description-editor.component';
-import { TagsCategoriesEditorComponent } from './components/tags-categories-editor/tags-categories-editor.component';
-import { LocationsEditorComponent } from './components/locations-editor/locations-editor.component';
-import { DateTimelineEditorComponent } from './components/date-timeline-editor/date-timeline-editor.component';
-import { AuthorsEditorComponent } from './components/authors-editor/authors-editor.component';
-import { ActorsEditorComponent } from './components/actors-editor/actors-editor.component';
-import { DocumentEditionRoutingModule } from './document-edition-routing.module';
+import { DescriptionEditorComponent } from "./components/description-editor/description-editor.component";
+import { TagsCategoriesEditorComponent } from "./components/tags-categories-editor/tags-categories-editor.component";
+import { LocationsEditorComponent } from "./components/locations-editor/locations-editor.component";
+import { DateTimelineEditorComponent } from "./components/date-timeline-editor/date-timeline-editor.component";
+import { AuthorsEditorComponent } from "./components/authors-editor/authors-editor.component";
+import { ActorsEditorComponent } from "./components/actors-editor/actors-editor.component";
+import { DocumentEditionRoutingModule } from "./document-edition-routing.module";
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -26,9 +27,17 @@ import { DocumentEditionRoutingModule } from './document-edition-routing.module'
     LocationsEditorComponent,
     DateTimelineEditorComponent,
     AuthorsEditorComponent,
-    ActorsEditorComponent
+    ActorsEditorComponent,
   ],
-  imports: [CommonModule, CKEditorModule, MaterialModule, DocumentEditionRoutingModule],
-  exports: [DocSidebarComponent]
+  imports: [
+    CommonModule,
+    CKEditorModule,
+    MaterialModule,
+    DocumentEditionRoutingModule,
+  ],
+  exports: [DocSidebarComponent],
+  providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },
+  ],
 })
 export class DocumentEditionModule {}

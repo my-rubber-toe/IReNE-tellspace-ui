@@ -8,14 +8,14 @@ import { DocumentsService } from "@app/core/services/documents.service";
 import { Category } from "@app/models/category";
 import {
   MatAutocompleteSelectedEvent,
-  MatAutocomplete
+  MatAutocomplete,
 } from "@angular/material/autocomplete";
 import { map, startWith } from "rxjs/operators";
 
 @Component({
   selector: "app-tags-categories-editor",
   templateUrl: "./tags-categories-editor.component.html",
-  styleUrls: ["./tags-categories-editor.component.scss"]
+  styleUrls: ["./tags-categories-editor.component.scss"],
 })
 export class TagsCategoriesEditorComponent implements OnInit {
   @Input() tags: string[];
@@ -33,12 +33,12 @@ export class TagsCategoriesEditorComponent implements OnInit {
 
   tagsFormControl: FormControl = new FormControl([
     "",
-    Validators.nullValidator
+    Validators.nullValidator,
   ]);
-  infrastructuresFormControl: FormControl = new FormControl([
-    "",
+  infrastructuresFormControl: FormControl = new FormControl(
+    [""],
     Validators.required
-  ]);
+  );
   damagesFormControl: FormControl = new FormControl([""], Validators.required);
 
   visible = true;
@@ -63,11 +63,13 @@ export class TagsCategoriesEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.docService.getTags().subscribe(res => (this.alltags = res));
-    this.docService.getDamageTypes().subscribe(res => (this.damageList = res));
+    this.docService.getTags().subscribe((res) => (this.alltags = res));
+    this.docService
+      .getDamageTypes()
+      .subscribe((res) => (this.damageList = res));
     this.docService
       .getInfrastructureTypes()
-      .subscribe(res => (this.infrastructureList = res));
+      .subscribe((res) => (this.infrastructureList = res));
   }
 
   toggleTagsEditor() {
@@ -144,7 +146,7 @@ export class TagsCategoriesEditorComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.alltags.filter(
-      tag => tag.toLowerCase().indexOf(filterValue) === 0
+      (tag) => tag.toLowerCase().indexOf(filterValue) === 0
     );
   }
 }

@@ -1,14 +1,18 @@
 <div class="header-container" role="heading" [class.mat-elevation-z8]>
-  <mat-toolbar color="primary" class="toolbar">
-    <mat-toolbar-row>
-      <img
-        src="assets/app_logo_white.png"
-        alt="IReNE Logo"
-        style="width: 4vw;"
-      />
+  <mat-toolbar color="primary">
+    <mat-toolbar-row class="toolbar">
+      <a routerLink="" title="Go to dashboard">
+        <img
+          src="assets/app_logo_white.png"
+          alt="IReNE Logo"
+          style="width: 4vw;"
+        />
+      </a>
+
       <span>
         Interdisciplinary Research Network Extension | TellSpace
       </span>
+
       <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
         <ul fxLayout="row" fxLayoutGap="20px">
           <li>
@@ -18,7 +22,12 @@
               [matMenuTriggerFor]="menu2"
               *ngIf="router.url !== '/login'"
             >
-              <img mat-button-image [src]="imageUrl" alt="" class="profile-picture" />
+              <img
+                mat-button-image
+                [src]="imageUrl"
+                alt=""
+                class="profile-picture"
+              />
 
               {{ collaborator_name }}
             </button>

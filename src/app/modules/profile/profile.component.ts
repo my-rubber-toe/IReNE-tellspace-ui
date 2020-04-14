@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Profile } from "@app/models/profile";
+import { Profile } from "@app/shared/models/profile";
 import { AuthenticationService } from "@app/core/services/authentication.service";
 
 @Component({

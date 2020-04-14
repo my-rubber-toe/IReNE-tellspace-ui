@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { CaseDocument } from "@app/models/case-document";
+import { CaseDocument } from "@app/shared/models/case-document";
 import { Observable, of, Subject } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError, map, tap } from "rxjs/operators";
-import { ContentSection } from "@app/models/content-section";
-import { Category } from "@app/models/category";
-import { CaseDocumentCreateRequest } from "@app/models/case-document-create-request";
+import { ContentSection } from "@app/shared/models/content-section";
+import { Category } from "@app/shared/models/category";
+import { CaseDocumentCreateRequest } from "@app/shared/models/case-document-create-request";
 
 @Injectable({
   providedIn: "root",

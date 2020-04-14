@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
-import { CaseDocument } from "@app/models/case-document";
+import { CaseDocument } from "@app/shared/models/case-document";
 
 @Component({
   selector: "app-doc-sidebar",

@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Subject, Observable, BehaviorSubject, of } from "rxjs";
-import { CaseDocument } from "@app/models/case-document";
+import { CaseDocument } from "@app/shared/models/case-document";
 import { DocumentsService } from "./documents.service";
-import { ContentSection } from "@app/models/content-section";
-import { Timeline } from "@app/models/timeline";
-import { Actor } from "@app/models/actor";
-import { Author } from "@app/models/author";
+import { ContentSection } from "@app/shared/models/content-section";
+import { Timeline } from "@app/shared/models/timeline";
+import { Actor } from "@app/shared/models/actor";
+import { Author } from "@app/shared/models/author";
 import { debounceTime } from "rxjs/operators";
 import { MatSnackBar } from "@angular/material/snack-bar";
 

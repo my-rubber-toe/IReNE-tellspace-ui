@@ -1,23 +1,19 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { DefaultComponent } from "./core/default.component";
-import { DocumentsDashboardComponent } from "./modules/documents/documents-dashboard.component";
-import { LoginComponent } from "./modules/login/login.component";
-import { DocumentEditionComponent } from "./modules/document-edition/document-edition.component";
-import { SectionEditorComponent } from "./modules/document-edition/pages/section-editor/section-editor.component";
-import { DocumentOptionsComponent } from "./modules/document-edition/pages/document-options/document-options.component";
-import { InvalidUrlComponent } from "./modules/invalid-url/invalid-url.component";
+import { CoreComponent } from "./core/core.component";
+import { InvalidUrlComponent } from "./core/invalid-url/invalid-url.component";
 import { CaseDocumentResolverService } from "@app/core/services/case-document-resolver.service";
 import { AuthGuard } from "./core/guards/auth.guard";
 
 const routes: Routes = [
   {
     path: "login",
-    component: LoginComponent,
+    loadChildren: () =>
+      import("./modules/login/login.module").then((m) => m.LoginModule),
   },
   {
     path: "",
-    component: DefaultComponent,
+    component: CoreComponent,
     children: [
       {
         path: "",
@@ -32,7 +28,6 @@ const routes: Routes = [
           },
           {
             path: "edit/:docid",
-            component: DocumentEditionComponent,
             resolve: {
               caseDocument: CaseDocumentResolverService,
             },

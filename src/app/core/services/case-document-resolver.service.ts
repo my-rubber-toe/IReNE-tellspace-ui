@@ -8,7 +8,7 @@ import {
 import { Observable, of, EMPTY } from "rxjs";
 import { mergeMap, take } from "rxjs/operators";
 
-import { CaseDocument } from "@app/models/case-document";
+import { CaseDocument } from "@app/shared/models/case-document";
 import { DocumentsService } from "@app/core/services/documents.service";
 import { DocumentEditionService } from "./document-edition.service";
 

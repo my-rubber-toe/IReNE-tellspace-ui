@@ -10,7 +10,7 @@ import {
 } from "@angular/forms";
 
 import { DocumentsService } from "@app/core/services/documents.service";
-import { DirtyStateErrorMatcher } from '@app/dirty-state-error.matcher';
+import { DirtyStateErrorMatcher } from '@app/shared/dirty-state-error.matcher';
 
 @Component({
   selector: "app-new-document.dialog",

@@ -1,0 +1,952 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>ire-ne-tell-space documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">ire-ne-tell-space documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>DocTableComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/modules/documents/components/doc-table/doc-table.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Example</h3>
+    </p>
+    <div class="io-description">
+    </div>
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-doc-table</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>doc-table.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>doc-table.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#dataSource">dataSource</a>
+                            </li>
+                            <li>
+                                <a href="#displayedColumns">displayedColumns</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading">isLoading</a>
+                            </li>
+                            <li>
+                                <a href="#sort">sort</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#editDocument">editDocument</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#refresh">refresh</a>
+                            </li>
+                            <li>
+                                <a href="#removeDocument">removeDocument</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#isEmpty">isEmpty</a>
+                            </li>
+                            <li>
+                                <a href="#paginator">paginator</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(docService: <a href="../injectables/DocumentsService.html">DocumentsService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/modules/documents/components/doc-table/doc-table.component.ts:35</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>docService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DocumentsService.html" target="_self" >DocumentsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isEmpty"></a>
+                        <b>isEmpty</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/modules/documents/components/doc-table/doc-table.component.ts:31</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="paginator"></a>
+                        <b>paginator</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatPaginator</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/modules/documents/components/doc-table/doc-table.component.ts:30</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editDocument"></a>
+                    <span class="name">
+                        <b>
+                            editDocument
+                        </b>
+                        <a href="#editDocument"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>editDocument(element: <a href="../classes/CaseDocument.html">CaseDocument</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/app/modules/documents/components/doc-table/doc-table.component.ts:47</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Method to navigate to the editor of the clicked case study </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>element</td>
+                                    <td>
+                                                <code><a href="../classes/CaseDocument.html" target="_self" >CaseDocument</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">src/app/modules/documents/components/doc-table/doc-table.component.ts:39</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="refresh"></a>
+                    <span class="name">
+                        <b>
+                            refresh
+                        </b>
+                        <a href="#refresh"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>refresh()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">src/app/modules/documents/components/doc-table/doc-table.component.ts:51</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeDocument"></a>
+                    <span class="name">
+                        <b>
+                            removeDocument
+                        </b>
+                        <a href="#removeDocument"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeDocument(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">src/app/modules/documents/components/doc-table/doc-table.component.ts:62</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dataSource"></a>
+                        <span class="name">
+                            <b>
+                            dataSource</b>
+                            <a href="#dataSource"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/CaseDocument.html" target="_self" >MatTableDataSource&lt;CaseDocument&gt;</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/modules/documents/components/doc-table/doc-table.component.ts:35</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="displayedColumns"></a>
+                        <span class="name">
+                            <b>
+                            displayedColumns</b>
+                            <a href="#displayedColumns"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[
+    &quot;title&quot;,
+    &quot;published&quot;,
+    &quot;incident_date&quot;,
+    &quot;creationDate&quot;,
+  ]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/modules/documents/components/doc-table/doc-table.component.ts:23</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isLoading"></a>
+                        <span class="name">
+                            <b>
+                            isLoading</b>
+                            <a href="#isLoading"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>true</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/modules/documents/components/doc-table/doc-table.component.ts:33</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sort"></a>
+                        <span class="name">
+                            <b>
+                            sort</b>
+                            <a href="#sort"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>MatSort</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(MatSort, {static: true})<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/modules/documents/components/doc-table/doc-table.component.ts:29</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, ViewChild, Input } from &quot;@angular/core&quot;;
+import { MatSort } from &quot;@angular/material/sort&quot;;
+import { MatPaginator } from &quot;@angular/material/paginator&quot;;
+import { CaseDocument } from &quot;@app/shared/models/case-document&quot;;
+import { DocumentsService } from &quot;@app/core/services/documents.service&quot;;
+import { Router } from &quot;@angular/router&quot;;
+import { MatTableDataSource } from &quot;@angular/material/table&quot;;
+import Swal from &quot;sweetalert2&quot;;
+
+/**
+ * @title Table with sorting
+ */
+@Component({
+  selector: &quot;app-doc-table&quot;,
+  styleUrls: [&quot;doc-table.component.scss&quot;],
+  templateUrl: &quot;doc-table.component.html&quot;,
+})
+export class DocTableComponent implements OnInit {
+  displayedColumns: string[] &#x3D; [
+    &quot;title&quot;,
+    &quot;published&quot;,
+    &quot;incident_date&quot;,
+    &quot;creationDate&quot;,
+  ];
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @Input() paginator: MatPaginator;
+  @Input() isEmpty: boolean;
+
+  isLoading &#x3D; true;
+
+  dataSource: MatTableDataSource&lt;CaseDocument&gt;;
+
+  constructor(private docService: DocumentsService, private router: Router) {}
+
+  ngOnInit() {
+    this.dataSource &#x3D; new MatTableDataSource();
+    this.dataSource.sort &#x3D; this.sort;
+    this.dataSource.paginator &#x3D; this.paginator;
+    this.refresh();
+  }
+
+  /**Method to navigate to the editor of the clicked case study */
+  editDocument(element: CaseDocument) {
+    this.router.navigateByUrl(&quot;/edit/&quot; + element.id);
+  }
+
+  refresh(): void {
+    this.isLoading &#x3D; true;
+    this.docService.getDocuments().subscribe((x) &#x3D;&gt; {
+      this.dataSource.data &#x3D; JSON.parse(x) as CaseDocument[];
+      this.isLoading &#x3D; false;
+      if (this.dataSource.data.length &gt; 0) this.isEmpty &#x3D; false;
+      else this.isEmpty &#x3D; true;
+      console.log(this.isEmpty);
+    });
+  }
+
+  removeDocument(id: string): void {
+    Swal.fire({
+      title: &quot;Are you sure?&quot;,
+      text: &quot;You won&#x27;t be able to revert this!&quot;,
+      icon: &quot;warning&quot;,
+      showCancelButton: true,
+      confirmButtonColor: &quot;#3085d6&quot;,
+      cancelButtonColor: &quot;#d33&quot;,
+      confirmButtonText: &quot;Yes, delete it!&quot;,
+    }).then((result) &#x3D;&gt; {
+      if (result.value) {
+        this.docService.removeDocument(id).subscribe((_) &#x3D;&gt; {
+          Swal.fire(&quot;Deleted!&quot;, &quot;Your file has been deleted.&quot;, &quot;success&quot;);
+          this.refresh();
+        });
+      }
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;!isLoading &amp;&amp; !isEmpty&quot;&gt;
+  &lt;table mat-table [dataSource]&#x3D;&quot;dataSource&quot; matSort class&#x3D;&quot;mat-elevation-z8&quot;&gt;
+    &lt;!-- Position Column --&gt;
+    &lt;ng-container matColumnDef&#x3D;&quot;title&quot;&gt;
+      &lt;th mat-header-cell *matHeaderCellDef mat-sort-header&gt;Title&lt;/th&gt;
+      &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot; (click)&#x3D;&quot;editDocument(element)&quot;&gt;
+        {{
+          element.title.length &gt; 100
+            ? (element.title | slice: 0:100) + &quot;...&quot;
+            : element.title
+        }}
+      &lt;/td&gt;
+    &lt;/ng-container&gt;
+
+    &lt;!-- Name Column --&gt;
+    &lt;ng-container matColumnDef&#x3D;&quot;published&quot;&gt;
+      &lt;th mat-header-cell *matHeaderCellDef mat-sort-header&gt;Published&lt;/th&gt;
+      &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot; (click)&#x3D;&quot;editDocument(element)&quot;&gt;
+        {{ true &#x3D;&#x3D; element.published ? &quot;Yes&quot; : &quot;No&quot; }}
+      &lt;/td&gt;
+    &lt;/ng-container&gt;
+
+    &lt;!-- Weight Column --&gt;
+    &lt;ng-container matColumnDef&#x3D;&quot;incident_date&quot;&gt;
+      &lt;th mat-header-cell *matHeaderCellDef mat-sort-header&gt;Incident Date&lt;/th&gt;
+      &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot; (click)&#x3D;&quot;editDocument(element)&quot;&gt;
+        {{ element.incident_date | date: &quot;MM/dd/yyyy&quot; }}
+      &lt;/td&gt;
+    &lt;/ng-container&gt;
+
+    &lt;!-- Symbol Column --&gt;
+    &lt;ng-container matColumnDef&#x3D;&quot;creationDate&quot;&gt;
+      &lt;th mat-header-cell *matHeaderCellDef mat-sort-header&gt;Creation Date&lt;/th&gt;
+      &lt;td mat-cell *matCellDef&#x3D;&quot;let element&quot;&gt;
+        {{ element.creationDate | date: &quot;MM/dd/yyyy&quot; }}
+        &lt;button
+          mat-button
+          isRoundButton&#x3D;&quot;true&quot;
+          matTooltip&#x3D;&quot;Delete Case Study&quot;
+          (click)&#x3D;&quot;removeDocument(element.id)&quot;
+        &gt;
+          &lt;mat-icon&gt;delete&lt;/mat-icon&gt;
+        &lt;/button&gt;
+      &lt;/td&gt;
+    &lt;/ng-container&gt;
+
+    &lt;tr mat-header-row *matHeaderRowDef&#x3D;&quot;displayedColumns&quot;&gt;&lt;/tr&gt;
+    &lt;tr mat-row *matRowDef&#x3D;&quot;let row; columns: displayedColumns&quot;&gt;&lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/ng-container&gt;
+
+&lt;mat-card
+  *ngIf&#x3D;&quot;isLoading&quot;
+  style&#x3D;&quot;display: flex; justify-content: center; align-items: center;&quot;
+&gt;
+  &lt;mat-progress-spinner color&#x3D;&quot;primary&quot; mode&#x3D;&quot;indeterminate&quot;&gt;
+  &lt;/mat-progress-spinner&gt;
+&lt;/mat-card&gt;
+
+&lt;div *ngIf&#x3D;&quot;isEmpty &amp;&amp; !isLoading&quot; class&#x3D;&quot;no-cases-message&quot;&gt;
+  &lt;h1&gt;Create a new case study&lt;/h1&gt;
+  &lt;h3&gt;A case study helps you share your findings with the world.&lt;/h3&gt;
+  &lt;h4&gt;You can start by pressing the + button above&lt;/h4&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>doc-table.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.mat-row:hover {
+  background: #ffc107;
+}
+
+.action {
+  display: flex;
+  flex-flow: row;
+  align-items: baseline;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.no-cases-message {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  padding-top: 20vh;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="!isLoading && !isEmpty">  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">    <!-- Position Column -->    <ng-container matColumnDef="title">      <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>      <td mat-cell *matCellDef="let element" (click)="editDocument(element)">        {{          element.title.length > 100            ? (element.title | slice: 0:100) + "..."            : element.title        }}      </td>    </ng-container>    <!-- Name Column -->    <ng-container matColumnDef="published">      <th mat-header-cell *matHeaderCellDef mat-sort-header>Published</th>      <td mat-cell *matCellDef="let element" (click)="editDocument(element)">        {{ true == element.published ? "Yes" : "No" }}      </td>    </ng-container>    <!-- Weight Column -->    <ng-container matColumnDef="incident_date">      <th mat-header-cell *matHeaderCellDef mat-sort-header>Incident Date</th>      <td mat-cell *matCellDef="let element" (click)="editDocument(element)">        {{ element.incident_date | date: "MM/dd/yyyy" }}      </td>    </ng-container>    <!-- Symbol Column -->    <ng-container matColumnDef="creationDate">      <th mat-header-cell *matHeaderCellDef mat-sort-header>Creation Date</th>      <td mat-cell *matCellDef="let element">        {{ element.creationDate | date: "MM/dd/yyyy" }}        <button          mat-button          isRoundButton="true"          matTooltip="Delete Case Study"          (click)="removeDocument(element.id)"        >          <mat-icon>delete</mat-icon>        </button>      </td>    </ng-container>    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>  </table></ng-container><mat-card  *ngIf="isLoading"  style="display: flex; justify-content: center; align-items: center;">  <mat-progress-spinner color="primary" mode="indeterminate">  </mat-progress-spinner></mat-card><div *ngIf="isEmpty && !isLoading" class="no-cases-message">  <h1>Create a new case study</h1>  <h3>A case study helps you share your findings with the world.</h3>  <h4>You can start by pressing the + button above</h4></div></div>'
+    var COMPONENTS = [{'name': 'ActorsEditorComponent', 'selector': 'app-actors-editor'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AuthorsEditorComponent', 'selector': 'app-authors-editor'},{'name': 'CoreComponent', 'selector': 'app-core'},{'name': 'DateTimelineEditorComponent', 'selector': 'app-date-timeline-editor'},{'name': 'DescriptionEditorComponent', 'selector': 'app-description-editor'},{'name': 'DocSidebarComponent', 'selector': 'app-doc-sidebar'},{'name': 'DocTableComponent', 'selector': 'app-doc-table'},{'name': 'DocumentEditionComponent', 'selector': 'app-document-edition'},{'name': 'DocumentOptionsComponent', 'selector': 'app-document-options'},{'name': 'DocumentsDashboardComponent', 'selector': 'app-documents-dashboard'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'InvalidUrlComponent', 'selector': 'app-invalid-url'},{'name': 'LocationsEditorComponent', 'selector': 'app-locations-editor'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'NewDocumentDialogComponent', 'selector': 'app-new-document.dialog'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'SectionEditorComponent', 'selector': 'app-section-editor'},{'name': 'TagsCategoriesEditorComponent', 'selector': 'app-tags-categories-editor'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'DocTableComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'DocTableComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

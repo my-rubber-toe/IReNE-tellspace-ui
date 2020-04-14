@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { FormBuilder, FormGroup, Validators, FormArray } from "@angular/forms";
-import { Author } from "@app/models/author";
+import { Author } from "@app/shared/models/author";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
 
 @Component({

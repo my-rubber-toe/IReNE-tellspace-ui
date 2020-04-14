@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import * as ClassicEditorWithAutosave from "@app/../assets/ckeditor.js";
 import { debounceTime } from "rxjs/operators";
-import { ContentSection } from "@app/models/content-section";
+import { ContentSection } from "@app/shared/models/content-section";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
 import Swal from "sweetalert2";
 import { BehaviorSubject } from "rxjs";

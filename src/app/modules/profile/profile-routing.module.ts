@@ -3,11 +3,11 @@ import { Routes, RouterModule } from "@angular/router";
 import { ProfileComponent } from "./profile.component";
 
 const routes: Routes = [
-  { path: "", pathMatch: "full", component: ProfileComponent },
+  { path: "", pathMatch: "full", component: ProfileComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class ProfileRoutingModule {}

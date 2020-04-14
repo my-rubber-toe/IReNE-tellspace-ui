@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { NewDocumentDialogComponent } from "./components/new-document.dialog/new-document.dialog.component";
 import { DocTableComponent } from "./components/doc-table/doc-table.component";
 import { DocumentsService } from "@app/core/services/documents.service";
-import { CaseDocumentCreateRequest } from "@app/models/case-document-create-request";
+import { CaseDocumentCreateRequest } from "@app/shared/models/case-document-create-request";
 import { MatPaginator } from '@angular/material/paginator';
 
 @Component({

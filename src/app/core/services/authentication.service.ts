@@ -5,9 +5,9 @@ import { Observable, of, BehaviorSubject } from "rxjs";
 
 import { AuthService, GoogleLoginProvider } from "angularx-social-login";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Tokens } from "@app/models/tokens";
+import { Tokens } from "@app/shared/models/tokens";
 import { Router } from "@angular/router";
-import { Profile } from "@app/models/profile";
+import { Profile } from "@app/shared/models/profile";
 
 @Injectable({
   providedIn: "root",

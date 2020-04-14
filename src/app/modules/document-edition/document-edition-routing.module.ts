@@ -5,11 +5,11 @@ import { SectionEditorComponent } from "./pages/section-editor/section-editor.co
 
 const routes: Routes = [
   { path: "", pathMatch: "full", component: DocumentOptionsComponent },
-  { path: "s/:secid", component: SectionEditorComponent },
+  { path: "s/:secid", component: SectionEditorComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class DocumentEditionRoutingModule {}

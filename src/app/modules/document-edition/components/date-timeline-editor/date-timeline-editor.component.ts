@@ -7,7 +7,7 @@ import {
   FormControl,
 } from "@angular/forms";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
-import { Timeline } from "@app/models/timeline";
+import { Timeline } from "@app/shared/models/timeline";
 
 @Component({
   selector: "app-date-timeline-editor",

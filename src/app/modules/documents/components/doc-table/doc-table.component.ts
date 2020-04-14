@@ -5,7 +5,7 @@
 import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
-import { CaseDocument } from "@app/models/case-document";
+import { CaseDocument } from "@app/shared/models/case-document";
 import { DocumentsService } from "@app/core/services/documents.service";
 import { Router } from "@angular/router";
 import { MatTableDataSource } from "@angular/material/table";

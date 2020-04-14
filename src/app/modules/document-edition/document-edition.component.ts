@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { CaseDocument } from "@app/models/case-document";
+import { CaseDocument } from "@app/shared/models/case-document";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
 
 @Component({

@@ -4,15 +4,15 @@ import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { DefaultModule } from "./core/default.module";
+import { CoreModule } from "./core/core.module";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 
-import { getAuthServiceConfigs } from "./socialloginConfig";
+import { getAuthServiceConfigs } from "./configs/socialloginConfig";
 // used to create fake backend
-import { fakeBackendProvider } from "./interceptors/mock-backend-interceptor";
-import { AuthInterceptorProvider } from "./interceptors/auth-interceptor";
+import { fakeBackendProvider } from "./core/interceptors/mock-backend-interceptor";
+import { AuthInterceptorProvider } from "./core/interceptors/auth-interceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +21,7 @@ import { AuthInterceptorProvider } from "./interceptors/auth-interceptor";
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    DefaultModule,
+    CoreModule,
     SocialLoginModule,
   ],
   providers: [

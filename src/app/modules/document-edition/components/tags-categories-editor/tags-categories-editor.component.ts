@@ -5,7 +5,7 @@ import { DocumentEditionService } from "@app/core/services/document-edition.serv
 import { ENTER, COMMA } from "@angular/cdk/keycodes";
 import { Observable } from "rxjs";
 import { DocumentsService } from "@app/core/services/documents.service";
-import { Category } from "@app/models/category";
+import { Category } from "@app/shared/models/category";
 import {
   MatAutocompleteSelectedEvent,
   MatAutocomplete,

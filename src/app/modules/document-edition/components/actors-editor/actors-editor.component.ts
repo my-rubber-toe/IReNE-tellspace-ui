@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { FormBuilder, FormGroup, Validators, FormArray } from "@angular/forms";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
-import { Actor } from "@app/models/actor";
+import { Actor } from "@app/shared/models/actor";
 
 @Component({
   selector: "app-actors-editor",

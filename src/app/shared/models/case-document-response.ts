@@ -1,17 +1,17 @@
 import { Author } from "./author";
-import { Timeline } from "./timeline";
+import { TimelineResponse } from "./timeline-response";
 import { ContentSection } from "./content-section";
 import { Actor } from "./actor";
 
-export class CaseDocument {
+export class CaseDocumentResponse {
   id?: string;
   creatoriD?: string;
   title: string;
   description: string;
   published: boolean;
-  incidentDate: Date;
-  creationDate: Date;
-  lastModificationDate: Date;
+  incidentDate: string;
+  creationDate: string;
+  lastModificationDate: string;
   language: string;
   tagsDoc: string[];
   infrasDocList: string[];
@@ -20,6 +20,6 @@ export class CaseDocument {
   authors: Author[];
   actors: Actor[];
   section: ContentSection[];
-  timeline: Timeline[];
+  timeline: TimelineResponse[];
   tags: string[];
 }

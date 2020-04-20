@@ -12,6 +12,8 @@
           matInput
           formControlName="title"
           name="title"
+          maxlength="250"
+          minlength="10"
           placeholder="Case Study Title"
           [errorStateMatcher]="matcher"
           required
@@ -22,7 +24,15 @@
         >
       </mat-form-field>
       <br />
-
+      <label>Case Study Language:&ensp;</label>
+      <mat-radio-group
+        aria-label="Select a case language"
+        formControlName="language"
+      >
+        <mat-radio-button value="English">English</mat-radio-button>
+        <mat-radio-button value="Spanish">Spanish</mat-radio-button>
+      </mat-radio-group>
+      <br />
       <mat-form-field color="accent" class="full-width">
         <mat-label>Incident Date</mat-label>
         <input
@@ -30,6 +40,8 @@
           [matDatepicker]="picker"
           formControlName="incident_date"
           name="incident_date"
+          [min]="minDate"
+          [max]="maxDate"
           [errorStateMatcher]="matcher"
           required
         />
@@ -86,6 +98,7 @@
               <input
                 formControlName="author_FN"
                 matInput
+                maxlength="30"
                 [errorStateMatcher]="matcher"
                 required
               />
@@ -95,6 +108,7 @@
               <input
                 formControlName="author_LN"
                 matInput
+                maxlength="30"
                 [errorStateMatcher]="matcher"
                 required
               />
@@ -106,6 +120,7 @@
                 matInput
                 placeholder="irene.riseup@upr.edu"
                 formControlName="author_email"
+                maxlength="50"
                 [errorStateMatcher]="matcher"
                 required
               />
@@ -115,6 +130,7 @@
               <input
                 formControlName="author_faculty"
                 matInput
+                maxlength="30"
                 [errorStateMatcher]="matcher"
                 required
               />
@@ -154,6 +170,7 @@
               <input
                 formControlName="actor_FN"
                 matInput
+                maxlength="30"
                 [errorStateMatcher]="matcher"
                 required
               />
@@ -163,6 +180,7 @@
               <input
                 formControlName="actor_LN"
                 matInput
+                maxlength="30"
                 [errorStateMatcher]="matcher"
                 required
               />
@@ -173,6 +191,7 @@
               <input
                 formControlName="actor_role"
                 matInput
+                maxlength="30"
                 [errorStateMatcher]="matcher"
                 required
               />

@@ -8,6 +8,7 @@ import { Actor } from "@app/shared/models/actor";
 import { Author } from "@app/shared/models/author";
 import { debounceTime } from "rxjs/operators";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { DatePipe } from "@angular/common";
 
 @Injectable({
   providedIn: "root",
@@ -15,7 +16,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 export class DocumentEditionService {
   constructor(
     private docService: DocumentsService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private datePipe: DatePipe
   ) {}
 
   /**Caches the active Case Document for use of the editors */
@@ -72,10 +74,23 @@ export class DocumentEditionService {
   }
 
   /**Changes the active document timeline to the given timeline array and updates the backend*/
-  public editTimeline(newTimeline: any) {
-    this.activeCaseDocument.timeline = newTimeline.timeline;
+  public editTimeline(newTimeline: Timeline[]) {
+    this.activeCaseDocument.timeline = newTimeline;
+    let timeline = newTimeline.map((timeEvent) => {
+      return {
+        event: timeEvent.event_description,
+        event_start_date: this.datePipe.transform(
+          timeEvent.event_start_date,
+          "yyyy-MM-dd"
+        ),
+        event_end_date: this.datePipe.transform(
+          timeEvent.event_end_date,
+          "yyyy-MM-dd"
+        ),
+      };
+    });
     this.docService
-      .edit(this.activeCaseDocument.id, "timeline", newTimeline)
+      .edit(this.activeCaseDocument.id, "timeline", timeline)
       .subscribe((_) => {
         this.updateSource();
         this.snackBar.open("Timeline Saved");
@@ -84,7 +99,7 @@ export class DocumentEditionService {
 
   /**Changes the active document infraestructure types to the given string array and updates the backend*/
   public editInfraestructureTypes(infrastructureTypes: string[]) {
-    this.activeCaseDocument.infrastructure_type = infrastructureTypes;
+    this.activeCaseDocument.infrasDocList = infrastructureTypes;
     this.docService
       .edit(this.activeCaseDocument.id, "infrastructure_types", {
         infrastructure_type: infrastructureTypes,
@@ -97,7 +112,7 @@ export class DocumentEditionService {
 
   /**Changes the active document damage types to the given string array and updates the backend*/
   public editDamageTypes(damageTypes: string[]) {
-    this.activeCaseDocument.damage_type = damageTypes;
+    this.activeCaseDocument.damageDocList = damageTypes;
     this.docService
       .edit(this.activeCaseDocument.id, "damage_types", {
         damage_type: damageTypes,
@@ -154,8 +169,17 @@ export class DocumentEditionService {
 
   /**Change the active document incident date to the given date and updates the backend*/
   public editIncidentDate(incidentDay: Date) {
-    this.activeCaseDocument.incident_date = incidentDay;
-    //TODO connect to endpoint
+    let incidentDayString = this.datePipe.transform(incidentDay, "yyyy-MM-dd");
+    this.activeCaseDocument.incidentDate = incidentDay;
+    console.log("saved incident date string: ", incidentDayString, incidentDay);
+    this.docService
+      .edit(this.activeCaseDocument.id, "incident_date", {
+        incident_date: incidentDayString,
+      })
+      .subscribe((_) => {
+        this.updateSource();
+        this.snackBar.open("Incident Date Saved");
+      });
   }
 
   public editSection(sec: ContentSection, position: number): Observable<any> {

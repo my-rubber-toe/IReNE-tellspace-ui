@@ -5,7 +5,7 @@
 import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
-import { CaseDocument } from "@app/shared/models/case-document";
+import { CaseDocumentMetadata } from "@app/shared/models/case-document-metadata";
 import { DocumentsService } from "@app/core/services/documents.service";
 import { Router } from "@angular/router";
 import { MatTableDataSource } from "@angular/material/table";
@@ -23,7 +23,7 @@ export class DocTableComponent implements OnInit {
   displayedColumns: string[] = [
     "title",
     "published",
-    "incident_date",
+    "lastModificationDate",
     "creationDate",
   ];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -32,7 +32,7 @@ export class DocTableComponent implements OnInit {
 
   isLoading = true;
 
-  dataSource: MatTableDataSource<CaseDocument>;
+  dataSource: MatTableDataSource<CaseDocumentMetadata>;
 
   constructor(private docService: DocumentsService, private router: Router) {}
 
@@ -44,14 +44,15 @@ export class DocTableComponent implements OnInit {
   }
 
   /**Method to navigate to the editor of the clicked case study */
-  editDocument(element: CaseDocument) {
+  editDocument(element: CaseDocumentMetadata) {
     this.router.navigateByUrl("/edit/" + element.id);
   }
 
   refresh(): void {
     this.isLoading = true;
-    this.docService.getDocuments().subscribe((x) => {
-      this.dataSource.data = JSON.parse(x) as CaseDocument[];
+    this.docService.getDocuments().subscribe((metadata) => {
+      this.dataSource.data = metadata;
+      console.log(this.dataSource.data);
       this.isLoading = false;
       if (this.dataSource.data.length > 0) this.isEmpty = false;
       else this.isEmpty = true;
@@ -65,8 +66,8 @@ export class DocTableComponent implements OnInit {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "green",
+      cancelButtonColor: "black",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.value) {

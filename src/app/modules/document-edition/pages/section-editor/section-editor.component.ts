@@ -125,8 +125,8 @@ export class SectionEditorComponent implements OnInit {
       text: "This action cannot be undone",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "green",
+      cancelButtonColor: "black",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.value) {

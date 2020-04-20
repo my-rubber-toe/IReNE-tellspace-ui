@@ -3,7 +3,7 @@ import {
   AuthServiceConfig,
   GoogleLoginProvider,
 } from "angularx-social-login";
-
+/**Returns the configuration of Google oAuth provider */
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig([
     {

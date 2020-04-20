@@ -16,14 +16,15 @@ import {
 import { Observable, of, throwError } from "rxjs";
 import { delay, mergeMap, materialize, dematerialize } from "rxjs/operators";
 import { ContentSection } from "@app/shared/models/content-section";
-import { CaseDocument } from "@app/shared/models/case-document";
+import { CaseDocumentResponse } from "@app/shared/models/case-document-response";
 import { Actor } from "@app/shared/models/actor";
 import { Author } from "@app/shared/models/author";
-import { LoginComponent } from "@app/modules/login/login.component";
+import { CaseDocumentCreateRequest } from "@app/shared/models/case-document-create-request";
+import { CaseDocumentMetadata } from "@app/shared/models/case-document-metadata";
 // import { Metadata } from "src/app/interfaces/metadata";
 
 // array in local storage for mockCaseStudies
-let CASES = (JSON.parse(localStorage.getItem("cases")) || []) as CaseDocument[];
+let CASES = (JSON.parse(localStorage.getItem("cases")) || []) as CaseDocumentResponse[];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -71,6 +72,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return edit("DocumentInsfraestructureTypes");
         case url.endsWith("/edit/damage_types") && method === "PUT":
           return edit("DocumentDamageTypes");
+        case url.endsWith("/edit/incident_date") && method === "PUT":
+          return edit("DocumentIncidentDate");
         case url.endsWith("/edit/actors") && method === "PUT":
           return edit("DocumentActors");
         case url.endsWith("/edit/locations") && method === "PUT":
@@ -110,28 +113,46 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function getDocuments() {
+      let response: CaseDocumentMetadata[] = CASES.map((doc) => {
+        return {
+          id: doc.id,
+          title: doc.title,
+          description: doc.description,
+          published: doc.published,
+          incidentDate: doc.incidentDate,
+          creationDate: doc.creationDate,
+          lastModificationDate: doc.lastModificationDate,
+        };
+      });
+
       //   if (!isLoggedIn()) return unauthorized();
-      return ok(JSON.stringify(CASES));
+      return ok(response);
     }
 
     function createDocument() {
-      console.log("creating document", body);
-      let newDocument: CaseDocument = Object.assign(new CaseDocument(), body);
-      newDocument.actors = body.actors.map((x) => x as Actor);
-      newDocument.authors = body.authors.map((x) => x as Author);
+      const req = body as CaseDocumentCreateRequest;
+      let newDocument: CaseDocumentResponse = new CaseDocumentResponse();
+      newDocument.title = req.title;
+      newDocument.actors = req.actors.map((x) => x as Actor);
+      newDocument.authors = req.authors.map((x) => x as Author);
       //set id for the document simulating mongo standard
       newDocument.id = generateMongoObjectId();
-      newDocument.creationDate = new Date();
-      newDocument.description = " Hola soy el server ...";
+      newDocument.creationDate = getNowString();
+      newDocument.lastModificationDate = getNowString();
+      newDocument.incidentDate = req.incident_date;
+      newDocument.description = "";
+      newDocument.damageDocList = req.damage_type;
+      newDocument.infrasDocList = req.infrastructure_type;
       newDocument.section = [
         new ContentSection("Abstract", ""),
         new ContentSection("Introduction", ""),
         new ContentSection("Body", ""),
       ];
-      newDocument.language = "english";
+      newDocument.language = req.language;
       newDocument.tags = ["Hurricane"];
       newDocument.location = ["San Juan, PR"];
       newDocument.timeline = [];
+      newDocument.published = true;
       CASES.push(newDocument);
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();
@@ -140,9 +161,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function getDocumentById() {
       //   if (!isLoggedIn()) return unauthorized();
       console.log("the backend id " + idFromUrl(1));
-      const doc: CaseDocument = CASES.find((x) => x.id === idFromUrl(1));
+      const doc: CaseDocumentResponse = CASES.find((x) => x.id === idFromUrl(1));
       console.log(doc);
-      let copyDoc = Object.assign(new CaseDocument(), doc);
+      let copyDoc = Object.assign(new CaseDocumentResponse(), doc);
       copyDoc.section = doc.section.map((x) => Object.assign({}, x));
       copyDoc.authors = doc.authors.map((x) => Object.assign({}, x));
       copyDoc.actors = doc.actors.map((x) => Object.assign({}, x));
@@ -152,7 +173,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function removeDocument() {
       //   if (!isLoggedIn()) return unauthorized();
-      let doc = CASES.find((x: CaseDocument) => x.id == idFromUrl(1));
+      let doc = CASES.find((x: CaseDocumentResponse) => x.id == idFromUrl(1));
       let size = CASES.length;
       if (doc && size > 0) {
         doc = CASES[size - 1];
@@ -165,7 +186,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function createSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: CaseDocument) => x.id === idFromUrl(4));
+      const doc = CASES.find((x: CaseDocumentResponse) => x.id === idFromUrl(4));
       console.log("created on backend");
       doc.section.push(new ContentSection("", ""));
       localStorage.setItem("cases", JSON.stringify(CASES));
@@ -174,8 +195,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function removeSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc: CaseDocument = CASES.find(
-        (x: CaseDocument) => x.id === idFromUrl(5)
+      const doc: CaseDocumentResponse = CASES.find(
+        (x: CaseDocumentResponse) => x.id === idFromUrl(5)
       );
       const index = +idFromUrl(1);
       if (index >= doc.section.length) {
@@ -189,8 +210,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function editDocumentSection() {
       //   if (!isLoggedIn()) return unauthorized();
 
-      const doc: CaseDocument = CASES.find(
-        (x: CaseDocument) => x.id === idFromUrl(4)
+      const doc: CaseDocumentResponse = CASES.find(
+        (x: CaseDocumentResponse) => x.id === idFromUrl(4)
       );
       const sec: ContentSection = doc.section[+idFromUrl(1)];
       sec.section_title = body.section_title;
@@ -202,8 +223,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function edit(type: string) {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc: CaseDocument = CASES.find(
-        (x: CaseDocument) => x.id === idFromUrl(3)
+      const doc: CaseDocumentResponse = CASES.find(
+        (x: CaseDocumentResponse) => x.id === idFromUrl(3)
       );
       switch (type) {
         case "DocumentTitle":
@@ -216,10 +237,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           doc.timeline = body.timeline;
           break;
         case "DocumentInsfraestructureTypes":
-          doc.infrastructure_type = body.infrastructure_type;
+          doc.infrasDocList = body.infrastructure_type;
           break;
         case "DocumentDamageTypes":
-          doc.damage_type = body.damage_type;
+          doc.damageDocList = body.damage_type;
           break;
         case "DocumentActors":
           doc.actors = body.actors;
@@ -233,7 +254,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         case "DocumentTags":
           doc.tagsDoc = body.tagsDoc;
           break;
+        case "DocumentIncidentDate":
+          doc.incidentDate = body.incident_date;
+          break;
       }
+      const now = new Date();
+      doc.lastModificationDate = getNowString();
       localStorage.setItem("cases", JSON.stringify(CASES));
       return ok();
     }
@@ -268,7 +294,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function unauthorized() {
-      return throwError({ status: 401, error: { message: "Unauthorised" } });
+      return throwError({ status: 401, error: { message: "Unauthorized" } });
     }
 
     function error(message) {
@@ -297,6 +323,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           })
           .toLowerCase()
       );
+    }
+
+    function getNowString(): string {
+      const now = new Date();
+      return new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+        .toISOString()
+        .split("T")[0];
     }
   }
 }

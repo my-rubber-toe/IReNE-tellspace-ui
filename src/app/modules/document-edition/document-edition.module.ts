@@ -34,8 +34,5 @@ import { DocumentEditionComponent } from "./document-edition.component";
     MaterialModule,
     DocumentEditionRoutingModule,
   ],
-  providers: [
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },
-  ],
 })
 export class DocumentEditionModule {}

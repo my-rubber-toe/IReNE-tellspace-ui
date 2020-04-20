@@ -27,16 +27,25 @@ export class DateTimelineEditorComponent implements OnInit {
 
   editingIncidentDate: boolean = false;
 
+  minDate: Date;
+  maxDate: Date;
+
   constructor(
     private fb: FormBuilder,
     private edition: DocumentEditionService
-  ) {}
+  ) {
+    // Set tminimum and maximun dates
+    const currentYear = new Date().getFullYear();
+    this.minDate = new Date(currentYear - 20, 0, 1);
+    this.maxDate = new Date();
+  }
 
   private initTimelineEvent(): FormGroup {
     return this.fb.group(
       {
         event_description: ["", Validators.required],
-        event_date: ["", Validators.required],
+        event_start_date: ["", Validators.required],
+        event_end_date: ["", Validators.required],
       },
       Validators.required
     );
@@ -61,7 +70,8 @@ export class DateTimelineEditorComponent implements OnInit {
       this.fb.group(
         {
           event_description: [timeEvent.event_description, Validators.required],
-          event_date: [timeEvent.event_date, Validators.required],
+          event_start_date: [timeEvent.event_start_date, Validators.required],
+          event_end_date: [timeEvent.event_end_date, Validators.required],
         },
         Validators.required
       )
@@ -85,7 +95,7 @@ export class DateTimelineEditorComponent implements OnInit {
 
   saveTimeline() {
     console.log("Saved timeline: ", this.timelineForm.getRawValue());
-    this.edition.editTimeline(this.timelineForm.getRawValue());
+    this.edition.editTimeline(this.timelineForm.getRawValue().timeline);
     this.toggleEditingTimeline();
   }
 

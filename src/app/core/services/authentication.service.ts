@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import Swal from "sweetalert2";
-
 import { Observable, of, BehaviorSubject } from "rxjs";
-
 import { AuthService, GoogleLoginProvider } from "angularx-social-login";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Tokens } from "@app/shared/models/tokens";
@@ -13,22 +11,24 @@ import { Profile } from "@app/shared/models/profile";
   providedIn: "root",
 })
 export class AuthenticationService {
-  // store the URL so we can redirect after logging in
+  /**stores the URL so we can redirect after logging in */ 
   redirectUrl: string;
 
+  /**Root Url of the API for authentication requests */
   private rootUrl = "api/auth"; // URL to web api
 
+  /**Initial Headers for http requests from this service*/
   private httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" }),
   };
 
+  /**Source that stores the current collaborator name and publish it to the collaborator_name$ stream*/
   private collaborator_source: BehaviorSubject<string> = new BehaviorSubject(
     localStorage.getItem("collaborator_name") || ""
   );
 
-  private collaborator_name$: Observable<
-    string
-  > = this.collaborator_source.asObservable();
+  /**collaborator_name$ string stream which can be subscribed to get the current collaborator name*/
+  private collaborator_name$: Observable<string> = this.collaborator_source.asObservable();
 
   constructor(
     private socialAuthService: AuthService,
@@ -36,9 +36,13 @@ export class AuthenticationService {
     private router: Router
   ) {}
 
+  /**Main login function, called to request authentication with Google oAuth 
+   * and request a token depending on the response from Google.
+   */
   public signin() {
     let socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
 
+    //Call to the external socialAuthService wich handles Google oAuth
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
         //on success this will return user data from google.
@@ -58,7 +62,6 @@ export class AuthenticationService {
             );
             this.setCollaboratorName(userData.name);
             this.router.navigateByUrl(this.redirectUrl || "");
-            //************* For test purposes User Data is stored on localstorage ********* */ */
           },
           (error) => {
             Swal.fire(
@@ -70,10 +73,13 @@ export class AuthenticationService {
           }
         );
       },
-      (err) => console.log(err)
+      (err) => console.log(err) //Logs errors from Google oAuth
     );
   }
 
+  /**GET request to the server for a collaborator token
+   * @param googleID valid token Id returned from google
+   */
   private getLoginToken(googleId: string): Observable<Tokens> {
     const url = `${this.rootUrl}/${googleId}`;
     return this.http.get<Tokens>(url);

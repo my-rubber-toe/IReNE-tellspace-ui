@@ -45,8 +45,8 @@
     <ng-template matTabContent>
       <app-tags-categories-editor
         [tags]="doc.tags"
-        [infrastructures]="doc.infrastructure_type"
-        [damage_types]="doc.damage_type"
+        [infrastructures]="doc.infrasDocList"
+        [damage_types]="doc.damageDocList"
       ></app-tags-categories-editor>
     </ng-template>
   </mat-tab>
@@ -54,7 +54,7 @@
     <ng-template matTabContent>
       <app-date-timeline-editor
         [timeline]="doc.timeline"
-        [incident_date]="doc.incident_date"
+        [incident_date]="doc.incidentDate"
       ></app-date-timeline-editor>
     </ng-template>
   </mat-tab>

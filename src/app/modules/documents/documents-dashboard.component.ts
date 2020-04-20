@@ -26,6 +26,7 @@ export class DocumentsDashboardComponent implements OnInit {
     let dialogRef = this.dialog.open(NewDocumentDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        //TODO: CREATE DOCUMENT CREATE REQUEST FROM SCRATCH
         console.log("this data ", result);
         this.docService
           .createDocument(result as CaseDocumentCreateRequest)

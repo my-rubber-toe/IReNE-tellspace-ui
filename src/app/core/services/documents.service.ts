@@ -6,6 +6,8 @@ import { catchError, map, tap } from "rxjs/operators";
 import { ContentSection } from "@app/shared/models/content-section";
 import { Category } from "@app/shared/models/category";
 import { CaseDocumentCreateRequest } from "@app/shared/models/case-document-create-request";
+import { CaseDocumentMetadata } from "@app/shared/models/case-document-metadata";
+import { CaseDocumentResponse } from '@app/shared/models/case-document-response';
 
 @Injectable({
   providedIn: "root",
@@ -22,11 +24,13 @@ export class DocumentsService {
   //Route Client Functions:
 
   /** GET document metadata. Will 404 if there are no documents */
-  public getDocuments(): Observable<string> {
+  public getDocuments(): Observable<CaseDocumentMetadata[]> {
     const url = `${this.rootUrl}/documents`;
     return this.http
-      .get<string>(url, this.httpOptions)
-      .pipe(catchError(this.handleError<string>("getDocuments")));
+      .get<CaseDocumentMetadata[]>(url, this.httpOptions)
+      .pipe(
+        catchError(this.handleError<CaseDocumentMetadata[]>("getDocuments"))
+      );
   }
 
   /** POST new document on the server */
@@ -48,12 +52,12 @@ export class DocumentsService {
   }
 
   /** GET document by id. Will 404 if id not found */
-  public getDocumentById(docid: string): Observable<CaseDocument> {
+  public getDocumentById(docid: string): Observable<CaseDocumentResponse> {
     const url = `${this.rootUrl}/documents/${docid}`;
-    return this.http.get<CaseDocument>(url).pipe(
+    return this.http.get<CaseDocumentResponse>(url).pipe(
       tap((_) => console.log(`getDocumentByID id=${docid}`)),
       catchError(
-        this.handleError<CaseDocument>(`getDocumentById docid=${docid}`)
+        this.handleError<CaseDocumentResponse>(`getDocumentById docid=${docid}`)
       )
     );
   }

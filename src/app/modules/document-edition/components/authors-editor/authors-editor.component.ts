@@ -6,7 +6,7 @@ import { DocumentEditionService } from "@app/core/services/document-edition.serv
 @Component({
   selector: "app-authors-editor",
   templateUrl: "./authors-editor.component.html",
-  styleUrls: ["./authors-editor.component.scss"]
+  styleUrls: ["./authors-editor.component.scss"],
 })
 export class AuthorsEditorComponent implements OnInit {
   @Input() authors: Author[];
@@ -25,8 +25,8 @@ export class AuthorsEditorComponent implements OnInit {
       {
         author_FN: ["", Validators.required],
         author_LN: ["", Validators.required],
-        author_email: ["", Validators.email],
-        author_faculty: ["", Validators.required]
+        author_email: ["", Validators.pattern("^[a-z0-9._%+-]+@upr.edu$")],
+        author_faculty: ["", Validators.required],
       },
       Validators.required
     );
@@ -35,14 +35,14 @@ export class AuthorsEditorComponent implements OnInit {
   ngOnInit(): void {
     this.authorForm = this.fb.group(
       {
-        authors: this.fb.array([], Validators.required)
+        authors: this.fb.array([], Validators.required),
       },
       Validators.required
     );
 
     console.log(this.authorForm.status);
 
-    this.authors.forEach(author => {
+    this.authors.forEach((author) => {
       this.addAuthorX(author);
     });
     console.log(this.authorForm.status);
@@ -56,7 +56,7 @@ export class AuthorsEditorComponent implements OnInit {
           author_FN: [author.author_FN, Validators.required],
           author_LN: [author.author_LN, Validators.required],
           author_email: [author.author_email, Validators.email],
-          author_faculty: [author.author_faculty, Validators.required]
+          author_faculty: [author.author_faculty, Validators.required],
         },
         Validators.required
       )

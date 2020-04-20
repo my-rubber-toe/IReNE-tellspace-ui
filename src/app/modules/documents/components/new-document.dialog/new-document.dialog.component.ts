@@ -47,7 +47,7 @@ export class NewDocumentDialogComponent implements OnInit {
       {
         author_FN: ["", Validators.required],
         author_LN: ["", Validators.required],
-        author_email: ["", Validators.email],
+        author_email: ["", Validators.pattern("^[a-z0-9._%+-]+@upr.edu$")],
         author_faculty: ["", Validators.required],
       },
       Validators.required

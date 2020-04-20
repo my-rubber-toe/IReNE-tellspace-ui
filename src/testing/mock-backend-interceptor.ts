@@ -28,6 +28,9 @@ let CASES = (JSON.parse(localStorage.getItem("cases")) || []) as CaseDocumentRes
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
+
+  
+  /**Mock intercept routes and simulate server logic */
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler

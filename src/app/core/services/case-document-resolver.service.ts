@@ -12,6 +12,7 @@ import { CaseDocument } from "@app/shared/models/case-document";
 import { CaseDocumentResponse } from "@app/shared/models/case-document-response";
 import { DocumentsService } from "@app/core/services/documents.service";
 import { DocumentEditionService } from "./document-edition.service";
+import Swal from "sweetalert2";
 
 /**Resolver service to load and define case document before loading the document edition module*/
 @Injectable({
@@ -35,7 +36,8 @@ export class CaseDocumentResolverService implements Resolve<CaseDocument> {
     state: RouterStateSnapshot
   ): Observable<CaseDocument> | Observable<never> {
     let id = route.paramMap.get("docid");
-
+    Swal.fire(`Loading Case Document\n Please wait`);
+    Swal.showLoading();
     return this.docService.getDocumentById(id).pipe(
       take(1),
       mergeMap((caseDoc) => {
@@ -44,11 +46,13 @@ export class CaseDocumentResolverService implements Resolve<CaseDocument> {
           caseDoc.id = id;
           let parsedDoc = this.parseCaseDocument(caseDoc);
           this.editService.setActiveCaseDocument(parsedDoc);
+          Swal.close();
           return of(parsedDoc);
         } else {
           // id not found
           console.log("document not found");
           this.router.navigate(["/invalid"]);
+          Swal.close();
           return EMPTY;
         }
       })
@@ -62,13 +66,17 @@ export class CaseDocumentResolverService implements Resolve<CaseDocument> {
   private parseCaseDocument(response: CaseDocumentResponse): CaseDocument {
     let caseDocument = new CaseDocument();
     Object.assign(caseDocument, response);
-    caseDocument.timeline = response.timeline.map((timeEvent) => {
-      return {
-        event_description: timeEvent.event_description,
-        event_start_date: this.parseDateString(timeEvent.event_start_date),
-        event_end_date: this.parseDateString(timeEvent.event_end_date),
-      };
-    });
+    if (caseDocument.timeline) {
+      caseDocument.timeline = response.timeline.map((timeEvent) => {
+        return {
+          event_description: timeEvent.event_description,
+          event_start_date: this.parseDateString(timeEvent.event_start_date),
+          event_end_date: this.parseDateString(timeEvent.event_end_date),
+        };
+      });
+    } else {
+      caseDocument.timeline = [];
+    }
     caseDocument.incidentDate = this.parseDateString(response.incidentDate);
     caseDocument.lastModificationDate = this.parseDateString(
       response.lastModificationDate

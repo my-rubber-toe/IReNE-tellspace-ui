@@ -5,8 +5,8 @@
     <input
       matInput
       [matDatepicker]="picker"
-      [min]="minDate"
-      [max]="maxDate"
+      [min]="minDateStart"
+      [max]="maxDateEnd"
       [readonly]="!editingIncidentDate"
       [formControl]="incidentDateControl"
     />
@@ -52,21 +52,25 @@
       >
         <div [formGroupName]="i">
           <mat-card class="timeline-card">
-            <mat-form-field>
+            <mat-form-field style="width: 100%;">
               <mat-label>Event {{ i + 1 }} Description</mat-label>
-              <input
+              <textarea
+                matInput
                 [readonly]="!editingTimeline"
                 formControlName="event_description"
-                matInput
-              />
+                maxlength="250"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="3"
+              ></textarea>
             </mat-form-field>
             <mat-form-field color="accent" class="example-full-width">
               <mat-label>Event Start Date</mat-label>
               <input
                 matInput
                 [matDatepicker]="picker"
-                [min]="minDate"
-                [max]="maxDate"
+                [min]="minDateStart"
+                [max]="timelineForm.value.timeline[i].event_end_date"
                 [readonly]="!editingTimeline"
                 formControlName="event_start_date"
                 name="event_start_date"
@@ -82,8 +86,8 @@
               <input
                 matInput
                 [matDatepicker]="picker2"
-                [min]="minDate"
-                [max]="maxDate"
+                [min]="timelineForm.value.timeline[i].event_start_date"
+                [max]="maxDateEnd"
                 [readonly]="!editingTimeline"
                 formControlName="event_end_date"
                 name="event_end_date"

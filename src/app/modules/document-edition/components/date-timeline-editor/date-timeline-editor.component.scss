@@ -19,6 +19,7 @@
   gap: 20px;
   padding: 10px;
   @include mat-elevation(5);
+  width: 95%;
 }
 
 .incident-date-row {

@@ -704,7 +704,7 @@ import { DocumentEditionService } from &quot;@app/core/services/document-edition
 @Component({
   selector: &quot;app-authors-editor&quot;,
   templateUrl: &quot;./authors-editor.component.html&quot;,
-  styleUrls: [&quot;./authors-editor.component.scss&quot;]
+  styleUrls: [&quot;./authors-editor.component.scss&quot;],
 })
 export class AuthorsEditorComponent implements OnInit {
   @Input() authors: Author[];
@@ -723,8 +723,8 @@ export class AuthorsEditorComponent implements OnInit {
       {
         author_FN: [&quot;&quot;, Validators.required],
         author_LN: [&quot;&quot;, Validators.required],
-        author_email: [&quot;&quot;, Validators.email],
-        author_faculty: [&quot;&quot;, Validators.required]
+        author_email: [&quot;&quot;, Validators.pattern(&quot;^[a-z0-9._%+-]+@upr.edu$&quot;)],
+        author_faculty: [&quot;&quot;, Validators.required],
       },
       Validators.required
     );
@@ -733,14 +733,14 @@ export class AuthorsEditorComponent implements OnInit {
   ngOnInit(): void {
     this.authorForm &#x3D; this.fb.group(
       {
-        authors: this.fb.array([], Validators.required)
+        authors: this.fb.array([], Validators.required),
       },
       Validators.required
     );
 
     console.log(this.authorForm.status);
 
-    this.authors.forEach(author &#x3D;&gt; {
+    this.authors.forEach((author) &#x3D;&gt; {
       this.addAuthorX(author);
     });
     console.log(this.authorForm.status);
@@ -754,7 +754,7 @@ export class AuthorsEditorComponent implements OnInit {
           author_FN: [author.author_FN, Validators.required],
           author_LN: [author.author_LN, Validators.required],
           author_email: [author.author_email, Validators.email],
-          author_faculty: [author.author_faculty, Validators.required]
+          author_faculty: [author.author_faculty, Validators.required],
         },
         Validators.required
       )

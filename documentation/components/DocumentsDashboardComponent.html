@@ -495,6 +495,7 @@ export class DocumentsDashboardComponent implements OnInit {
     let dialogRef &#x3D; this.dialog.open(NewDocumentDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result &#x3D;&gt; {
       if (result) {
+        //TODO: CREATE DOCUMENT CREATE REQUEST FROM SCRATCH
         console.log(&quot;this data &quot;, result);
         this.docService
           .createDocument(result as CaseDocumentCreateRequest)

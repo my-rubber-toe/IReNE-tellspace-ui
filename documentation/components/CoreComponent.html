@@ -228,7 +228,10 @@
 export class CoreComponent implements OnInit {
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    //Basis to alert the user when offline and act accordingly
+    window.addEventListener(&quot;offline&quot;, (e) &#x3D;&gt; console.log(e, &quot;you&#x27;re offline&quot;));
+  }
 }
 </code></pre>
     </div>

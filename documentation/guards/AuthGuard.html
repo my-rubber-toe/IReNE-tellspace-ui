@@ -61,6 +61,13 @@
                 <code>src/app/core/guards/auth.guard.ts</code>
             </p>
 
+                <p class="comment">
+                <h3>Description</h3>
+                </p>
+                <p class="comment">
+                    <p>Authentication Guard that prevents unauthenticated collaborators from accesing guarded routes </p>
+
+                </p>
 
 
 
@@ -107,7 +114,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/core/guards/auth.guard.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/core/guards/auth.guard.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -184,14 +191,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">src/app/core/guards/auth.guard.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">src/app/core/guards/auth.guard.ts:22</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Authentication Guard</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -266,14 +275,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">src/app/core/guards/auth.guard.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/app/core/guards/auth.guard.ts:32</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Checks the login status of the collaborator, upon failure redirects the user to the login page </p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -329,6 +340,7 @@ import {
 
 import { AuthenticationService } from &quot;@app/core/services/authentication.service&quot;;
 
+/**Authentication Guard that prevents unauthenticated collaborators from accesing guarded routes */
 @Injectable({
   providedIn: &quot;root&quot;,
 })
@@ -338,6 +350,7 @@ export class AuthGuard implements CanActivateChild {
     private router: Router
   ) {}
 
+  /**Authentication Guard*/
   canActivateChild(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -347,6 +360,7 @@ export class AuthGuard implements CanActivateChild {
     return this.checkLogin(url);
   }
 
+  /**Checks the login status of the collaborator, upon failure redirects the user to the login page */
   checkLogin(url: string): boolean {
     if (this.authService.isLoggedIn()) {
       return true;

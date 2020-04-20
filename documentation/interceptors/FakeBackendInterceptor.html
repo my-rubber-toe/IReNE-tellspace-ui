@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/app/core/interceptors/mock-backend-interceptor.ts</code>
+            <code>src/testing/mock-backend-interceptor.ts</code>
         </p>
 
 
@@ -118,14 +118,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">src/app/core/interceptors/mock-backend-interceptor.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">src/testing/mock-backend-interceptor.ts:33</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Mock intercept routes and simulate server logic </p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -196,17 +198,20 @@ import {
 import { Observable, of, throwError } from &quot;rxjs&quot;;
 import { delay, mergeMap, materialize, dematerialize } from &quot;rxjs/operators&quot;;
 import { ContentSection } from &quot;@app/shared/models/content-section&quot;;
-import { CaseDocument } from &quot;@app/shared/models/case-document&quot;;
+import { CaseDocumentResponse } from &quot;@app/shared/models/case-document-response&quot;;
 import { Actor } from &quot;@app/shared/models/actor&quot;;
 import { Author } from &quot;@app/shared/models/author&quot;;
-import { LoginComponent } from &quot;@app/modules/login/login.component&quot;;
+import { CaseDocumentCreateRequest } from &quot;@app/shared/models/case-document-create-request&quot;;
+import { CaseDocumentMetadata } from &quot;@app/shared/models/case-document-metadata&quot;;
 // import { Metadata } from &quot;src/app/interfaces/metadata&quot;;
 
 // array in local storage for mockCaseStudies
-let CASES &#x3D; (JSON.parse(localStorage.getItem(&quot;cases&quot;)) || []) as CaseDocument[];
+let CASES &#x3D; (JSON.parse(localStorage.getItem(&quot;cases&quot;)) ||
+  []) as CaseDocumentResponse[];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
+  /**Mock intercept routes and simulate server logic */
   intercept(
     request: HttpRequest&lt;any&gt;,
     next: HttpHandler
@@ -251,6 +256,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return edit(&quot;DocumentInsfraestructureTypes&quot;);
         case url.endsWith(&quot;/edit/damage_types&quot;) &amp;&amp; method &#x3D;&#x3D;&#x3D; &quot;PUT&quot;:
           return edit(&quot;DocumentDamageTypes&quot;);
+        case url.endsWith(&quot;/edit/incident_date&quot;) &amp;&amp; method &#x3D;&#x3D;&#x3D; &quot;PUT&quot;:
+          return edit(&quot;DocumentIncidentDate&quot;);
         case url.endsWith(&quot;/edit/actors&quot;) &amp;&amp; method &#x3D;&#x3D;&#x3D; &quot;PUT&quot;:
           return edit(&quot;DocumentActors&quot;);
         case url.endsWith(&quot;/edit/locations&quot;) &amp;&amp; method &#x3D;&#x3D;&#x3D; &quot;PUT&quot;:
@@ -290,28 +297,46 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function getDocuments() {
+      let response: CaseDocumentMetadata[] &#x3D; CASES.map((doc) &#x3D;&gt; {
+        return {
+          id: doc.id,
+          title: doc.title,
+          description: doc.description,
+          published: doc.published,
+          incidentDate: doc.incidentDate,
+          creationDate: doc.creationDate,
+          lastModificationDate: doc.lastModificationDate,
+        };
+      });
+
       //   if (!isLoggedIn()) return unauthorized();
-      return ok(JSON.stringify(CASES));
+      return ok(response);
     }
 
     function createDocument() {
-      console.log(&quot;creating document&quot;, body);
-      let newDocument: CaseDocument &#x3D; Object.assign(new CaseDocument(), body);
-      newDocument.actors &#x3D; body.actors.map((x) &#x3D;&gt; x as Actor);
-      newDocument.authors &#x3D; body.authors.map((x) &#x3D;&gt; x as Author);
+      const req &#x3D; body as CaseDocumentCreateRequest;
+      let newDocument: CaseDocumentResponse &#x3D; new CaseDocumentResponse();
+      newDocument.title &#x3D; req.title;
+      newDocument.actors &#x3D; req.actors.map((x) &#x3D;&gt; x as Actor);
+      newDocument.authors &#x3D; req.authors.map((x) &#x3D;&gt; x as Author);
       //set id for the document simulating mongo standard
       newDocument.id &#x3D; generateMongoObjectId();
-      newDocument.creationDate &#x3D; new Date();
-      newDocument.description &#x3D; &quot; Hola soy el server ...&quot;;
+      newDocument.creationDate &#x3D; getNowString();
+      newDocument.lastModificationDate &#x3D; getNowString();
+      newDocument.incidentDate &#x3D; req.incident_date;
+      newDocument.description &#x3D; &quot;&quot;;
+      newDocument.damageDocList &#x3D; req.damage_type;
+      newDocument.infrasDocList &#x3D; req.infrastructure_type;
       newDocument.section &#x3D; [
         new ContentSection(&quot;Abstract&quot;, &quot;&quot;),
         new ContentSection(&quot;Introduction&quot;, &quot;&quot;),
         new ContentSection(&quot;Body&quot;, &quot;&quot;),
       ];
-      newDocument.language &#x3D; &quot;english&quot;;
+      newDocument.language &#x3D; req.language;
       newDocument.tags &#x3D; [&quot;Hurricane&quot;];
       newDocument.location &#x3D; [&quot;San Juan, PR&quot;];
       newDocument.timeline &#x3D; [];
+      newDocument.published &#x3D; true;
       CASES.push(newDocument);
       localStorage.setItem(&quot;cases&quot;, JSON.stringify(CASES));
       return ok();
@@ -320,9 +345,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function getDocumentById() {
       //   if (!isLoggedIn()) return unauthorized();
       console.log(&quot;the backend id &quot; + idFromUrl(1));
-      const doc: CaseDocument &#x3D; CASES.find((x) &#x3D;&gt; x.id &#x3D;&#x3D;&#x3D; idFromUrl(1));
+      const doc: CaseDocumentResponse &#x3D; CASES.find(
+        (x) &#x3D;&gt; x.id &#x3D;&#x3D;&#x3D; idFromUrl(1)
+      );
       console.log(doc);
-      let copyDoc &#x3D; Object.assign(new CaseDocument(), doc);
+      let copyDoc &#x3D; Object.assign(new CaseDocumentResponse(), doc);
       copyDoc.section &#x3D; doc.section.map((x) &#x3D;&gt; Object.assign({}, x));
       copyDoc.authors &#x3D; doc.authors.map((x) &#x3D;&gt; Object.assign({}, x));
       copyDoc.actors &#x3D; doc.actors.map((x) &#x3D;&gt; Object.assign({}, x));
@@ -332,12 +359,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function removeDocument() {
       //   if (!isLoggedIn()) return unauthorized();
-      let doc &#x3D; CASES.find((x: CaseDocument) &#x3D;&gt; x.id &#x3D;&#x3D; idFromUrl(1));
+      let doc &#x3D; CASES.find((x: CaseDocumentResponse) &#x3D;&gt; x.id &#x3D;&#x3D; idFromUrl(1));
       let size &#x3D; CASES.length;
-      if (doc &amp;&amp; size &gt; 0) {
-        doc &#x3D; CASES[size - 1];
+      if (doc) {
+        CASES.splice(CASES.indexOf(doc), 1);
         console.log(&quot;Removing in backend&quot;);
-        console.log(CASES.pop());
         localStorage.setItem(&quot;cases&quot;, JSON.stringify(CASES));
       } else return error({ error: &quot;Document not found&quot; });
       return ok();
@@ -345,7 +371,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function createSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc &#x3D; CASES.find((x: CaseDocument) &#x3D;&gt; x.id &#x3D;&#x3D;&#x3D; idFromUrl(4));
+      const doc &#x3D; CASES.find(
+        (x: CaseDocumentResponse) &#x3D;&gt; x.id &#x3D;&#x3D;&#x3D; idFromUrl(4)
+      );
       console.log(&quot;created on backend&quot;);
       doc.section.push(new ContentSection(&quot;&quot;, &quot;&quot;));
       localStorage.setItem(&quot;cases&quot;, JSON.stringify(CASES));
@@ -354,8 +382,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function removeSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc: CaseDocument &#x3D; CASES.find(
-        (x: CaseDocument) &#x3D;&gt; x.id &#x3D;&#x3D;&#x3D; idFromUrl(5)
+      const doc: CaseDocumentResponse &#x3D; CASES.find(
+        (x: CaseDocumentResponse) &#x3D;&gt; x.id &#x3D;&#x3D;&#x3D; idFromUrl(5)
       );
       const index &#x3D; +idFromUrl(1);
       if (index &gt;&#x3D; doc.section.length) {
@@ -369,8 +397,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function editDocumentSection() {
       //   if (!isLoggedIn()) return unauthorized();
 
-      const doc: CaseDocument &#x3D; CASES.find(
-        (x: CaseDocument) &#x3D;&gt; x.id &#x3D;&#x3D;&#x3D; idFromUrl(4)
+      const doc: CaseDocumentResponse &#x3D; CASES.find(
+        (x: CaseDocumentResponse) &#x3D;&gt; x.id &#x3D;&#x3D;&#x3D; idFromUrl(4)
       );
       const sec: ContentSection &#x3D; doc.section[+idFromUrl(1)];
       sec.section_title &#x3D; body.section_title;
@@ -382,8 +410,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function edit(type: string) {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc: CaseDocument &#x3D; CASES.find(
-        (x: CaseDocument) &#x3D;&gt; x.id &#x3D;&#x3D;&#x3D; idFromUrl(3)
+      const doc: CaseDocumentResponse &#x3D; CASES.find(
+        (x: CaseDocumentResponse) &#x3D;&gt; x.id &#x3D;&#x3D;&#x3D; idFromUrl(3)
       );
       switch (type) {
         case &quot;DocumentTitle&quot;:
@@ -396,10 +424,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           doc.timeline &#x3D; body.timeline;
           break;
         case &quot;DocumentInsfraestructureTypes&quot;:
-          doc.infrastructure_type &#x3D; body.infrastructure_type;
+          doc.infrasDocList &#x3D; body.infrastructure_type;
           break;
         case &quot;DocumentDamageTypes&quot;:
-          doc.damage_type &#x3D; body.damage_type;
+          doc.damageDocList &#x3D; body.damage_type;
           break;
         case &quot;DocumentActors&quot;:
           doc.actors &#x3D; body.actors;
@@ -413,7 +441,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         case &quot;DocumentTags&quot;:
           doc.tagsDoc &#x3D; body.tagsDoc;
           break;
+        case &quot;DocumentIncidentDate&quot;:
+          doc.incidentDate &#x3D; body.incident_date;
+          break;
       }
+      const now &#x3D; new Date();
+      doc.lastModificationDate &#x3D; getNowString();
       localStorage.setItem(&quot;cases&quot;, JSON.stringify(CASES));
       return ok();
     }
@@ -448,7 +481,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     }
 
     function unauthorized() {
-      return throwError({ status: 401, error: { message: &quot;Unauthorised&quot; } });
+      return throwError({ status: 401, error: { message: &quot;Unauthorized&quot; } });
     }
 
     function error(message) {
@@ -477,6 +510,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           })
           .toLowerCase()
       );
+    }
+
+    function getNowString(): string {
+      const now &#x3D; new Date();
+      return new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+        .toISOString()
+        .split(&quot;T&quot;)[0];
     }
   }
 }

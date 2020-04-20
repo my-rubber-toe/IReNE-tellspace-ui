@@ -220,8 +220,10 @@ import { SocialLoginModule, AuthServiceConfig } from &quot;angularx-social-login
 
 import { getAuthServiceConfigs } from &quot;./configs/socialloginConfig&quot;;
 // used to create fake backend
-import { fakeBackendProvider } from &quot;./core/interceptors/mock-backend-interceptor&quot;;
+import { fakeBackendProvider } from &quot;../testing/mock-backend-interceptor&quot;;
+import { DatePipe } from &quot;@angular/common&quot;;
 import { AuthInterceptorProvider } from &quot;./core/interceptors/auth-interceptor&quot;;
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from &quot;@angular/material/snack-bar&quot;;
 
 @NgModule({
   declarations: [AppComponent],
@@ -234,6 +236,9 @@ import { AuthInterceptorProvider } from &quot;./core/interceptors/auth-intercept
     SocialLoginModule,
   ],
   providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },
+
+    DatePipe,
     {
       provide: AuthServiceConfig,
       useFactory: getAuthServiceConfigs,

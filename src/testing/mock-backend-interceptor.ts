@@ -24,12 +24,11 @@ import { CaseDocumentMetadata } from "@app/shared/models/case-document-metadata"
 // import { Metadata } from "src/app/interfaces/metadata";
 
 // array in local storage for mockCaseStudies
-let CASES = (JSON.parse(localStorage.getItem("cases")) || []) as CaseDocumentResponse[];
+let CASES = (JSON.parse(localStorage.getItem("cases")) ||
+  []) as CaseDocumentResponse[];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
-
-  
   /**Mock intercept routes and simulate server logic */
   intercept(
     request: HttpRequest<any>,
@@ -164,7 +163,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     function getDocumentById() {
       //   if (!isLoggedIn()) return unauthorized();
       console.log("the backend id " + idFromUrl(1));
-      const doc: CaseDocumentResponse = CASES.find((x) => x.id === idFromUrl(1));
+      const doc: CaseDocumentResponse = CASES.find(
+        (x) => x.id === idFromUrl(1)
+      );
       console.log(doc);
       let copyDoc = Object.assign(new CaseDocumentResponse(), doc);
       copyDoc.section = doc.section.map((x) => Object.assign({}, x));
@@ -178,10 +179,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       //   if (!isLoggedIn()) return unauthorized();
       let doc = CASES.find((x: CaseDocumentResponse) => x.id == idFromUrl(1));
       let size = CASES.length;
-      if (doc && size > 0) {
-        doc = CASES[size - 1];
+      if (doc) {
+        CASES.splice(CASES.indexOf(doc), 1);
         console.log("Removing in backend");
-        console.log(CASES.pop());
         localStorage.setItem("cases", JSON.stringify(CASES));
       } else return error({ error: "Document not found" });
       return ok();
@@ -189,7 +189,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     function createSection() {
       //   if (!isLoggedIn()) return unauthorized();
-      const doc = CASES.find((x: CaseDocumentResponse) => x.id === idFromUrl(4));
+      const doc = CASES.find(
+        (x: CaseDocumentResponse) => x.id === idFromUrl(4)
+      );
       console.log("created on backend");
       doc.section.push(new ContentSection("", ""));
       localStorage.setItem("cases", JSON.stringify(CASES));

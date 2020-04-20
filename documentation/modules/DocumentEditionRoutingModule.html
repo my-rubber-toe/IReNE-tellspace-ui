@@ -74,15 +74,22 @@
 import { Routes, RouterModule } from &quot;@angular/router&quot;;
 import { DocumentOptionsComponent } from &quot;./pages/document-options/document-options.component&quot;;
 import { SectionEditorComponent } from &quot;./pages/section-editor/section-editor.component&quot;;
+import { DocumentEditionComponent } from &quot;./document-edition.component&quot;;
 
 const routes: Routes &#x3D; [
-  { path: &quot;&quot;, pathMatch: &quot;full&quot;, component: DocumentOptionsComponent },
-  { path: &quot;s/:secid&quot;, component: SectionEditorComponent }
+  {
+    path: &quot;&quot;,
+    component: DocumentEditionComponent,
+    children: [
+      { path: &quot;&quot;, pathMatch: &quot;full&quot;, component: DocumentOptionsComponent },
+      { path: &quot;s/:secid&quot;, component: SectionEditorComponent },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class DocumentEditionRoutingModule {}
 </code></pre>

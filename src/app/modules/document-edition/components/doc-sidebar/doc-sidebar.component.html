@@ -1,1 +1,37 @@
-<p>doc-sidebar works!</p>
+<mat-nav-list>
+  <div class="toolbar">
+    <button
+      mat-button
+      (click)="navigateToCaseStudyRoot()"
+      matTooltip="Case Study Options"
+    >
+      <h2 mat-subheader>
+        {{
+          caseDocument.title.length > 70
+            ? (caseDocument.title | slice: 0:70) + "..."
+            : caseDocument.title
+        }}
+      </h2>
+    </button>
+    <button class="link-button" (click)="addSection()" mat-stroked-button>
+      Add Section
+    </button>
+  </div>
+  <mat-divider></mat-divider>
+
+  <ng-container *ngFor="let section of caseDocument.section; let i = index">
+    <div>
+      <a
+        mat-list-item
+        routerLinkActive="list-item-active"
+        routerLink="s/{{ i }}"
+      >
+        {{
+          section.section_title.length > 35
+            ? (section.section_title | slice: 0:35) + "..."
+            : section.section_title
+        }}
+      </a>
+    </div>
+  </ng-container>
+</mat-nav-list>

@@ -1,54 +1,65 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { DefaultComponent } from "./layouts/default/default.component";
-import { DocumentsComponent } from "./modules/documents/documents.component";
-import { LoginComponent } from "./modules/login/login.component";
-import { DocumentEditionComponent } from "./modules/document-edition/document-edition.component";
-import { SectionEditorComponent } from "./modules/document-edition/pages/section-editor/section-editor.component";
-import { DocumentOptionsComponent } from "./modules/document-edition/pages/document-options/document-options.component";
-import { InvalidUrlComponent } from "./modules/document-edition/pages/invalid-url/invalid-url.component";
+import { CoreComponent } from "./core/core.component";
+import { InvalidUrlComponent } from "./core/invalid-url/invalid-url.component";
+import { CaseDocumentResolverService } from "@app/core/services/case-document-resolver.service";
+import { AuthGuard } from "./core/guards/auth.guard";
 
 const routes: Routes = [
   {
     path: "login",
-    component: LoginComponent
+    loadChildren: () =>
+      import("./modules/login/login.module").then((m) => m.LoginModule),
   },
   {
     path: "",
-    component: DefaultComponent,
+    component: CoreComponent,
     children: [
       {
-        path: "docs",
-        component: DocumentsComponent
-      },
-      {
-        path: "edit",
-        component: DocumentEditionComponent,
+        path: "",
+        canActivateChild: [AuthGuard],
         children: [
           {
-            path: ":docid",
-            component: DocumentOptionsComponent
+            path: "docs",
+            loadChildren: () =>
+              import("./modules/documents/documents-dashboard.module").then(
+                (m) => m.DocumentsDashboardModule
+              ),
           },
           {
-            path: ":docid/:secid",
-            component: SectionEditorComponent
+            path: "edit/:docid",
+            resolve: {
+              caseDocument: CaseDocumentResolverService,
+            },
+            loadChildren: () =>
+              import("./modules/document-edition/document-edition.module").then(
+                (m) => m.DocumentEditionModule
+              ),
+          },
+          {
+            path: "profile",
+            loadChildren: () =>
+              import("./modules/profile/profile.module").then(
+                (m) => m.ProfileModule
+              ),
           },
           {
             path: "",
-            component: InvalidUrlComponent
-          }
-        ]
+            redirectTo: "/docs",
+            pathMatch: "full",
+          },
+        ],
       },
       {
-        path: "",
-        component: DocumentsComponent
-      }
-    ]
-  }
+        path: "**",
+        component: InvalidUrlComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

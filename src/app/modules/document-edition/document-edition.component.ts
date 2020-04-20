@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { CaseDocument } from "@app/shared/models/case-document";
+import { DocumentEditionService } from "@app/core/services/document-edition.service";
 
 @Component({
-  selector: 'app-document-edition',
-  templateUrl: './document-edition.component.html',
-  styleUrls: ['./document-edition.component.scss']
+  selector: "app-document-edition",
+  templateUrl: "./document-edition.component.html",
+  styleUrls: ["./document-edition.component.scss"]
 })
-export class DocumentEditionComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class DocumentEditionComponent {
+  public isSaving: boolean;
 }

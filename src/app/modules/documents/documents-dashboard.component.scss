@@ -1,0 +1,21 @@
+.documents-page {
+  padding-top: 70px;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.title {
+  /* We first create a flex layout context */
+  display: inline-flex;
+  gap: 20px;
+  width: 100%;
+  align-items:baseline;
+  align-content: flex-start;
+  margin: 0;
+  list-style: none;
+}
+
+/* This is to solve a bug from angular material that the button remains focused. See: https://github.com/angular/components/issues/8420*/
+.mat-button-focus-overlay {
+  background-color: transparent !important;
+}

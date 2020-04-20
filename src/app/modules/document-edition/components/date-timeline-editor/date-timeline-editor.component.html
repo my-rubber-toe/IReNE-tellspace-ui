@@ -1,0 +1,143 @@
+<mat-card class="incident-date-row">
+  <h3>Incident Date</h3>
+  <mat-form-field color="accent" class="example-full-width">
+    <mat-label>Incident Date</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      [min]="minDateStart"
+      [max]="maxDateEnd"
+      [readonly]="!editingIncidentDate"
+      [formControl]="incidentDateControl"
+    />
+    <mat-datepicker-toggle
+      [disabled]="!editingIncidentDate"
+      matSuffix
+      [for]="picker"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <button
+    *ngIf="!editingIncidentDate"
+    mat-button
+    color="primary"
+    matTooltip="Edit Incident Date"
+    (click)="toggleEditingIncidentDate()"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button
+    *ngIf="editingIncidentDate"
+    mat-button
+    color="accent"
+    matTooltip="Save Incident Date"
+    (click)="saveIncidentDate()"
+  >
+    <mat-icon>check</mat-icon>
+  </button>
+</mat-card>
+<br />
+<mat-divider></mat-divider>
+<br />
+<mat-card class="timeline-container">
+  <h3>Case Study Timeline</h3>
+  <form [formGroup]="timelineForm">
+    <div formArrayName="timeline">
+      <div
+        class="timeline-container"
+        *ngFor="
+          let timeEvent of timelineForm.get('timeline')['controls'];
+          let i = index
+        "
+      >
+        <div [formGroupName]="i">
+          <mat-card class="timeline-card">
+            <mat-form-field style="width: 100%;">
+              <mat-label>Event {{ i + 1 }} Description</mat-label>
+              <textarea
+                matInput
+                [readonly]="!editingTimeline"
+                formControlName="event_description"
+                maxlength="250"
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="3"
+              ></textarea>
+            </mat-form-field>
+            <mat-form-field color="accent" class="example-full-width">
+              <mat-label>Event Start Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                [min]="minDateStart"
+                [max]="timelineForm.value.timeline[i].event_end_date"
+                [readonly]="!editingTimeline"
+                formControlName="event_start_date"
+                name="event_start_date"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field color="accent" class="example-full-width">
+              <mat-label>Event End Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker2"
+                [min]="timelineForm.value.timeline[i].event_start_date"
+                [max]="maxDateEnd"
+                [readonly]="!editingTimeline"
+                formControlName="event_end_date"
+                name="event_end_date"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker2"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+            <button
+              *ngIf="editingTimeline"
+              (click)="removeTimelineEvent(i)"
+              mat-icon-button
+              color="warn"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div>
+    <button
+      mat-raised-button
+      *ngIf="editingTimeline"
+      color="accent"
+      type="button"
+      (click)="addTimelineEvent()"
+    >
+      Add Timeline Event
+    </button>
+  </div>
+  <mat-card-actions>
+    <div *ngIf="editingTimeline; else elseBlock">
+      <button
+        mat-button
+        color="primary"
+        (click)="saveTimeline()"
+        type="submit"
+        [disabled]="timelineForm.invalid"
+      >
+        Save
+      </button>
+    </div>
+    <ng-template #elseBlock>
+      <button mat-button color="primary" (click)="toggleEditingTimeline()">
+        Edit TImeline
+      </button>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>

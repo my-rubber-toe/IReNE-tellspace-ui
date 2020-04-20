@@ -1,1 +1,45 @@
-<p>section-editor works!</p>
+<div class="section-editor-container">
+  <div class="status-bar">
+    <form [formGroup]="titleForm" style="width: 100%;">
+      <mat-form-field style="width: 100%;" floatLabel="never">
+        <mat-label>Section Title</mat-label>
+        <textarea
+          matInput
+          #title
+          formControlName="title"
+          name="title"
+          placeholder="Untitled Section"
+          maxlength="250"
+          value=""
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="3"
+        ></textarea>
+      </mat-form-field>
+    </form>
+    <button
+      (click)="deleteSection()"
+      mat-button
+      matTooltip="Delete this section"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <div id="snippet-autosave-status" class="">
+    <div id="snippet-autosave-status_spinner">
+      <span id="snippet-autosave-status_spinner-label"></span>
+      <span id="snippet-autosave-status_spinner-loader"></span>
+    </div>
+  </div>
+  <ckeditor
+    #editor
+    (change)="onEditorChange($event)"
+    [editor]="Editor"
+    [config]="EditorConfig"
+    [(ngModel)]="model.editorData"
+  ></ckeditor>
+  <div>
+    Note: to add text above a figure, select the figure and press SHIFT+ENTER.
+    To add text below a figure, select the figure and press ENTER.
+  </div>
+</div>

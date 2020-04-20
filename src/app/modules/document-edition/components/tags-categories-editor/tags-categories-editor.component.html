@@ -1,0 +1,155 @@
+<mat-card>
+  <mat-card-content>
+    <h3>Infrastructure Types</h3>
+    <div *ngIf="editingInfrastructures; else elseBlock1A">
+      <mat-form-field class="example-full-width">
+        <mat-label>Infrastructure Type</mat-label>
+        <mat-select [formControl]="infrastructuresFormControl" multiple>
+          <mat-option
+            *ngFor="let infra_type of infrastructureList"
+            [value]="infra_type"
+            >{{ infra_type }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <ng-template #elseBlock1A>
+      <mat-chip-list>
+        <ng-container *ngFor="let infra_type of infrastructures"
+          ><mat-chip>{{ infra_type }}</mat-chip></ng-container
+        >
+      </mat-chip-list>
+    </ng-template>
+  </mat-card-content>
+  <mat-card-actions>
+    <div *ngIf="editingInfrastructures; else elseBlock1B">
+      <button
+        mat-button
+        type="submit"
+        color="primary"
+        (click)="saveinfrastructures()"
+        [disabled]="infrastructuresFormControl.invalid"
+      >
+        Save
+      </button>
+    </div>
+    <ng-template #elseBlock1B>
+      <button
+        mat-button
+        color="primary"
+        (click)="toggleInfrastructuresEditor()"
+      >
+        Edit Infrastructure Types
+      </button>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>
+
+<br />
+<mat-divider></mat-divider>
+<br />
+<mat-card>
+  <mat-card-content>
+    <h3>Damage Types</h3>
+    <div *ngIf="editingDamages; else elseBlock2A">
+      <mat-form-field class="example-full-width">
+        <mat-label>Damage Type</mat-label>
+        <mat-select
+          [formControl]="damagesFormControl"
+          name="damagesFormControl"
+          multiple
+        >
+          <mat-option
+            *ngFor="let damage_type of damageList"
+            [value]="damage_type"
+            >{{ damage_type }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <ng-template #elseBlock2A>
+      <mat-chip-list>
+        <ng-container *ngFor="let damage_type of damage_types"
+          ><mat-chip>{{ damage_type }}</mat-chip></ng-container
+        >
+      </mat-chip-list>
+    </ng-template>
+  </mat-card-content>
+  <mat-card-actions>
+    <div *ngIf="editingDamages; else elseBlock2B">
+      <button
+        mat-button
+        type="submit"
+        color="primary"
+        [disabled]="damagesFormControl.invalid"
+        (click)="saveDamages()"
+      >
+        Save
+      </button>
+    </div>
+    <ng-template #elseBlock2B>
+      <button mat-button color="primary" (click)="toggleDamagesEditor()">
+        Edit Damage Types
+      </button>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>
+<br />
+<mat-divider></mat-divider>
+<br />
+<mat-card>
+  <mat-card-content>
+    <h3>Tags</h3>
+    <div *ngIf="editingTags; else elseBlock3A">
+      <mat-form-field style="width: 100%;">
+        <mat-chip-list #chipList aria-label="tags editing">
+          <mat-chip
+            *ngFor="let tag of tags"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(tag)"
+          >
+            {{ tag }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Type Tags Here And Hit Enter"
+            #tagInput
+            [formControl]="tagsFormControl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selected($event)"
+        >
+          <mat-option *ngFor="let tag of filteredTagList | async" [value]="tag">
+            {{ tag }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <ng-template #elseBlock3A>
+      <mat-chip-list>
+        <ng-container *ngFor="let tag of tags"
+          ><mat-chip>{{ tag }}</mat-chip></ng-container
+        >
+      </mat-chip-list>
+    </ng-template>
+  </mat-card-content>
+  <mat-card-actions>
+    <div *ngIf="editingTags; else elseBlock3B">
+      <button mat-button type="submit" color="primary" (click)="saveTags()">
+        Save
+      </button>
+    </div>
+    <ng-template #elseBlock3B>
+      <button mat-button color="primary" (click)="toggleTagsEditor()">
+        Edit Tags
+      </button>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>

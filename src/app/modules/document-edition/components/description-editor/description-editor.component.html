@@ -1,0 +1,29 @@
+<mat-card>
+  <h3>Description</h3>
+  <mat-card-content>
+    <form #form="ngForm" (ngSubmit)="save()">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          cdkTextareaAutosize
+          [readonly]="isNotEditing"
+          [formControl]="descriptionFormControl"
+          >{{ description }}</textarea
+        >
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <div *ngIf="isNotEditing; else elseBlock">
+      <button mat-button color="primary" (click)="editDescriptionToggle()">
+        Edit Description
+      </button>
+    </div>
+    <ng-template #elseBlock>
+      <button mat-button type="submit" color="primary" (click)="save()">
+        Save
+      </button>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>

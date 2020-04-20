@@ -1,0 +1,17 @@
+@import "~@angular/material/theming";
+.login-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #37474f;
+}
+
+.login-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+}

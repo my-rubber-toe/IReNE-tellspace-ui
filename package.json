@@ -3,18 +3,22 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "compodoc": "npx compodoc -p tsconfig.app.json",
+    "postinstall": "ng build --output-path dist  --aot --prod"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~9.0.6",
     "@angular/cdk": "^9.1.3",
+    "@angular/cli": "~9.0.6",
     "@angular/common": "~9.0.6",
     "@angular/compiler": "~9.0.6",
+    "@angular/compiler-cli": "~9.0.6",
     "@angular/core": "~9.0.6",
     "@angular/flex-layout": "^9.0.0-beta.29",
     "@angular/forms": "~9.0.6",
@@ -22,8 +26,16 @@
     "@angular/platform-browser": "~9.0.6",
     "@angular/platform-browser-dynamic": "~9.0.6",
     "@angular/router": "~9.0.6",
+    "@ckeditor/ckeditor5-angular": "^1.2.2",
+    "@ckeditor/ckeditor5-autosave": "^18.0.0",
+    "@ckeditor/ckeditor5-build-classic": "^17.0.0",
+    "angularx-social-login": "^2.2.1",
+    "express": "^4.17.1",
+    "path": "^0.12.7",
     "rxjs": "~6.5.4",
+    "sweetalert2": "^9.10.6",
     "tslib": "^1.10.0",
+    "typescript": "~3.7.5",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
@@ -31,6 +43,7 @@
     "@angular/cli": "~9.0.6",
     "@angular/compiler-cli": "~9.0.6",
     "@angular/language-service": "~9.0.6",
+    "@compodoc/compodoc": "^1.1.11",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
@@ -52,5 +65,9 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "engines": {
+    "node": "v12.6.0",
+    "npm": "6.13.1"
   }
 }

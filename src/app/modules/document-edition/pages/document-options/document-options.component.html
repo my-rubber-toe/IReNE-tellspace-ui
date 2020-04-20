@@ -1,1 +1,76 @@
-<p>document-options works!</p>
+<div class="status-bar">
+  <mat-form-field style="width: 100%;" floatLabel="never">
+    <mat-label>Section Title</mat-label>
+    <textarea
+      matInput
+      [formControl]="titleControl"
+      placeholder="Case Title"
+      [readonly]="!editingTitle"
+      maxlength="250"
+      value=""
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="3"
+    ></textarea>
+  </mat-form-field>
+  <button
+    *ngIf="!editingTitle"
+    mat-button
+    color="primary"
+    matTooltip="Edit Case Title"
+    (click)="toggleTitleEdition()"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button
+    *ngIf="editingTitle"
+    mat-button
+    color="accent"
+    matTooltip="Save Title"
+    (click)="saveTitle()"
+  >
+    <mat-icon>check</mat-icon>
+  </button>
+</div>
+
+<mat-tab-group>
+  <mat-tab label="Description">
+    <ng-template matTabContent>
+      <app-description-editor
+        [description]="doc.description"
+      ></app-description-editor>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Tags and Categories">
+    <ng-template matTabContent>
+      <app-tags-categories-editor
+        [tags]="doc.tags"
+        [infrastructures]="doc.infrasDocList"
+        [damage_types]="doc.damageDocList"
+      ></app-tags-categories-editor>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Dates">
+    <ng-template matTabContent>
+      <app-date-timeline-editor
+        [timeline]="doc.timeline"
+        [incident_date]="doc.incidentDate"
+      ></app-date-timeline-editor>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Locations">
+    <ng-template matTabContent>
+      <app-locations-editor [locations]="doc.location"></app-locations-editor>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Authors">
+    <ng-template matTabContent>
+      <app-authors-editor [authors]="doc.authors"></app-authors-editor>
+    </ng-template>
+  </mat-tab>
+  <mat-tab label="Actors">
+    <ng-template matTabContent>
+      <app-actors-editor [actors]="doc.actors"></app-actors-editor>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,29 @@
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.mat-row:hover {
+  background: #ffc107;
+}
+
+.action {
+  display: flex;
+  flex-flow: row;
+  align-items: baseline;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.no-cases-message {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  padding-top: 20vh;
+}

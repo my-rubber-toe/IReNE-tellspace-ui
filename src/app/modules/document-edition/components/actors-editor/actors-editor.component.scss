@@ -1,0 +1,23 @@
+@import "~@angular/material/theming";
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px;
+}
+
+.actor-container {
+  display: flexbox;
+  flex-direction: column;
+  padding: 10px;
+  gap: 20px;
+}
+
+.actor-card {
+  display: inline-flex;
+  flex-direction: row;
+  align-content: flex-start;
+  gap: 20px;
+  padding: 10px;
+  @include mat-elevation(5);
+}

@@ -1,0 +1,25 @@
+<div class="documents-page">
+  <div class="title">
+    <h2>
+      My Case Studies
+    </h2>
+    <div #changeButton class="new-button" id="create-doc-button">
+      <button
+        mat-button
+        (click)="promptNewDocumentForm()"
+        matTooltip="Create New Case Study"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <mat-paginator
+      *ngIf="!isEmpty"
+      [pageSizeOptions]="[5, 10]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+  <mat-divider></mat-divider>
+  <div>
+    <app-doc-table [paginator]="paginator" [isEmpty]="isEmpty"></app-doc-table>
+  </div>
+</div>

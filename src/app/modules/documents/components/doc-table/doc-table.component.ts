@@ -2,14 +2,14 @@
  * @packageDocumentation
  */
 
-import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
-import { CaseDocumentMetadata } from "@app/shared/models/case-document-metadata";
 import { DocumentsService } from "@app/core/services/documents.service";
 import { Router } from "@angular/router";
 import { MatTableDataSource } from "@angular/material/table";
 import Swal from "sweetalert2";
+import { CaseDocumentMetadata } from "@app/shared/models/case-document-metadata";
 
 /**
  * @title Table with sorting
@@ -27,11 +27,10 @@ export class DocTableComponent implements OnInit {
     "creationDate",
   ];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @Input() paginator: MatPaginator;
-  @Input() isEmpty: boolean;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   isLoading = true;
-
+  isEmpty = false;
   dataSource: MatTableDataSource<CaseDocumentMetadata>;
 
   constructor(private docService: DocumentsService, private router: Router) {}
@@ -40,7 +39,12 @@ export class DocTableComponent implements OnInit {
     this.dataSource = new MatTableDataSource();
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    this.refresh();
+    this.docService
+      .getDocuments()
+      .subscribe(
+        (x) => (this.dataSource.data = JSON.parse(x) as CaseDocumentMetadata[])
+      );
+    this.isLoading = false;
   }
 
   /**Method to navigate to the editor of the clicked case study */
@@ -49,15 +53,11 @@ export class DocTableComponent implements OnInit {
   }
 
   refresh(): void {
-    this.isLoading = true;
-    this.docService.getDocuments().subscribe((metadata) => {
-      this.dataSource.data = metadata;
-      console.log(this.dataSource.data);
-      this.isLoading = false;
-      if (this.dataSource.data.length > 0) this.isEmpty = false;
-      else this.isEmpty = true;
-      console.log(this.isEmpty);
-    });
+    this.docService
+      .getDocuments()
+      .subscribe(
+        (x) => (this.dataSource.data = JSON.parse(x) as CaseDocumentMetadata[])
+      );
   }
 
   removeDocument(id: string): void {

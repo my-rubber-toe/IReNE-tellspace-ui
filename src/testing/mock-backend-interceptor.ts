@@ -128,7 +128,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       });
 
       //   if (!isLoggedIn()) return unauthorized();
-      return ok(response);
+      return ok(JSON.stringify(response));
     }
 
     function createDocument() {

@@ -7,7 +7,7 @@ import { ContentSection } from "@app/shared/models/content-section";
 import { Category } from "@app/shared/models/category";
 import { CaseDocumentCreateRequest } from "@app/shared/models/case-document-create-request";
 import { CaseDocumentMetadata } from "@app/shared/models/case-document-metadata";
-import { CaseDocumentResponse } from '@app/shared/models/case-document-response';
+import { CaseDocumentResponse } from "@app/shared/models/case-document-response";
 
 @Injectable({
   providedIn: "root",
@@ -24,13 +24,11 @@ export class DocumentsService {
   //Route Client Functions:
 
   /** GET document metadata. Will 404 if there are no documents */
-  public getDocuments(): Observable<CaseDocumentMetadata[]> {
+  public getDocuments(): Observable<string> {
     const url = `${this.rootUrl}/documents`;
     return this.http
-      .get<CaseDocumentMetadata[]>(url, this.httpOptions)
-      .pipe(
-        catchError(this.handleError<CaseDocumentMetadata[]>("getDocuments"))
-      );
+      .get<string>(url, this.httpOptions)
+      .pipe(catchError(this.handleError<string>("getDocuments")));
   }
 
   /** POST new document on the server */

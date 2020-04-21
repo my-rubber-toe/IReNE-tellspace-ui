@@ -1,55 +1,55 @@
-<ng-container *ngIf="!isLoading && !isEmpty">
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-    <!-- Title Column -->
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-      <td mat-cell *matCellDef="let element" (click)="editDocument(element)">
-        {{
-          element.title.length > 100
-            ? (element.title | slice: 0:100) + "..."
-            : element.title
-        }}
-      </td>
-    </ng-container>
+<!--div *ngIf="!isLoading && !isEmpty"></div>-->
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <!-- Title Column -->
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+    <td mat-cell *matCellDef="let element" (click)="editDocument(element)">
+      {{
+        element.title.length > 100
+          ? (element.title | slice: 0:100) + "..."
+          : element.title
+      }}
+    </td>
+  </ng-container>
 
-    <!-- Published Column -->
-    <ng-container matColumnDef="published">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Published</th>
-      <td mat-cell *matCellDef="let element" (click)="editDocument(element)">
-        {{ true == element.published ? "Yes" : "No" }}
-      </td>
-    </ng-container>
+  <!-- Published Column -->
+  <ng-container matColumnDef="published">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Published</th>
+    <td mat-cell *matCellDef="let element" (click)="editDocument(element)">
+      {{ true == element.published ? "Yes" : "No" }}
+    </td>
+  </ng-container>
 
-    <!-- Last Modification Date Column -->
-    <ng-container matColumnDef="lastModificationDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        Modification Date
-      </th>
-      <td mat-cell *matCellDef="let element" (click)="editDocument(element)">
-        {{ element.lastModificationDate | date: "MM/dd/yyyy" }}
-      </td>
-    </ng-container>
+  <!-- Last Modification Date Column -->
+  <ng-container matColumnDef="lastModificationDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      Modification Date
+    </th>
+    <td mat-cell *matCellDef="let element" (click)="editDocument(element)">
+      {{ element.lastModificationDate | date: "MM/dd/yyyy" }}
+    </td>
+  </ng-container>
 
-    <!-- Creation Date Column -->
-    <ng-container matColumnDef="creationDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Creation Date</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.creationDate | date: "MM/dd/yyyy" }}
-        <button
-          mat-button
-          isRoundButton="true"
-          matTooltip="Delete Case Study"
-          (click)="removeDocument(element.id)"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+  <!-- Creation Date Column -->
+  <ng-container matColumnDef="creationDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Creation Date</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.creationDate | date: "MM/dd/yyyy" }}
+      <button
+        mat-button
+        isRoundButton="true"
+        matTooltip="Delete Case Study"
+        (click)="removeDocument(element.id)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-</ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
 
 <mat-card
   *ngIf="isLoading"

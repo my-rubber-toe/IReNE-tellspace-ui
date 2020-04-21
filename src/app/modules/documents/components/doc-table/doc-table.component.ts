@@ -39,12 +39,7 @@ export class DocTableComponent implements OnInit {
     this.dataSource = new MatTableDataSource();
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    this.docService
-      .getDocuments()
-      .subscribe(
-        (x) => (this.dataSource.data = JSON.parse(x) as CaseDocumentMetadata[])
-      );
-    this.isLoading = false;
+    this.refresh();
   }
 
   /**Method to navigate to the editor of the clicked case study */
@@ -53,11 +48,16 @@ export class DocTableComponent implements OnInit {
   }
 
   refresh(): void {
-    this.docService
-      .getDocuments()
-      .subscribe(
-        (x) => (this.dataSource.data = JSON.parse(x) as CaseDocumentMetadata[])
-      );
+    this.isLoading = true;
+    this.docService.getDocuments().subscribe((x) => {
+      this.dataSource.data = JSON.parse(x) as CaseDocumentMetadata[];
+      if (this.dataSource.data.length == 0) {
+        this.isEmpty = true;
+      } else {
+        this.isEmpty = false;
+      }
+      this.isLoading = false;
+    });
   }
 
   removeDocument(id: string): void {

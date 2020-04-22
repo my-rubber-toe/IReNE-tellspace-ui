@@ -15,11 +15,11 @@ export class AuthenticationService {
   redirectUrl: string;
 
   /**Root Url of the API for authentication requests */
-  private rootUrl = "api/auth"; // URL to web api
+  private rootUrl = "http://localhost:5000/auth"; // URL to web api
 
   /**Initial Headers for http requests from this service*/
   private httpOptions = {
-    headers: new HttpHeaders({ "Content-Type": "application/json" }),
+    headers: new HttpHeaders({ "Content-Type": "application/json; charset-utf-8", Accept:"application/json"}),
   };
 
   /**Source that stores the current collaborator name and publish it to the collaborator_name$ stream*/
@@ -82,34 +82,39 @@ export class AuthenticationService {
    */
   private getLoginToken(googleId: string): Observable<Tokens> {
     const url = `${this.rootUrl}/${googleId}`;
-    return this.http.get<Tokens>(url);
+    return this.http.get<Tokens>(url, this.httpOptions);
   }
-
+  
+  /**Delete request to the server for logout of the service
+   */
   private logoutFromServer(): Observable<any> {
     const url = `${this.rootUrl}/logout`;
-    return this.http.delete(url);
+    return this.http.delete(url, this.httpOptions);
   }
-
+  
+  /**Saves the collaborator session values to localhost
+   */
   private setCollaboratorSession(
     token: Tokens,
     name: string,
     photoUrl: string
   ) {
+    console.log("token", token);
     localStorage.setItem("collaborator_name", name);
     localStorage.setItem("access_token", token.access_token);
     localStorage.setItem("refresh_token", token.refresh_token);
-    localStorage.setItem("access_expiration", token.access_expiration);
-    localStorage.setItem("refresh_expiration", token.refresh_expiration);
+   // localStorage.setItem("access_expiration", token.access_expiration);
+   let expiration =
     localStorage.setItem("photo_url", photoUrl);
   }
 
+  /**Main logout function called to logut from the server and clear local storage
+   */
   logout(): void {
     this.logoutFromServer().subscribe((result) => {
       localStorage.removeItem("collaborator_name");
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
-      localStorage.removeItem("access_expiration");
-      localStorage.removeItem("refresh_expiration");
       localStorage.removeItem("photo_url");
       this.socialAuthService.signOut();
       this.router.navigateByUrl("login");
@@ -117,19 +122,28 @@ export class AuthenticationService {
     });
   }
 
+  /**Returns true if a collaborator has a valid token
+   */
   public isLoggedIn(): boolean {
-    let expireBy = localStorage.getItem("access_expiration");
-    return new Date() < new Date(expireBy);
+    let token = localStorage.getItem("access_token");
+    console.log("token", token);
+    return (token!=null) ? new Date() < this.parseJWTExpiration(token) : false;
   }
-
+  
+  /**Gets a collaborator name from the information stored in the local storage
+   */
   public getCollaboratorName(): Observable<string> {
     return this.collaborator_name$;
   }
 
+  /**Sets the collaborator name on the stream mantained by this service
+   */
   private setCollaboratorName(name: string) {
     this.collaborator_source.next(name);
   }
 
+  /**Returns the system profile of a collaborator
+   */
   public getCollaboratorProfile(): Observable<Profile> {
     //const url = `${this.rootUrl}/me`;
     //return this.http.get<Profile>(url);
@@ -139,5 +153,15 @@ export class AuthenticationService {
       email: "TestEmail",
       faculty: "TestFaculty",
     } as Profile);
+  }
+
+  private parseJWTExpiration(token:string):Date{
+    let decodedData = this.jwt_decode(token);
+    return new Date(decodedData.exp*1000);
+  }
+
+  private jwt_decode(t:string){
+    let parts = t.split('.');
+    return JSON.parse(atob(parts[1]));
   }
 }

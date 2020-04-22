@@ -15,10 +15,10 @@ import { CaseDocumentResponse } from "@app/shared/models/case-document-response"
 export class DocumentsService {
   constructor(private http: HttpClient) {}
 
-  private rootUrl = "api"; // URL to web api
+  private rootUrl = "http://localhost:5000"; // URL to web api
 
   private httpOptions = {
-    headers: new HttpHeaders({ "Content-Type": "application/json" }),
+    headers: new HttpHeaders({ "Content-Type": "application/json; charset-utf-8", Accept:"application/json"}),
   };
 
   //Route Client Functions:

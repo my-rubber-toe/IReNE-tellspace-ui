@@ -41,6 +41,13 @@
 <br />
 <mat-card class="timeline-container">
   <h3>Case Study Timeline</h3>
+
+  <!--IF TIMELINE IS EMPTY SHOW MESSAGE-->
+  <div *ngIf="timeline.length==0">
+    <h3>Timeline List is Empty</h3>
+  </div>
+  <!--TIMELINE EDITORS-->
+
   <form [formGroup]="timelineForm">
     <div formArrayName="timeline">
       <div
@@ -57,7 +64,7 @@
               <textarea
                 matInput
                 [readonly]="!editingTimeline"
-                formControlName="event_description"
+                formControlName="event"
                 maxlength="250"
                 cdkTextareaAutosize
                 cdkAutosizeMinRows="1"
@@ -70,13 +77,14 @@
                 matInput
                 [matDatepicker]="picker"
                 [min]="minDateStart"
-                [max]="timelineForm.value.timeline[i].event_end_date"
+                [max]="timelineForm.value.timeline[i].eventEndDate"
                 [readonly]="!editingTimeline"
-                formControlName="event_start_date"
-                name="event_start_date"
+                formControlName="eventStartDate"
+                name="eventStartDate"
               />
               <mat-datepicker-toggle
                 matSuffix
+                [disabled]="!editingTimeline"
                 [for]="picker"
               ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
@@ -86,14 +94,15 @@
               <input
                 matInput
                 [matDatepicker]="picker2"
-                [min]="timelineForm.value.timeline[i].event_start_date"
+                [min]="timelineForm.value.timeline[i].eventStartDate"
                 [max]="maxDateEnd"
                 [readonly]="!editingTimeline"
-                formControlName="event_end_date"
-                name="event_end_date"
+                formControlName="eventEndDate"
+                name="eventEndDate"
               />
               <mat-datepicker-toggle
                 matSuffix
+                [disabled]="!editingTimeline"
                 [for]="picker2"
               ></mat-datepicker-toggle>
               <mat-datepicker #picker2></mat-datepicker>
@@ -136,7 +145,7 @@
     </div>
     <ng-template #elseBlock>
       <button mat-button color="primary" (click)="toggleEditingTimeline()">
-        Edit TImeline
+        Edit Timeline
       </button>
     </ng-template>
   </mat-card-actions>

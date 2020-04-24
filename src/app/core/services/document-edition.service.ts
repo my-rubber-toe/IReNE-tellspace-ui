@@ -76,21 +76,21 @@ export class DocumentEditionService {
   /**Changes the active document timeline to the given timeline array and updates the backend*/
   public editTimeline(newTimeline: Timeline[]) {
     this.activeCaseDocument.timeline = newTimeline;
-    let timeline = newTimeline.map((timeEvent) => {
+    let timelineArray = newTimeline.map((timeEvent) => {
       return {
-        event: timeEvent.event_description,
+        event: timeEvent.event,
         event_start_date: this.datePipe.transform(
-          timeEvent.event_start_date,
+          timeEvent.eventStartDate,
           "yyyy-MM-dd"
         ),
         event_end_date: this.datePipe.transform(
-          timeEvent.event_end_date,
+          timeEvent.eventEndDate,
           "yyyy-MM-dd"
         ),
       };
     });
     this.docService
-      .edit(this.activeCaseDocument.id, "timeline", timeline)
+      .edit(this.activeCaseDocument.id, "timeline", {timeline: timelineArray})
       .subscribe((_) => {
         this.updateSource();
         this.snackBar.open("Timeline Saved");

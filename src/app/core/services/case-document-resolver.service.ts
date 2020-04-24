@@ -69,9 +69,9 @@ export class CaseDocumentResolverService implements Resolve<CaseDocument> {
     if (caseDocument.timeline) {
       caseDocument.timeline = response.timeline.map((timeEvent) => {
         return {
-          event_description: timeEvent.event_description,
-          event_start_date: this.parseDateString(timeEvent.event_start_date),
-          event_end_date: this.parseDateString(timeEvent.event_end_date),
+          event: timeEvent.event,
+          eventStartDate: this.parseDateString(timeEvent.eventStartDate),
+          eventEndDate: this.parseDateString(timeEvent.eventEndDate),
         };
       });
     } else {

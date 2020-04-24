@@ -2,7 +2,7 @@
  * @packageDocumentation
  */
 
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { DocumentsService } from "@app/core/services/documents.service";
@@ -25,12 +25,11 @@ export class DocTableComponent implements OnInit {
     "published",
     "lastModificationDate",
     "creationDate",
+    "actions"
   ];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  isLoading = true;
-  isEmpty = false;
   dataSource: MatTableDataSource<CaseDocumentMetadata>;
 
   constructor(private docService: DocumentsService, private router: Router) {}
@@ -39,7 +38,6 @@ export class DocTableComponent implements OnInit {
     this.dataSource = new MatTableDataSource();
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    this.refresh();
   }
 
   /**Method to navigate to the editor of the clicked case study */
@@ -47,20 +45,11 @@ export class DocTableComponent implements OnInit {
     this.router.navigateByUrl("/edit/" + element.id);
   }
 
-  refresh(): void {
-    this.isLoading = true;
-    this.docService.getDocuments().subscribe((x) => {
-      this.dataSource.data = JSON.parse(x) as CaseDocumentMetadata[];
-      if (this.dataSource.data.length == 0) {
-        this.isEmpty = true;
-      } else {
-        this.isEmpty = false;
-      }
-      this.isLoading = false;
-    });
+  loadTable( metadata:CaseDocumentMetadata[]){
+    this.dataSource.data = metadata;
   }
 
-  removeDocument(id: string): void {
+  removeDocument(id: string, index: number): void {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -72,8 +61,8 @@ export class DocTableComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.docService.removeDocument(id).subscribe((_) => {
+          this.dataSource.data.splice(index,1);
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
-          this.refresh();
         });
       }
     });

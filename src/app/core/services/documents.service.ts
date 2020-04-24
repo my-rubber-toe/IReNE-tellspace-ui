@@ -14,21 +14,21 @@ import { CaseDocumentResponse } from "@app/shared/models/case-document-response"
 })
 export class DocumentsService {
   constructor(private http: HttpClient) {}
-
+  
   private rootUrl = "http://localhost:5000"; // URL to web api
 
   private httpOptions = {
-    headers: new HttpHeaders({ "Content-Type": "application/json; charset-utf-8", Accept:"application/json"}),
+    headers: new HttpHeaders({Accept:"application/json", "Content-Type": "application/json; charset-utf-8", }),
   };
 
   //Route Client Functions:
 
   /** GET document metadata. Will 404 if there are no documents */
-  public getDocuments(): Observable<string> {
-    const url = `${this.rootUrl}/documents`;
+  public getDocuments(): Observable<CaseDocumentMetadata[]> {
+    const url = `http://localhost:5000/documents/`;
     return this.http
-      .get<string>(url, this.httpOptions)
-      .pipe(catchError(this.handleError<string>("getDocuments")));
+      .get<CaseDocumentMetadata[]>(url, this.httpOptions)
+      .pipe(catchError(this.handleError<CaseDocumentMetadata[]>("getDocuments")));
   }
 
   /** POST new document on the server */

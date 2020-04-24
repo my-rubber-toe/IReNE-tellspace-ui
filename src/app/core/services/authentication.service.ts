@@ -81,7 +81,7 @@ export class AuthenticationService {
    * @param googleID valid token Id returned from google
    */
   private getLoginToken(googleId: string): Observable<Tokens> {
-    const url = `${this.rootUrl}/${googleId}`;
+    const url = `${this.rootUrl}/login/${googleId}`;
     return this.http.get<Tokens>(url, this.httpOptions);
   }
   

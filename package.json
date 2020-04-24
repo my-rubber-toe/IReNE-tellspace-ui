@@ -1,15 +1,14 @@
 {
-  "name": "ire-ne-tell-space",
-  "version": "0.0.0",
+  "name": "irene-tell-space",
+  "version": "6.13.4",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "build": "ng build",
+    "build": "ng build --base-href /tellspace-ui/ --output-path dist --aot --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "compodoc": "npx compodoc -p tsconfig.app.json",
-    "postinstall": "ng build --output-path dist  --aot --prod"
+    "compodoc": "npx compodoc -p tsconfig.app.json"
   },
   "private": true,
   "dependencies": {

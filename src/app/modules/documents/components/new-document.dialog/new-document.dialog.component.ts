@@ -45,10 +45,10 @@ export class NewDocumentDialogComponent implements OnInit {
   private initAuthors(): FormGroup {
     return this.fb.group(
       {
-        author_FN: ["", Validators.required],
-        author_LN: ["", Validators.required],
-        author_email: ["", Validators.pattern("^[a-z0-9._%+-]+@upr.edu$")],
-        author_faculty: ["", Validators.required],
+        first_name: ["", Validators.required],
+        last_name: ["", Validators.required],
+        email: ["", Validators.pattern("^[a-z0-9._%+-]+@upr.edu$")],
+        faculty: ["", Validators.required],
       },
       Validators.required
     );
@@ -57,9 +57,9 @@ export class NewDocumentDialogComponent implements OnInit {
   private initActors(): FormGroup {
     return this.fb.group(
       {
-        actor_FN: ["", Validators.required],
-        actor_LN: ["", Validators.required],
-        actor_role: ["", Validators.required],
+        first_name: ["", Validators.required],
+        last_name: ["", Validators.required],
+        role: ["", Validators.required],
       },
       Validators.required
     );

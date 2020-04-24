@@ -34,7 +34,7 @@ export class DocumentsService {
   /** POST new document on the server */
   public createDocument(req: CaseDocumentCreateRequest): Observable<any> {
     console.log("sending create");
-    const url = `${this.rootUrl}/documents/create/`;
+    const url = `${this.rootUrl}/documents/create`;
     return this.http
       .post(url, req, this.httpOptions)
       .pipe(catchError(this.handleError<any>("createDocument")));

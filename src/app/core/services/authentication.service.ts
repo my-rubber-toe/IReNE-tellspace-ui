@@ -89,7 +89,7 @@ export class AuthenticationService {
    */
   private logoutFromServer(): Observable<any> {
     const url = `${this.rootUrl}/logout`;
-    return this.http.delete(url, this.httpOptions);
+    return this.http.get(url, this.httpOptions);
   }
   
   /**Saves the collaborator session values to localhost

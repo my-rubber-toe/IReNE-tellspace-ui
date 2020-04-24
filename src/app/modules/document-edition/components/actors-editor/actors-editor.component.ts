@@ -25,7 +25,7 @@ export class ActorsEditorComponent implements OnInit {
       {
         actor_FN: ["", Validators.required],
         actor_LN: ["", Validators.required],
-        actor_role: ["", Validators.required],
+        role: ["", Validators.required],
       },
       Validators.required
     );
@@ -51,7 +51,7 @@ export class ActorsEditorComponent implements OnInit {
         {
           actor_FN: [actor.actor_FN, Validators.required],
           actor_LN: [actor.actor_LN, Validators.required],
-          actor_role: [actor.actor_role, Validators.required],
+          role: [actor.role, Validators.required],
         },
         Validators.required
       )

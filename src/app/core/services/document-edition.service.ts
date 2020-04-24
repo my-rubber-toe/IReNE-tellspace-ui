@@ -1,15 +1,17 @@
 import { Injectable } from "@angular/core";
-import { Subject, Observable, BehaviorSubject, of } from "rxjs";
+import { Observable, BehaviorSubject, of } from "rxjs";
 import { CaseDocument } from "@app/shared/models/case-document";
 import { DocumentsService } from "./documents.service";
 import { ContentSection } from "@app/shared/models/content-section";
 import { Timeline } from "@app/shared/models/timeline";
 import { Actor } from "@app/shared/models/actor";
 import { Author } from "@app/shared/models/author";
-import { debounceTime } from "rxjs/operators";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { DatePipe } from "@angular/common";
+import { AuthorPutRequest, ActorPutRequest } from '@app/shared/models/put-request-models';
 
+
+/**Service that serves as app-wide store for specific case document data and builds the upstream request bodies */
 @Injectable({
   providedIn: "root",
 })
@@ -102,7 +104,7 @@ export class DocumentEditionService {
     this.activeCaseDocument.infrasDocList = infrastructureTypes;
     this.docService
       .edit(this.activeCaseDocument.id, "infrastructure_types", {
-        infrastructure_type: infrastructureTypes,
+        infrastructure_types: infrastructureTypes,
       })
       .subscribe((_) => {
         this.updateSource();
@@ -115,7 +117,7 @@ export class DocumentEditionService {
     this.activeCaseDocument.damageDocList = damageTypes;
     this.docService
       .edit(this.activeCaseDocument.id, "damage_types", {
-        damage_type: damageTypes,
+        damage_types: damageTypes,
       })
       .subscribe((_) => {
         this.updateSource();
@@ -125,9 +127,10 @@ export class DocumentEditionService {
 
   /**Changes the active document actors to the given Actor array and updates the backend*/
   public editActors(actors: any) {
-    this.activeCaseDocument.actors = actors.actors;
+    this.activeCaseDocument.actor = actors.actors;
+    let body = {actors: this.getEditActorRequest(this.activeCaseDocument.actor)}
     this.docService
-      .edit(this.activeCaseDocument.id, "actors", actors)
+      .edit(this.activeCaseDocument.id, "actors", body)
       .subscribe((_) => {
         this.updateSource();
         this.snackBar.open("Actors Saved");
@@ -136,9 +139,10 @@ export class DocumentEditionService {
 
   /**Changes the active document authors to the given Actor array and updates the backend*/
   public editAuthors(authors: any) {
-    this.activeCaseDocument.authors = authors.authors;
+    this.activeCaseDocument.author = authors.authors;
+    let body = {authors: this.getEditAuthorRequest(this.activeCaseDocument.author)}
     this.docService
-      .edit(this.activeCaseDocument.id, "authors", authors)
+      .edit(this.activeCaseDocument.id, "authors", body)
       .subscribe((_) => {
         this.updateSource();
         this.snackBar.open("Authors Saved");
@@ -158,7 +162,7 @@ export class DocumentEditionService {
 
   /**Changes the active document tags to the given string array and updates the backend*/
   public editTags(tags: string[]) {
-    this.activeCaseDocument.tags = tags;
+    this.activeCaseDocument.tagsDoc= tags;
     this.docService
       .edit(this.activeCaseDocument.id, "tags", { tags: tags })
       .subscribe((_) => {
@@ -182,6 +186,7 @@ export class DocumentEditionService {
       });
   }
 
+  /**Send request to update the section on the server*/
   public editSection(sec: ContentSection, position: number): Observable<any> {
     this.activeCaseDocument.section[position-1] = sec;
     this.updateSource();
@@ -192,6 +197,7 @@ export class DocumentEditionService {
     );
   }
 
+  /**Sends request to create a section to the server and updates cached section list */
   public createSection() {
     console.log("this.createSection executed");
     this.docService.createSection(this.activeCaseDocument.id).subscribe((x) => {
@@ -202,6 +208,7 @@ export class DocumentEditionService {
     });
   }
 
+  /**Sends request to remove a section to the server and updates cached section list */
   public removeSection(sectionPosition: number) {
     this.docService
       .removeSection(this.activeCaseDocument.id, sectionPosition)
@@ -211,10 +218,27 @@ export class DocumentEditionService {
       });
   }
 
+   /**Returns the Content Section object refered by sectionPosition. Returns null if section does not exist
+    * @param sectionPosition section position of the content section to open, starts from 1.
+   */
   public getActiveSection(sectionPosition: number): ContentSection {
     if (sectionPosition > 0 && sectionPosition <= this.activeCaseDocument.section.length) {
       return this.activeCaseDocument.section[sectionPosition-1];
     }
     return null;
+  }
+
+   /**Returns a request friendly list of authors as specified on AuthorPutRequest model.
+    * @param authors list of authors as specified on the Author model
+   */
+  private getEditAuthorRequest(authors: Author[]): AuthorPutRequest[]{
+    return authors.map(author=>{return new AuthorPutRequest(author.author_FN, author.author_LN, author.author_email, author.author_faculty)});
+  }
+
+   /**Returns a request friendly list of actors as specified on ActorPutRequest model.
+    * @param actors list of actors as specified on the Actor model
+   */
+  private getEditActorRequest(actors: Actor[]): ActorPutRequest[]{
+    return actors.map(actor=>{return new ActorPutRequest(actor.actor_FN, actor.actor_LN, actor.role)});
   }
 }

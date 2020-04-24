@@ -133,6 +133,9 @@
       </mat-form-field>
     </div>
     <ng-template #elseBlock3A>
+      <ng-container *ngIf="tags.length==0">
+        <p>No tags are associated with this case study. Press edit to add.</p>
+      </ng-container>
       <mat-chip-list>
         <ng-container *ngFor="let tag of tags"
           ><mat-chip>{{ tag }}</mat-chip></ng-container

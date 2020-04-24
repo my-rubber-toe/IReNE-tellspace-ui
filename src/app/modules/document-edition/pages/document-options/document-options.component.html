@@ -44,7 +44,7 @@
   <mat-tab label="Tags and Categories">
     <ng-template matTabContent>
       <app-tags-categories-editor
-        [tags]="doc.tags"
+        [tags]="doc.tagsDoc"
         [infrastructures]="doc.infrasDocList"
         [damage_types]="doc.damageDocList"
       ></app-tags-categories-editor>
@@ -65,12 +65,12 @@
   </mat-tab>
   <mat-tab label="Authors">
     <ng-template matTabContent>
-      <app-authors-editor [authors]="doc.authors"></app-authors-editor>
+      <app-authors-editor [authors]="doc.author"></app-authors-editor>
     </ng-template>
   </mat-tab>
   <mat-tab label="Actors">
     <ng-template matTabContent>
-      <app-actors-editor [actors]="doc.actors"></app-actors-editor>
+      <app-actors-editor [actors]="doc.actor"></app-actors-editor>
     </ng-template>
   </mat-tab>
 </mat-tab-group>

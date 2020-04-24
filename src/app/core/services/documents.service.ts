@@ -25,7 +25,7 @@ export class DocumentsService {
 
   /** GET document metadata. Will 404 if there are no documents */
   public getDocuments(): Observable<CaseDocumentMetadata[]> {
-    const url = `http://localhost:5000/documents/`;
+    const url = `${this.rootUrl}/documents/`;
     return this.http
       .get<CaseDocumentMetadata[]>(url, this.httpOptions)
       .pipe(catchError(this.handleError<CaseDocumentMetadata[]>("getDocuments")));
@@ -34,7 +34,7 @@ export class DocumentsService {
   /** POST new document on the server */
   public createDocument(req: CaseDocumentCreateRequest): Observable<any> {
     console.log("sending create");
-    const url = `${this.rootUrl}/documents/create`;
+    const url = `${this.rootUrl}/documents/create/`;
     return this.http
       .post(url, req, this.httpOptions)
       .pipe(catchError(this.handleError<any>("createDocument")));
@@ -86,10 +86,11 @@ export class DocumentsService {
   ): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/section/${pos}`;
     console.log(sec);
-    return this.http.put(url, sec, this.httpOptions).pipe(
-      tap((_) => console.log(`edited section title=${sec.section_title}`)),
+    let body = {section_title : sec.secTitle, section_text: sec.content};
+    return this.http.put(url, body, this.httpOptions).pipe(
+      tap((_) => console.log(`edited section title=${sec.secTitle}`)),
       catchError(
-        this.handleError<any>(`editDocumentSection title=${sec.section_title}`)
+        this.handleError<any>(`editDocumentSection title=${sec.secTitle}`)
       )
     );
   }

@@ -146,10 +146,10 @@ export class DocumentEditionService {
   }
 
   /**Changes the active document locations to the given string array and updates the backend*/
-  public editLocations(locations: string[]) {
-    this.activeCaseDocument.location = locations;
+  public editLocations(locals: string[]) {
+    this.activeCaseDocument.location = locals;
     this.docService
-      .edit(this.activeCaseDocument.id, "locations", { location: locations })
+      .edit(this.activeCaseDocument.id, "locations", { locations: locals })
       .subscribe((_) => {
         this.updateSource();
         this.snackBar.open("Locations Saved");
@@ -183,7 +183,7 @@ export class DocumentEditionService {
   }
 
   public editSection(sec: ContentSection, position: number): Observable<any> {
-    this.activeCaseDocument.section[position] = sec;
+    this.activeCaseDocument.section[position-1] = sec;
     this.updateSource();
     return this.docService.editDocumentSection(
       this.activeCaseDocument.id,
@@ -206,14 +206,14 @@ export class DocumentEditionService {
     this.docService
       .removeSection(this.activeCaseDocument.id, sectionPosition)
       .subscribe((x) => {
-        this.activeCaseDocument.section.splice(sectionPosition, 1);
+        this.activeCaseDocument.section.splice(sectionPosition-1, 1);
         this.updateSource();
       });
   }
 
   public getActiveSection(sectionPosition: number): ContentSection {
-    if (sectionPosition < this.activeCaseDocument.section.length) {
-      return this.activeCaseDocument.section[sectionPosition];
+    if (sectionPosition > 0 && sectionPosition <= this.activeCaseDocument.section.length) {
+      return this.activeCaseDocument.section[sectionPosition-1];
     }
     return null;
   }

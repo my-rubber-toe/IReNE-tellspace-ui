@@ -65,10 +65,10 @@ export class SectionEditorComponent implements OnInit {
       const section = this.editService.getActiveSection(this.activeSection);
       if (section != null) {
         //<--If section exists in the active document set data on view editors.
-        this.model.editorData = section.section_text
-          ? section.section_text
+        this.model.editorData = section.content
+          ? section.content
           : "";
-        this.titleForm.setValue({ title: section.section_title });
+        this.titleForm.setValue({ title: section.secTitle});
       } else {
         this.router.navigateByUrl("invalid"); //<--Section number does not exist in the active case document, redirects to invalid.
       }

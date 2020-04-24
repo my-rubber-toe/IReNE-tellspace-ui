@@ -62,6 +62,9 @@ export class DocTableComponent implements OnInit {
       if (result.value) {
         this.docService.removeDocument(id).subscribe((_) => {
           this.dataSource.data.splice(index,1);
+          this.dataSource = new MatTableDataSource(this.dataSource.data);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
         });
       }

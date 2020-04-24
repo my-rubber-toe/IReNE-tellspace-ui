@@ -1,10 +1,10 @@
 export class ContentSection {
-  section_title: string;
-  section_text: string;
+  content: string;
+  secTitle: string;
 
   constructor(title: string, text?: string) {
-    this.section_title = title;
+    this.secTitle = title;
 
-    this.section_text = text;
+    this.content= text;
   }
 }

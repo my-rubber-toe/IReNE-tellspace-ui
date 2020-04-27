@@ -8,6 +8,8 @@ import { Category } from "@app/shared/models/category";
 import { CaseDocumentCreateRequest } from "@app/shared/models/case-document-create-request";
 import { CaseDocumentMetadata } from "@app/shared/models/case-document-metadata";
 import { CaseDocumentResponse } from "@app/shared/models/case-document-response";
+import { environment } from '../../../environments/environment';
+
 
 @Injectable({
   providedIn: "root",
@@ -15,7 +17,7 @@ import { CaseDocumentResponse } from "@app/shared/models/case-document-response"
 export class DocumentsService {
   constructor(private http: HttpClient) {}
 
-  private rootUrl = "http://localhost:5000"; // URL to web api
+  private rootUrl = environment.rootUrl; // URL to web api
 
   private httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json; charset-utf-8", Accept:"application/json"}),
@@ -25,7 +27,7 @@ export class DocumentsService {
 
   /** GET document metadata. Will 404 if there are no documents */
   public getDocuments(): Observable<string> {
-    const url = `${this.rootUrl}/documents`;
+    const url = `${this.rootUrl}/documents/`;
     return this.http
       .get<string>(url, this.httpOptions)
       .pipe(catchError(this.handleError<string>("getDocuments")));

@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Tokens } from "@app/shared/models/tokens";
 import { Router } from "@angular/router";
 import { Profile } from "@app/shared/models/profile";
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: "root",
@@ -15,7 +16,7 @@ export class AuthenticationService {
   redirectUrl: string;
 
   /**Root Url of the API for authentication requests */
-  private rootUrl = "http://localhost:5000/auth"; // URL to web api
+  private rootUrl = environment.rootUrl; // URL to web api
 
   /**Initial Headers for http requests from this service*/
   private httpOptions = {
@@ -81,14 +82,14 @@ export class AuthenticationService {
    * @param googleID valid token Id returned from google
    */
   private getLoginToken(googleId: string): Observable<Tokens> {
-    const url = `${this.rootUrl}/${googleId}`;
+    const url = `${this.rootUrl}/auth/login/${googleId}`;
     return this.http.get<Tokens>(url, this.httpOptions);
   }
   
   /**Delete request to the server for logout of the service
    */
   private logoutFromServer(): Observable<any> {
-    const url = `${this.rootUrl}/logout`;
+    const url = `${this.rootUrl}/auth/logout`;
     return this.http.delete(url, this.httpOptions);
   }
   

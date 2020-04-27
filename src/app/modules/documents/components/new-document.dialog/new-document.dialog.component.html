@@ -14,7 +14,7 @@
           name="title"
           maxlength="250"
           minlength="10"
-          placeholder="Case Study Title"
+          placeholder="Case Study Title (min: 10 characters)"
           [errorStateMatcher]="matcher"
           required
         />
@@ -33,8 +33,8 @@
         <mat-radio-button value="Spanish">Spanish</mat-radio-button>
       </mat-radio-group>
       <br />
-      <mat-form-field color="accent" class="full-width">
-        <mat-label>Incident Date</mat-label>
+      <mat-form-field color="primary" class="full-width">
+        <mat-label>Incident Date (MM/DD/YYYY)</mat-label>
         <input
           matInput
           [matDatepicker]="picker"
@@ -96,7 +96,7 @@
             <mat-form-field class="full-width">
               <mat-label>Author {{ i + 1 }} Name</mat-label>
               <input
-                formControlName="author_FN"
+                formControlName="first_name"
                 matInput
                 maxlength="30"
                 [errorStateMatcher]="matcher"
@@ -106,7 +106,7 @@
             <mat-form-field class="full-width">
               <mat-label>Author {{ i + 1 }} Lastname</mat-label>
               <input
-                formControlName="author_LN"
+                formControlName="last_name"
                 matInput
                 maxlength="30"
                 [errorStateMatcher]="matcher"
@@ -119,7 +119,7 @@
               <input
                 matInput
                 placeholder="irene.riseup@upr.edu"
-                formControlName="author_email"
+                formControlName="email"
                 maxlength="50"
                 [errorStateMatcher]="matcher"
                 required
@@ -128,7 +128,7 @@
             <mat-form-field class="full-width">
               <mat-label>Author {{ i + 1 }} Faculty</mat-label>
               <input
-                formControlName="author_faculty"
+                formControlName="faculty"
                 matInput
                 maxlength="30"
                 [errorStateMatcher]="matcher"
@@ -136,10 +136,11 @@
               />
             </mat-form-field>
             <button
+              *ngIf="i != 0"
               (click)="removeAuthor(i)"
               mat-icon-button
               matTooltip="Remove Author"
-              color="primary"
+              color="warn"
             >
               <mat-icon>delete</mat-icon>
             </button>
@@ -149,7 +150,7 @@
     </div>
     <button
       mat-raised-button
-      color="accent"
+      color="primary"
       type="button"
       (click)="addAuthor()"
     >
@@ -168,7 +169,7 @@
             <mat-form-field class="full-width">
               <mat-label>Actor {{ i + 1 }} Name</mat-label>
               <input
-                formControlName="actor_FN"
+                formControlName="first_name"
                 matInput
                 maxlength="30"
                 [errorStateMatcher]="matcher"
@@ -178,7 +179,7 @@
             <mat-form-field class="full-width">
               <mat-label>Actor {{ i + 1 }} Lastname</mat-label>
               <input
-                formControlName="actor_LN"
+                formControlName="last_name"
                 matInput
                 maxlength="30"
                 [errorStateMatcher]="matcher"
@@ -189,7 +190,7 @@
             <mat-form-field class="full-width">
               <mat-label>Actor {{ i + 1 }} Role</mat-label>
               <input
-                formControlName="actor_role"
+                formControlName="role"
                 matInput
                 maxlength="30"
                 [errorStateMatcher]="matcher"
@@ -198,6 +199,7 @@
             </mat-form-field>
 
             <button
+              *ngIf="i != 0"
               (click)="removeActor(i)"
               mat-icon-button
               matTooltip="Remove Actor"
@@ -209,7 +211,7 @@
         </div>
       </div>
     </div>
-    <button mat-raised-button color="accent" type="button" (click)="addActor()">
+    <button mat-raised-button color="primary" type="button" (click)="addActor()">
       Add Actor
     </button>
     <div mat-dialog-actions>

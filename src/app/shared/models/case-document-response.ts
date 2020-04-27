@@ -17,9 +17,8 @@ export class CaseDocumentResponse {
   infrasDocList: string[];
   damageDocList: string[];
   location: string[];
-  authors: Author[];
-  actors: Actor[];
+  author: Author[];
+  actor: Actor[];
   section: ContentSection[];
   timeline: TimelineResponse[];
-  tags: string[];
 }

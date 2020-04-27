@@ -20,17 +20,17 @@ export class DocumentsService {
   private rootUrl = environment.rootUrl; // URL to web api
 
   private httpOptions = {
-    headers: new HttpHeaders({ "Content-Type": "application/json; charset-utf-8", Accept:"application/json"}),
+    headers: new HttpHeaders({Accept:"application/json", "Content-Type": "application/json; charset-utf-8", }),
   };
 
   //Route Client Functions:
 
   /** GET document metadata. Will 404 if there are no documents */
-  public getDocuments(): Observable<string> {
+  public getDocuments(): Observable<CaseDocumentMetadata[]> {
     const url = `${this.rootUrl}/documents/`;
     return this.http
-      .get<string>(url, this.httpOptions)
-      .pipe(catchError(this.handleError<string>("getDocuments")));
+      .get<CaseDocumentMetadata[]>(url, this.httpOptions)
+      .pipe(catchError(this.handleError<CaseDocumentMetadata[]>("getDocuments")));
   }
 
   /** POST new document on the server */
@@ -88,10 +88,11 @@ export class DocumentsService {
   ): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/section/${pos}`;
     console.log(sec);
-    return this.http.put(url, sec, this.httpOptions).pipe(
-      tap((_) => console.log(`edited section title=${sec.section_title}`)),
+    let body = {section_title : sec.secTitle, section_text: sec.content};
+    return this.http.put(url, body, this.httpOptions).pipe(
+      tap((_) => console.log(`edited section title=${sec.secTitle}`)),
       catchError(
-        this.handleError<any>(`editDocumentSection title=${sec.section_title}`)
+        this.handleError<any>(`editDocumentSection title=${sec.secTitle}`)
       )
     );
   }
@@ -110,41 +111,30 @@ export class DocumentsService {
   /** GET infraestructure types defined on server */
   public getInfrastructureTypes(): Observable<string[]> {
     const url = `${this.rootUrl}/general/infrastructure_types`;
-    return this.http.get<Category>(url).pipe(
+    return this.http.get<string[]>(url).pipe(
       catchError(
-        this.handleError<Category>("getInfrastructureTypes", {
-          categories: [""],
-        })
-      ),
-      map((cat: Category) => {
-        return cat.categories;
-      })
+        this.handleError<string[]>("getInfrastructureTypes", [""] )
+      )
     );
   }
 
   /** GET damage types defined on server */
   public getDamageTypes(): Observable<string[]> {
     const url = `${this.rootUrl}/general/damage_types`;
-    return this.http.get<Category>(url, this.httpOptions).pipe(
+    return this.http.get<string[]>(url, this.httpOptions).pipe(
       catchError(
-        this.handleError<Category>("getDamageTypes", { categories: [""] })
-      ),
-      map((cat: Category) => {
-        return cat.categories;
-      })
+        this.handleError<string[]>("getDamageTypes", [""] )
+      )
     );
   }
 
   /** GET tags defined on server */
   public getTags(): Observable<string[]> {
     const url = `${this.rootUrl}/general/tags`;
-    return this.http.get<Category>(url, this.httpOptions).pipe(
+    return this.http.get<string[]>(url, this.httpOptions).pipe(
       catchError(
-        this.handleError<Category>("getTags", { categories: [""] })
-      ),
-      map((cat: Category) => {
-        return cat.categories;
-      })
+        this.handleError<string[]>("getTags", [""])
+      )
     );
   }
 

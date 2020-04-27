@@ -45,9 +45,9 @@ export class DateTimelineEditorComponent implements OnInit {
   private initTimelineEvent(): FormGroup {
     return this.fb.group(
       {
-        event_description: ["", Validators.required],
-        event_start_date: [this.maxDateEnd, Validators.required],
-        event_end_date: [this.maxDateEnd, Validators.required],
+        event: ["", Validators.required],
+        eventStartDate: [this.maxDateEnd, Validators.required],
+        eventEndDate: [this.maxDateEnd, Validators.required],
       },
       Validators.required
     );
@@ -71,9 +71,9 @@ export class DateTimelineEditorComponent implements OnInit {
     control.push(
       this.fb.group(
         {
-          event_description: [timeEvent.event_description, Validators.required],
-          event_start_date: [timeEvent.event_start_date, Validators.required],
-          event_end_date: [timeEvent.event_end_date, Validators.required],
+          event: [timeEvent.event, Validators.required],
+          eventStartDate: [timeEvent.eventStartDate, Validators.required],
+          eventEndDate: [timeEvent.eventEndDate, Validators.required],
         },
         Validators.required
       )

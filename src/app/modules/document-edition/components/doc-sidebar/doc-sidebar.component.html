@@ -24,12 +24,12 @@
       <a
         mat-list-item
         routerLinkActive="list-item-active"
-        routerLink="s/{{ i }}"
+        routerLink="s/{{ i+1 }}"
       >
         {{
-          section.section_title.length > 35
-            ? (section.section_title | slice: 0:35) + "..."
-            : section.section_title
+          section.secTitle.length > 35
+            ? (section.secTitle | slice: 0:35) + "..."
+            : section.secTitle
         }}
       </a>
     </div>

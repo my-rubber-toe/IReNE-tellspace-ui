@@ -35,32 +35,26 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Creation Date</th>
     <td mat-cell *matCellDef="let element">
       {{ element.creationDate | date: "MM/dd/yyyy" }}
+    </td>
+  </ng-container>
+
+    <!-- Actions Column-->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let element; let index">
       <button
         mat-button
         isRoundButton="true"
         matTooltip="Delete Case Study"
-        (click)="removeDocument(element.id)"
+        (click)="removeDocument(element.id, index)"
       >
         <mat-icon color="warn">delete</mat-icon>
       </button>
     </td>
   </ng-container>
 
+
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
 <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
-
-<mat-card
-  *ngIf="isLoading"
-  style="display: flex; justify-content: center; align-items: center;"
->
-  <mat-progress-spinner color="primary" mode="indeterminate">
-  </mat-progress-spinner>
-</mat-card>
-
-<div *ngIf="isEmpty && !isLoading" class="no-cases-message">
-  <h1>Create a new case study</h1>
-  <h3>A case study helps you share your findings with the world.</h3>
-  <h4>You can start by pressing the + button above</h4>
-</div>

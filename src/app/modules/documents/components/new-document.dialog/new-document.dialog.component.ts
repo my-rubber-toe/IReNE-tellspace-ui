@@ -123,7 +123,7 @@ export class NewDocumentDialogComponent implements OnInit {
       authors: formValue.authors,
       damage_type: formValue.damage_type,
       infrastructure_type: formValue.infrastructure_type,
-      language: formValue.language,
+      language: formValue.language
     };
   }
 

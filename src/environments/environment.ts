@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  rootUrl: 'https://localhost/tellspace-server'
+  rootUrl: 'http://localhost:5000'
 };
 
 /*

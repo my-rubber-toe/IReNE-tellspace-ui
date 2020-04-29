@@ -5,15 +5,22 @@
       (click)="navigateToCaseStudyRoot()"
       matTooltip="Case Study Options"
     >
-      <h2 mat-subheader>
+      <mat-icon>settings_icon</mat-icon>
+      <h3>
         {{
           caseDocument.title.length > 70
             ? (caseDocument.title | slice: 0:70) + "..."
             : caseDocument.title
         }}
-      </h2>
+      </h3>
     </button>
-    <button class="link-button" (click)="addSection()" mat-stroked-button>
+    <button
+      class="link-button"
+      (click)="addSection()"
+      color="primary"
+      matTooltip="Add a new section to the case study"
+      mat-raised-button
+    >
       Add Section
     </button>
   </div>
@@ -24,7 +31,7 @@
       <a
         mat-list-item
         routerLinkActive="list-item-active"
-        routerLink="s/{{ i+1 }}"
+        routerLink="s/{{ i + 1 }}"
       >
         {{
           section.secTitle.length > 35

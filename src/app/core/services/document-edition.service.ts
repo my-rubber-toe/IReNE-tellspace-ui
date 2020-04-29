@@ -8,8 +8,10 @@ import { Actor } from "@app/shared/models/actor";
 import { Author } from "@app/shared/models/author";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { DatePipe } from "@angular/common";
-import { AuthorPutRequest, ActorPutRequest } from '@app/shared/models/put-request-models';
-
+import {
+  AuthorPutRequest,
+  ActorPutRequest,
+} from "@app/shared/models/put-request-models";
 
 /**Service that serves as app-wide store for specific case document data and builds the upstream request bodies */
 @Injectable({
@@ -55,29 +57,42 @@ export class DocumentEditionService {
 
   /**Changes the active document title to the given string and updates the backend*/
   public editDocumentTitle(newTitle: string) {
-    this.activeCaseDocument.title = newTitle;
-    this.updateSource();
     this.docService
       .edit(this.activeCaseDocument.id, "title", { title: newTitle })
-      .subscribe((result) => this.snackBar.open("Title Saved"));
+      .subscribe(
+        (response) => {
+          this.activeCaseDocument.title = newTitle;
+          this.updateSource();
+          this.snackBar.open("Title Saved");
+        },
+        (error) => {
+          if (error.status == 500)
+            this.showError(
+              `Case Document ${newTitle} exists on the database, please try another title`
+            );
+          else this.showError(error.error.message.title);
+        }
+      );
   }
 
   /**Changes the active document description to the given string and updates the backend*/
   public editDescription(descriptionText: string) {
-    this.activeCaseDocument.description = descriptionText;
     this.docService
       .edit(this.activeCaseDocument.id, "description", {
         description: descriptionText,
       })
-      .subscribe((_) => {
-        this.updateSource();
-        this.snackBar.open("Description Saved");
-      });
+      .subscribe(
+        (response) => {
+          this.activeCaseDocument.description = descriptionText;
+          this.updateSource();
+          this.snackBar.open("Description Saved");
+        },
+        (error) => this.showError(error.error.message.description)
+      );
   }
 
   /**Changes the active document timeline to the given timeline array and updates the backend*/
   public editTimeline(newTimeline: Timeline[]) {
-    this.activeCaseDocument.timeline = newTimeline;
     let timelineArray = newTimeline.map((timeEvent) => {
       return {
         event: timeEvent.event,
@@ -92,103 +107,127 @@ export class DocumentEditionService {
       };
     });
     this.docService
-      .edit(this.activeCaseDocument.id, "timeline", {timeline: timelineArray})
-      .subscribe((_) => {
-        this.updateSource();
-        this.snackBar.open("Timeline Saved");
-      });
+      .edit(this.activeCaseDocument.id, "timeline", { timeline: timelineArray })
+      .subscribe(
+        (response) => {
+          this.activeCaseDocument.timeline = newTimeline;
+          this.updateSource();
+          this.snackBar.open("Timeline Saved");
+        },
+        (error) => this.showError(error.error.message.timeline)
+      );
   }
 
   /**Changes the active document infraestructure types to the given string array and updates the backend*/
   public editInfraestructureTypes(infrastructureTypes: string[]) {
-    this.activeCaseDocument.infrasDocList = infrastructureTypes;
     this.docService
       .edit(this.activeCaseDocument.id, "infrastructure_types", {
         infrastructure_types: infrastructureTypes,
       })
-      .subscribe((_) => {
-        this.updateSource();
-        this.snackBar.open("Infrastructure Types Saved");
-      });
+      .subscribe(
+        (response) => {
+          this.activeCaseDocument.infrasDocList = infrastructureTypes;
+          this.updateSource();
+          this.snackBar.open("Infrastructure Types Saved");
+        },
+        (error) => this.showError(error.error.message.infrastructure_types)
+      );
   }
 
   /**Changes the active document damage types to the given string array and updates the backend*/
   public editDamageTypes(damageTypes: string[]) {
-    this.activeCaseDocument.damageDocList = damageTypes;
     this.docService
       .edit(this.activeCaseDocument.id, "damage_types", {
         damage_types: damageTypes,
       })
-      .subscribe((_) => {
-        this.updateSource();
-        this.snackBar.open("Damage Types Saved");
-      });
+      .subscribe(
+        (response) => {
+          this.activeCaseDocument.damageDocList = damageTypes;
+          this.updateSource();
+          this.snackBar.open("Damage Types Saved");
+        },
+        (error) => this.showError(error.error.message.damage_types)
+      );
   }
 
   /**Changes the active document actors to the given Actor array and updates the backend*/
   public editActors(actors: any) {
-    this.activeCaseDocument.actor = actors.actors;
-    let body = {actors: this.getEditActorRequest(this.activeCaseDocument.actor)}
-    this.docService
-      .edit(this.activeCaseDocument.id, "actors", body)
-      .subscribe((_) => {
+    let body = {
+      actors: this.getEditActorRequest(this.activeCaseDocument.actor),
+    };
+    this.docService.edit(this.activeCaseDocument.id, "actors", body).subscribe(
+      (response) => {
+        this.activeCaseDocument.actor = actors.actors;
         this.updateSource();
         this.snackBar.open("Actors Saved");
-      });
+      },
+      (error) => this.showError(error.error.message.actors)
+    );
   }
 
   /**Changes the active document authors to the given Actor array and updates the backend*/
   public editAuthors(authors: any) {
-    this.activeCaseDocument.author = authors.authors;
-    let body = {authors: this.getEditAuthorRequest(this.activeCaseDocument.author)}
-    this.docService
-      .edit(this.activeCaseDocument.id, "authors", body)
-      .subscribe((_) => {
+    let body = {
+      authors: this.getEditAuthorRequest(this.activeCaseDocument.author),
+    };
+    this.docService.edit(this.activeCaseDocument.id, "authors", body).subscribe(
+      (response) => {
+        this.activeCaseDocument.author = authors.authors;
         this.updateSource();
         this.snackBar.open("Authors Saved");
-      });
+      },
+      (error) => this.showError(error.error.message.authors)
+    );
   }
 
   /**Changes the active document locations to the given string array and updates the backend*/
   public editLocations(locals: string[]) {
-    this.activeCaseDocument.location = locals;
     this.docService
       .edit(this.activeCaseDocument.id, "locations", { locations: locals })
-      .subscribe((_) => {
-        this.updateSource();
-        this.snackBar.open("Locations Saved");
-      });
+      .subscribe(
+        (response) => {
+          this.activeCaseDocument.location = locals;
+          this.updateSource();
+          this.snackBar.open("Locations Saved");
+        },
+        (error) => this.showError(error.error.message.locations)
+      );
   }
 
   /**Changes the active document tags to the given string array and updates the backend*/
   public editTags(tags: string[]) {
-    this.activeCaseDocument.tagsDoc= tags;
     this.docService
       .edit(this.activeCaseDocument.id, "tags", { tags: tags })
-      .subscribe((_) => {
-        this.updateSource();
-        this.snackBar.open("Tags Saved");
-      });
+      .subscribe(
+        (response) => {
+          this.activeCaseDocument.tagsDoc = tags;
+          this.updateSource();
+          this.snackBar.open("Tags Saved");
+        },
+        (error) => this.showError(error.error.message.tags)
+      );
   }
 
   /**Change the active document incident date to the given date and updates the backend*/
   public editIncidentDate(incidentDay: Date) {
     let incidentDayString = this.datePipe.transform(incidentDay, "yyyy-MM-dd");
-    this.activeCaseDocument.incidentDate = incidentDay;
-    console.log("saved incident date string: ", incidentDayString, incidentDay);
     this.docService
       .edit(this.activeCaseDocument.id, "incident_date", {
         incident_date: incidentDayString,
       })
-      .subscribe((_) => {
-        this.updateSource();
-        this.snackBar.open("Incident Date Saved");
-      });
+      .subscribe(
+        (response) => {
+          this.activeCaseDocument.incidentDate = incidentDay;
+          this.updateSource();
+          this.snackBar.open("Incident Date Saved");
+        },
+        (error) => this.showError(error.error.message.incident_date)
+      );
   }
 
   /**Send request to update the section on the server*/
   public editSection(sec: ContentSection, position: number): Observable<any> {
-    this.activeCaseDocument.section[position-1] = sec;
+    this.activeCaseDocument.section[position - 1] = sec;
     this.updateSource();
     return this.docService.editDocumentSection(
       this.activeCaseDocument.id,
@@ -213,32 +252,54 @@ export class DocumentEditionService {
     this.docService
       .removeSection(this.activeCaseDocument.id, sectionPosition)
       .subscribe((x) => {
-        this.activeCaseDocument.section.splice(sectionPosition-1, 1);
+        this.activeCaseDocument.section.splice(sectionPosition - 1, 1);
         this.updateSource();
       });
   }
 
-   /**Returns the Content Section object refered by sectionPosition. Returns null if section does not exist
-    * @param sectionPosition section position of the content section to open, starts from 1.
+  /**Returns the Content Section object refered by sectionPosition. Returns null if section does not exist
+   * @param sectionPosition section position of the content section to open, starts from 1.
    */
   public getActiveSection(sectionPosition: number): ContentSection {
-    if (sectionPosition > 0 && sectionPosition <= this.activeCaseDocument.section.length) {
-      return this.activeCaseDocument.section[sectionPosition-1];
+    if (
+      sectionPosition > 0 &&
+      sectionPosition <= this.activeCaseDocument.section.length
+    ) {
+      return this.activeCaseDocument.section[sectionPosition - 1];
     }
     return null;
   }
 
-   /**Returns a request friendly list of authors as specified on AuthorPutRequest model.
-    * @param authors list of authors as specified on the Author model
+  /**Returns a request friendly list of authors as specified on AuthorPutRequest model.
+   * @param authors list of authors as specified on the Author model
    */
-  private getEditAuthorRequest(authors: Author[]): AuthorPutRequest[]{
-    return authors.map(author=>{return new AuthorPutRequest(author.author_FN, author.author_LN, author.author_email, author.author_faculty)});
+  private getEditAuthorRequest(authors: Author[]): AuthorPutRequest[] {
+    return authors.map((author) => {
+      return new AuthorPutRequest(
+        author.author_FN,
+        author.author_LN,
+        author.author_email,
+        author.author_faculty
+      );
+    });
   }
 
-   /**Returns a request friendly list of actors as specified on ActorPutRequest model.
-    * @param actors list of actors as specified on the Actor model
+  /**Returns a request friendly list of actors as specified on ActorPutRequest model.
+   * @param actors list of actors as specified on the Actor model
    */
-  private getEditActorRequest(actors: Actor[]): ActorPutRequest[]{
-    return actors.map(actor=>{return new ActorPutRequest(actor.actor_FN, actor.actor_LN, actor.role)});
+  private getEditActorRequest(actors: Actor[]): ActorPutRequest[] {
+    return actors.map((actor) => {
+      return new ActorPutRequest(actor.actor_FN, actor.actor_LN, actor.role);
+    });
+  }
+
+  /**Displays an error snackbar defined by the errorMessage pased as parameter
+   * @param errorMessage string to display on error snackbar.
+   */
+  showError(errorMessage: string): void {
+    this.snackBar.open(errorMessage, "X", {
+      panelClass: ["red-snackbar"],
+      duration: 10000,
+    });
   }
 }

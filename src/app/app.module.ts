@@ -15,6 +15,7 @@ import { getAuthServiceConfigs } from "./configs/socialloginConfig";
 import { DatePipe } from "@angular/common";
 import { AuthInterceptorProvider } from "./core/interceptors/auth-interceptor";
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
+import { RequestErrorInterceptorProvider } from "./core/interceptors/request-error-interceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,6 +36,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
       useFactory: getAuthServiceConfigs,
     },
     AuthInterceptorProvider,
+    RequestErrorInterceptorProvider,
     // provider used to create fake backend
     //fakeBackendProvider,
   ],

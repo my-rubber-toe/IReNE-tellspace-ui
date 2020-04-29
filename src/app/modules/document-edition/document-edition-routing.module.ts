@@ -3,6 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { DocumentOptionsComponent } from "./pages/document-options/document-options.component";
 import { SectionEditorComponent } from "./pages/section-editor/section-editor.component";
 import { DocumentEditionComponent } from "./document-edition.component";
+import { CanDeactivateSectionEditorGuard } from "./guards/canDeactivateSectionEditorGuard";
 
 const routes: Routes = [
   {
@@ -10,7 +11,11 @@ const routes: Routes = [
     component: DocumentEditionComponent,
     children: [
       { path: "", pathMatch: "full", component: DocumentOptionsComponent },
-      { path: "s/:secid", component: SectionEditorComponent },
+      {
+        path: "s/:secid",
+        component: SectionEditorComponent,
+        canDeactivate: [CanDeactivateSectionEditorGuard],
+      },
     ],
   },
 ];

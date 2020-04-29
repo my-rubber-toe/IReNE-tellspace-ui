@@ -6,7 +6,6 @@ import { debounceTime } from "rxjs/operators";
 import { ContentSection } from "@app/shared/models/content-section";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
 import Swal from "sweetalert2";
-import { BehaviorSubject } from "rxjs";
 import { ChangeEvent } from "@ckeditor/ckeditor5-angular";
 /**Component that handles the section edition editor and implements CKEditor*/
 @Component({
@@ -16,30 +15,41 @@ import { ChangeEvent } from "@ckeditor/ckeditor5-angular";
 })
 export class SectionEditorComponent implements OnInit {
   /**Constant for the time to wait before sending an update request upon modification of title or text content. */
-  public static readonly DEBOUNCE_TIME: number = 3000; //275; //This debounce is for user interface, service has another for server
+  public static readonly DEBOUNCE_TIME: number = 2000;
 
+  /**The ckeditor build used in this component */
   public Editor = ClassicEditorWithAutosave;
 
+  /**The ck editor configuration */
   public EditorConfig = {
     autosave: {
       // The minimum amount of time the Autosave plugin is waiting after the last data change.
       waitingTime: SectionEditorComponent.DEBOUNCE_TIME,
       save: (editor) => this.saveData(editor.getData()),
     },
+    toolbar: {
+      viewportTopOffset: 70, // viewport offset is needed for sticky toolbar to work
+    },
   };
 
-  sectionInitialData: string;
-
+  /**The section position number of the current section open for edition */
   activeSection: number;
 
-  savedFlag: BehaviorSubject<boolean> = new BehaviorSubject(true);
-
+  /**Stores save status of the current section open for edition */
   isSaved: boolean;
 
+  /**Loading flag as semaphore, used to now when loading has ended and save requests can go thru.
+   * Done as number instead of boolean, because quick section changess trigger loading faster than debounce time,
+   * and the false trigger could happen before the last opened section is loaded completly.
+   */
+  loading: number = 0;
+
+  /**Model that stores the current contents of the section and is entangled with the view */
   public model = {
     editorData: "<p>Hello, world!</p>",
   };
 
+  /**Form group that stores the controller for the section title */
   titleForm: FormGroup;
 
   constructor(
@@ -50,75 +60,85 @@ export class SectionEditorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.savedFlag.subscribe((flag) => (this.isSaved = flag));
-
+    //Initialize title form controller
     this.titleForm = this.fb.group({ title: ["", Validators.required] });
 
+    //Subscribe to section changes on url, and load corresponding contents
     this.route.paramMap.subscribe((params) => {
-      //<--Initial Data Loading executed when url changes to a section.
+      this.loading++; //Set loading to a truthy state
+      this.setSaveStatusTrue(); //On change save status must display saved
       this.activeSection = +params.get("secid");
-      console.log(
-        "section_editor refreshed with section number: ",
-        this.activeSection
-      );
-
       const section = this.editService.getActiveSection(this.activeSection);
       if (section != null) {
         //<--If section exists in the active document set data on view editors.
-        this.model.editorData = section.content
-          ? section.content
-          : "";
-        this.titleForm.setValue({ title: section.secTitle});
+        this.model.editorData = section.content ? section.content : "";
+        this.titleForm.setValue({ title: section.secTitle });
+        //Wait at least debounce time to start allowing put requests
+        setTimeout(() => {
+          this.loading--; //last load should set loading to a falsy state (0).
+        }, SectionEditorComponent.DEBOUNCE_TIME + 10);
       } else {
         this.router.navigateByUrl("invalid"); //<--Section number does not exist in the active case document, redirects to invalid.
       }
     });
 
+    //Subscribe to title form changes
     this.titleForm.valueChanges
       .pipe(debounceTime(SectionEditorComponent.DEBOUNCE_TIME))
       .subscribe((value) => {
-        if (this.titleForm.valid) {
-          const statusIndicator = document.querySelector(
-            "#snippet-autosave-status"
-          );
-          statusIndicator.classList.add("busy");
-          this.isSaved = false;
+        if (this.titleForm.valid && !this.loading) {
+          this.setSaveStatusFalse();
           this.uploadData();
         }
       });
   }
 
-  setSectionEditorFlag(){
-
+  /**Sets this component save status as true, updating UI indicator*/
+  private setSaveStatusTrue() {
+    this.isSaved = true;
+    const statusIndicator = document.querySelector("#snippet-autosave-status");
+    statusIndicator.classList.remove("busy");
   }
 
-  onEditorChange({ editor }: ChangeEvent) {
-    this.isSaved = false;
+  /**Sets this component save status as false, updating UI indicator*/
+  private setSaveStatusFalse() {
     const statusIndicator = document.querySelector("#snippet-autosave-status");
     statusIndicator.classList.add("busy");
+    this.isSaved = false;
   }
 
+  /**Callback function for change on editor, runs inmediatly on change without waiting for debounce
+   * Used to set the component state as unsaved.
+   */
+  onEditorChange({ editor }: ChangeEvent) {
+    if (!this.loading) {
+      this.setSaveStatusFalse();
+    }
+  }
+
+  /**Callback function to save the data currently on the editor. Runs if loading is on a falsy state */
   saveData(data: string) {
-    console.log("saved", data);
-    this.uploadData();
+    if (!this.loading) {
+      console.log("saved", data);
+      this.uploadData();
+    }
   }
 
+  /**Function that requests the edition service to update the contents of the active section and update changes to the server*/
   uploadData() {
-    this.editService
-      .editSection(
-        new ContentSection(this.titleForm.value.title, this.model.editorData),
-        this.activeSection
-      )
-      .subscribe((res) => {
-        console.log(this.isSaved);
-        const statusIndicator = document.querySelector(
-          "#snippet-autosave-status"
-        );
-        this.isSaved = true;
-        statusIndicator.classList.remove("busy");
-      });
+    if (!this.loading) {
+      this.editService
+        .editSection(
+          new ContentSection(this.titleForm.value.title, this.model.editorData),
+          this.activeSection
+        )
+        .subscribe((response) => {
+          this.setSaveStatusTrue();
+        });
+    }
   }
 
+  /**Function that removes a section after comfirmation from the user */
   deleteSection() {
     Swal.fire({
       title: "Are you sure?",

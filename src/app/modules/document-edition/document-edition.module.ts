@@ -12,8 +12,8 @@ import { DateTimelineEditorComponent } from "./components/date-timeline-editor/d
 import { AuthorsEditorComponent } from "./components/authors-editor/authors-editor.component";
 import { ActorsEditorComponent } from "./components/actors-editor/actors-editor.component";
 import { DocumentEditionRoutingModule } from "./document-edition-routing.module";
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
 import { DocumentEditionComponent } from "./document-edition.component";
+import { CanDeactivateSectionEditorGuard } from "./guards/canDeactivateSectionEditorGuard";
 
 @NgModule({
   declarations: [
@@ -34,5 +34,6 @@ import { DocumentEditionComponent } from "./document-edition.component";
     MaterialModule,
     DocumentEditionRoutingModule,
   ],
+  providers: [CanDeactivateSectionEditorGuard],
 })
 export class DocumentEditionModule {}

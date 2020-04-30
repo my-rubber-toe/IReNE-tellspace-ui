@@ -2,26 +2,15 @@
   <mat-card-content>
     <h3>Locations</h3>
     <div *ngIf="editingLocations; else elseBlock3A">
-      <mat-form-field style="width: 100%;">
-        <mat-chip-list #chipList aria-label="locations editor">
-          <mat-chip
-            *ngFor="let location of locations"
-            [selectable]="selectable"
-            [removable]="removable"
-            (removed)="remove(location)"
+      <mat-form-field class="example-full-width">
+        <mat-label>Refered Locations in Puerto Rico</mat-label>
+        <mat-select [formControl]="locationsControl" multiple>
+          <mat-option
+            *ngFor="let local of towns"
+            [value]="local"
+            >{{ local }}</mat-option
           >
-            {{ location }}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-          <input
-            placeholder="Type Locations And Press Enter"
-            [formControl]="locationsControl"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="addOnBlur"
-            (matChipInputTokenEnd)="add($event)"
-          />
-        </mat-chip-list>
+        </mat-select>
       </mat-form-field>
     </div>
     <ng-template #elseBlock3A>

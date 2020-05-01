@@ -55,7 +55,10 @@ export class AuthorsEditorComponent implements OnInit {
         {
           author_FN: [author.author_FN, Validators.required],
           author_LN: [author.author_LN, Validators.required],
-          author_email: [author.author_email, Validators.email],
+          author_email: [
+            author.author_email,
+            Validators.pattern("^[a-z0-9._%+-]+@upr.edu$"),
+          ],
           author_faculty: [author.author_faculty, Validators.required],
         },
         Validators.required

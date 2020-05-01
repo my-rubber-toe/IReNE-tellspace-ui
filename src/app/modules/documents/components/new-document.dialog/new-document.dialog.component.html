@@ -24,16 +24,16 @@
         matInput
         formControlName="title"
         name="title"
-        maxlength="250"
+        maxlength="100"
         minlength="10"
         placeholder="Case Study Title"
         [errorStateMatcher]="matcher"
         required
       />
       <mat-error
-        *ngIf="createDocumentForm.get('title')['controls']?.errors?.required"
-        >Please enter a title</mat-error
-      >
+      *ngIf="createDocumentForm.controls['title'].invalid"
+      >Title must hava at least 10 characters</mat-error
+    >
     </mat-form-field>
     <mat-form-field hintLabel="MM/DD/YYYY" color="primary">
       <mat-label>Incident Date</mat-label>

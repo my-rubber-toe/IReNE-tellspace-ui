@@ -1,7 +1,7 @@
 .create-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 2vh;
   align-items: flex-start;
   width: 30vw;
 }
@@ -17,7 +17,8 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  width: 100%;
+  gap: 2vh;
 }
 
 .dialog-close-button {

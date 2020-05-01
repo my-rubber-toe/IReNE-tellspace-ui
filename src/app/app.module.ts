@@ -28,7 +28,13 @@ import { RequestErrorInterceptorProvider } from "./core/interceptors/request-err
     SocialLoginModule,
   ],
   providers: [
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        duration: 3000,
+        verticalPosition: "top",
+      },
+    },
 
     DatePipe,
     {

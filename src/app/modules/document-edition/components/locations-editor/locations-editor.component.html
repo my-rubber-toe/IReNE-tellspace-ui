@@ -2,25 +2,54 @@
   <mat-card-content>
     <h3>Locations</h3>
     <div *ngIf="editingLocations; else elseBlock3A">
-      <mat-form-field>
-        <mat-label>Refered Locations in Puerto Rico</mat-label>
-        <mat-select [formControl]="locationsControl" multiple>
-          <mat-option *ngFor="let local of towns" [value]="local">{{
-            local
-          }}</mat-option>
-        </mat-select>
+      <mat-form-field
+        hintLabel="Add up to 5 Puerto Rico towns. (City, PR)"
+        style="width: 100%;"
+      >
+        <mat-chip-list #chipList aria-label="locations editing">
+          <mat-chip
+            *ngFor="let local of locations"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(local)"
+          >
+            {{ local }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Type Locations Here And Hit Enter"
+            maxlength="20"
+            #tagInput
+            [formControl]="locationsControl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selected($event)"
+        >
+          <mat-option
+            *ngFor="let local of filteredLocationsList | async"
+            [value]="local"
+          >
+            {{ local }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-hint align="end">{{ locations.length || 0 }}/5</mat-hint>
       </mat-form-field>
     </div>
     <ng-template #elseBlock3A>
-      <!--IF TIMELINE IS EMPTY SHOW MESSAGE-->
-      <div *ngIf="locations.length == 0">
-        <p>Locations list is Empty. Press edit to add new locations.</p>
-      </div>
-
-      <!--IF NOT EMPTY SHOW LIST OF LOCATIONS AS MAT-CHIP LIST-->
+      <ng-container *ngIf="locations.length == 0">
+        <p>
+          No locations are associated with this case study. Press edit to add.
+        </p>
+      </ng-container>
       <mat-chip-list>
-        <ng-container *ngFor="let location of locations"
-          ><mat-chip>{{ location }}</mat-chip></ng-container
+        <ng-container *ngFor="let local of locations"
+          ><mat-chip>{{ local }}</mat-chip></ng-container
         >
       </mat-chip-list>
     </ng-template>

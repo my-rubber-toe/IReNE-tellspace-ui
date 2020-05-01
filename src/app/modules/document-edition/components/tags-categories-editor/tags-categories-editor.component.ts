@@ -79,7 +79,6 @@ export class TagsCategoriesEditorComponent implements OnInit {
   }
 
   saveTags() {
-    console.log("saved tags: ", this.tags);
     this.edition.editTags(this.tags);
     this.toggleTagsEditor();
   }

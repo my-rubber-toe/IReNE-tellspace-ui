@@ -204,7 +204,7 @@ export class DocumentEditionService {
           this.updateSource();
           this.snackBar.open("Tags Saved");
         },
-        (error) => this.showError(error.error.message.tags)
+        (error) => this.showError("Error uploading tags")
       );
   }
 

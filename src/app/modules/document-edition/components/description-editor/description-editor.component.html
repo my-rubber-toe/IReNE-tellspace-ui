@@ -2,15 +2,18 @@
   <h3>Description</h3>
   <mat-card-content>
     <form #form="ngForm" (ngSubmit)="save()">
-      <mat-form-field style="width: 100%;">
+      <mat-form-field hintLabel="Max 250 characters" style="width: 100%;">
         <mat-label>Description</mat-label>
         <textarea
+          #input
           matInput
           cdkTextareaAutosize
+          maxlength="250"
           [readonly]="isNotEditing"
           [formControl]="descriptionFormControl"
           >{{ description }}</textarea
         >
+        <mat-hint align="end">{{ input.value?.length || 0 }}/250</mat-hint>
       </mat-form-field>
     </form>
   </mat-card-content>

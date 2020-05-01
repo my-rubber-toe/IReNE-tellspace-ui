@@ -2,25 +2,22 @@
   <mat-card-content>
     <h3>Locations</h3>
     <div *ngIf="editingLocations; else elseBlock3A">
-      <mat-form-field class="example-full-width">
+      <mat-form-field>
         <mat-label>Refered Locations in Puerto Rico</mat-label>
         <mat-select [formControl]="locationsControl" multiple>
-          <mat-option
-            *ngFor="let local of towns"
-            [value]="local"
-            >{{ local }}</mat-option
-          >
+          <mat-option *ngFor="let local of towns" [value]="local">{{
+            local
+          }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <ng-template #elseBlock3A>
+      <!--IF TIMELINE IS EMPTY SHOW MESSAGE-->
+      <div *ngIf="locations.length == 0">
+        <p>Locations list is Empty. Press edit to add new locations.</p>
+      </div>
 
-  <!--IF TIMELINE IS EMPTY SHOW MESSAGE-->
-  <div *ngIf="locations.length==0">
-    <p>Locations list is Empty. Press edit to add new locations.</p>
-  </div>
-
-  <!--IF NOT EMPTY SHOW LIST OF LOCATIONS AS MAT-CHIP LIST-->
+      <!--IF NOT EMPTY SHOW LIST OF LOCATIONS AS MAT-CHIP LIST-->
       <mat-chip-list>
         <ng-container *ngFor="let location of locations"
           ><mat-chip>{{ location }}</mat-chip></ng-container

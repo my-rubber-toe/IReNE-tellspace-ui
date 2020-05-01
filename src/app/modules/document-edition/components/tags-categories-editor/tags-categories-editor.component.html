@@ -101,7 +101,10 @@
   <mat-card-content>
     <h3>Tags</h3>
     <div *ngIf="editingTags; else elseBlock3A">
-      <mat-form-field style="width: 100%;">
+      <mat-form-field
+        hintLabel="Assign up to 20 unique tags"
+        style="width: 100%;"
+      >
         <mat-chip-list #chipList aria-label="tags editing">
           <mat-chip
             *ngFor="let tag of tags"
@@ -133,7 +136,7 @@
       </mat-form-field>
     </div>
     <ng-template #elseBlock3A>
-      <ng-container *ngIf="tags.length==0">
+      <ng-container *ngIf="tags.length == 0">
         <p>No tags are associated with this case study. Press edit to add.</p>
       </ng-container>
       <mat-chip-list>

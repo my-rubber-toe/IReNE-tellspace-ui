@@ -12,6 +12,7 @@
               <mat-label>Actor {{ i + 1 }} Name</mat-label>
               <input
                 [readonly]="!editingActors"
+                maxlength="30"
                 formControlName="actor_FN"
                 matInput
               />
@@ -20,6 +21,7 @@
               <mat-label>Actor {{ i + 1 }} Lastname</mat-label>
               <input
                 [readonly]="!editingActors"
+                maxlength="30"
                 formControlName="actor_LN"
                 matInput
               />
@@ -28,6 +30,7 @@
               <mat-label>Actor {{ i + 1 }} Role</mat-label>
               <input
                 formControlName="role"
+                maxlength="30"
                 matInput
                 [readonly]="!editingActors"
               />
@@ -49,7 +52,7 @@
     <button
       mat-raised-button
       *ngIf="editingActors"
-      color="accent"
+      color="primary"
       type="button"
       (click)="addActor()"
     >

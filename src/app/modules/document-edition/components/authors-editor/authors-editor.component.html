@@ -16,6 +16,7 @@
               <input
                 [readonly]="!editingAuthors"
                 formControlName="author_FN"
+                maxlength="30"
                 matInput
               />
             </mat-form-field>
@@ -24,6 +25,7 @@
               <input
                 [readonly]="!editingAuthors"
                 formControlName="author_LN"
+                maxlength="30"
                 matInput
               />
             </mat-form-field>
@@ -33,6 +35,7 @@
                 matInput
                 placeholder="irene.riseup@upr.edu"
                 formControlName="author_email"
+                maxlength="50"
                 [readonly]="!editingAuthors"
               />
             </mat-form-field>
@@ -40,6 +43,7 @@
               <mat-label>Author {{ i + 1 }} Faculty</mat-label>
               <input
                 formControlName="author_faculty"
+                maxlength="30"
                 matInput
                 [readonly]="!editingAuthors"
               />
@@ -61,7 +65,7 @@
     <button
       mat-raised-button
       *ngIf="editingAuthors"
-      color="accent"
+      color="primary"
       type="button"
       (click)="addAuthor()"
     >

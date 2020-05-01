@@ -1,6 +1,10 @@
 <mat-card class="incident-date-row">
   <h3>Incident Date</h3>
-  <mat-form-field color="accent" class="example-full-width">
+  <mat-form-field
+    hintLabel="MM/DD/YYYY"
+    color="accent"
+    class="example-full-width"
+  >
     <mat-label>Incident Date</mat-label>
     <input
       matInput
@@ -43,9 +47,11 @@
   <h3>Case Study Timeline</h3>
 
   <!--IF TIMELINE IS EMPTY SHOW MESSAGE-->
-  <div *ngIf="timeline.length==0">
-    <p>Timeline List is Empty. Press edit to add new events.<p>
+  <div *ngIf="timeline.length == 0">
+    <p>Timeline List is Empty. Press edit to add new events.</p>
+    <p></p>
   </div>
+
   <!--TIMELINE EDITORS-->
 
   <form [formGroup]="timelineForm">
@@ -59,7 +65,7 @@
       >
         <div [formGroupName]="i">
           <mat-card class="timeline-card">
-            <mat-form-field style="width: 100%;">
+            <mat-form-field hintLabel="Max 250 characters" style="width: 100%;">
               <mat-label>Event {{ i + 1 }} Description</mat-label>
               <textarea
                 matInput
@@ -71,7 +77,11 @@
                 cdkAutosizeMaxRows="3"
               ></textarea>
             </mat-form-field>
-            <mat-form-field color="accent" class="example-full-width">
+            <mat-form-field
+              hintLabel="MM/DD/YYYY"
+              color="accent"
+              class="example-full-width"
+            >
               <mat-label>Event Start Date</mat-label>
               <input
                 matInput
@@ -89,7 +99,11 @@
               ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            <mat-form-field color="accent" class="example-full-width">
+            <mat-form-field
+              hintLabel="MM/DD/YYYY"
+              color="accent"
+              class="example-full-width"
+            >
               <mat-label>Event End Date</mat-label>
               <input
                 matInput
@@ -124,7 +138,7 @@
     <button
       mat-raised-button
       *ngIf="editingTimeline"
-      color="accent"
+      color="primary"
       type="button"
       (click)="addTimelineEvent()"
     >

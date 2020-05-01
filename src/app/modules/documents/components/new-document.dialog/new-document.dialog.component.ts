@@ -88,9 +88,7 @@ export class NewDocumentDialogComponent implements OnInit {
   }
 
   addAuthor() {
-    const control = this.createDocumentForm.get("authors")[
-      "controls"
-    ] as FormArray;
+    const control = this.createDocumentForm.get("authors") as FormArray;
     control.push(this.initAuthors());
   }
 
@@ -100,9 +98,7 @@ export class NewDocumentDialogComponent implements OnInit {
   }
 
   addActor() {
-    const control = this.createDocumentForm.get("actors")[
-      "controls"
-    ] as FormArray;
+    const control = this.createDocumentForm.get("actors") as FormArray;
     control.push(this.initActors());
   }
 
@@ -123,11 +119,19 @@ export class NewDocumentDialogComponent implements OnInit {
       authors: formValue.authors,
       damage_type: formValue.damage_type,
       infrastructure_type: formValue.infrastructure_type,
-      language: formValue.language
+      language: formValue.language,
     };
   }
 
   onSubmit(): void {
     this.dialogRef.close(this.createRequestObject());
+  }
+
+  cancelAndClose(): void {
+    this.dialogRef.close();
+  }
+
+  getEmailErrorMessage() {
+    return "Valid @upr.edu email required";
   }
 }

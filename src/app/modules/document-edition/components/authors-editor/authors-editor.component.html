@@ -38,6 +38,10 @@
                 maxlength="50"
                 [readonly]="!editingAuthors"
               />
+              <mat-error
+                *ngIf="authorForm.controls['authors'].invalid"
+                >{{ getEmailErrorMessage() }}</mat-error
+              >
             </mat-form-field>
             <mat-form-field class="example-full-width">
               <mat-label>Author {{ i + 1 }} Faculty</mat-label>

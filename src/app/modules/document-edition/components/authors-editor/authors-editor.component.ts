@@ -83,4 +83,8 @@ export class AuthorsEditorComponent implements OnInit {
     this.edition.editAuthors(this.authorForm.getRawValue());
     this.toggleEditingAuthors();
   }
+
+  getEmailErrorMessage() {
+    return "Valid @upr.edu email required";
+  }
 }

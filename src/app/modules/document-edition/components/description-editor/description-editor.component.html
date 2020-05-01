@@ -19,12 +19,12 @@
   </mat-card-content>
   <mat-card-actions>
     <div *ngIf="isNotEditing; else elseBlock">
-      <button mat-button color="primary" (click)="editDescriptionToggle()">
+      <button mat-raised-button color="primary" (click)="editDescriptionToggle()">
         Edit Description
       </button>
     </div>
     <ng-template #elseBlock>
-      <button mat-button type="submit" color="primary" (click)="save()">
+      <button mat-raised-button type="submit" color="primary" (click)="save()">
         Save
       </button>
     </ng-template>

@@ -38,10 +38,9 @@
                 maxlength="50"
                 [readonly]="!editingAuthors"
               />
-              <mat-error
-                *ngIf="authorForm.controls['authors'].invalid"
-                >{{ getEmailErrorMessage() }}</mat-error
-              >
+              <mat-error *ngIf="authorForm.controls['authors'].invalid">{{
+                getEmailErrorMessage()
+              }}</mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
               <mat-label>Author {{ i + 1 }} Faculty</mat-label>
@@ -96,7 +95,11 @@
       >
     </div>
     <ng-template #elseBlock>
-      <button mat-button color="primary" (click)="toggleEditingAuthors()">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="toggleEditingAuthors()"
+      >
         Edit Authors
       </button>
     </ng-template>

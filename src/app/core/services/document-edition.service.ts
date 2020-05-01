@@ -114,7 +114,7 @@ export class DocumentEditionService {
           this.updateSource();
           this.snackBar.open("Timeline Saved");
         },
-        (error) => this.showError(error.error.message.timeline)
+        (error) => this.showError("Timeline Error")
       );
   }
 
@@ -221,7 +221,7 @@ export class DocumentEditionService {
           this.updateSource();
           this.snackBar.open("Incident Date Saved");
         },
-        (error) => this.showError(error.error.message.incident_date)
+        (error) => this.showError("Server error")
       );
   }
 

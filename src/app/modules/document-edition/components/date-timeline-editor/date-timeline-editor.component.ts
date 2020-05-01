@@ -27,18 +27,13 @@ export class DateTimelineEditorComponent implements OnInit {
 
   editingIncidentDate: boolean = false;
 
-  minDateStart: Date;
-  //maxDateStart: Date; //Seting max date of start to be the current end date
-  // minDateEnd: Date; //Setting min date for end to the current start date
   maxDateEnd: Date;
 
   constructor(
     private fb: FormBuilder,
     private edition: DocumentEditionService
   ) {
-    // Set tminimum and maximun dates
-    const currentYear = new Date().getFullYear();
-    this.minDateStart = new Date(currentYear - 20, 0, 1);
+    // Set minimum and maximun dates
     this.maxDateEnd = new Date();
   }
 

@@ -1,4 +1,4 @@
-<mat-card class="author-container">
+<mat-card>
   <h3>Authors</h3>
   <form [formGroup]="authorForm">
     <div formArrayName="authors">
@@ -78,8 +78,8 @@
   <mat-card-actions>
     <div *ngIf="editingAuthors; else elseBlock">
       <button
-        mat-button
-        color="primary"
+        mat-raised-button
+        color="accent"
         (click)="saveAuthors()"
         type="submit"
         [disabled]="authorForm.invalid"

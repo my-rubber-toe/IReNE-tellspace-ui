@@ -1,9 +1,13 @@
 <mat-card class="incident-date-row">
   <h3>Incident Date</h3>
+  <div *ngIf="!editingIncidentDate">
+    <h3>{{ incident_date | date: "MM/dd/yyyy" }}</h3>
+  </div>
   <mat-form-field
     hintLabel="MM/DD/YYYY"
     color="primary"
     class="example-full-width"
+    *ngIf="editingIncidentDate"
   >
     <mat-label>Incident Date</mat-label>
     <input
@@ -67,10 +71,7 @@
       >
         <div [formGroupName]="i">
           <mat-card class="timeline-card">
-            <mat-form-field
-              hintLabel="Min 10 characters. Max 250 characters"
-              class="event-description"
-            >
+            <mat-form-field class="event-description">
               <mat-label>Event {{ i + 1 }} Description</mat-label>
               <textarea
                 matInput
@@ -82,15 +83,14 @@
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="6"
               ></textarea>
+              <mat-hint *ngIf="editingTimeline"
+                >Min 10 characters. Max 250 characters</mat-hint
+              >
               <mat-error *ngIf="timelineForm.controls['timeline'].invalid">
                 Event description must have at least 10 characters
               </mat-error>
             </mat-form-field>
-            <mat-form-field
-              hintLabel="MM/DD/YYYY"
-              color="primary"
-              class="example-full-width"
-            >
+            <mat-form-field color="primary" class="example-full-width">
               <mat-label>Event Start Date</mat-label>
               <input
                 matInput
@@ -102,19 +102,16 @@
               />
               <mat-datepicker-toggle
                 matSuffix
-                [disabled]="!editingTimeline"
+                *ngIf="editingTimeline"
                 [for]="picker"
               ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
+              <mat-hint *ngIf="editingTimeline">MM/DD/YYYY</mat-hint>
               <mat-error *ngIf="timelineForm.controls['timeline'].invalid">
-                Unrecognized date format
+                Unrecognized date format.
               </mat-error>
             </mat-form-field>
-            <mat-form-field
-              hintLabel="MM/DD/YYYY"
-              color="primary"
-              class="example-full-width"
-            >
+            <mat-form-field color="primary" class="example-full-width">
               <mat-label>Event End Date</mat-label>
               <input
                 matInput
@@ -127,10 +124,11 @@
               />
               <mat-datepicker-toggle
                 matSuffix
-                [disabled]="!editingTimeline"
+                *ngIf="editingTimeline"
                 [for]="picker2"
               ></mat-datepicker-toggle>
               <mat-datepicker #picker2></mat-datepicker>
+              <mat-hint *ngIf="editingTimeline">MM/DD/YYYY</mat-hint>
               <mat-error *ngIf="timelineForm.controls['timeline'].invalid">
                 Unrecognized date format or day has not happened yet.
               </mat-error>
@@ -162,8 +160,8 @@
   <mat-card-actions>
     <div *ngIf="editingTimeline; else elseBlock">
       <button
-        mat-button
-        color="primary"
+        mat-raised-button
+        color="accent"
         (click)="saveTimeline()"
         type="submit"
         [disabled]="timelineForm.invalid"

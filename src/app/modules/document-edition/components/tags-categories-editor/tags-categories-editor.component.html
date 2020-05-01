@@ -24,9 +24,9 @@
   <mat-card-actions>
     <div *ngIf="editingInfrastructures; else elseBlock1B">
       <button
-        mat-button
+        mat-raised-button
         type="submit"
-        color="primary"
+        color="accent"
         (click)="saveinfrastructures()"
         [disabled]="infrastructuresFormControl.invalid"
       >
@@ -78,9 +78,9 @@
   <mat-card-actions>
     <div *ngIf="editingDamages; else elseBlock2B">
       <button
-        mat-button
+        mat-raised-button
         type="submit"
-        color="primary"
+        color="accent"
         [disabled]="damagesFormControl.invalid"
         (click)="saveDamages()"
       >
@@ -150,7 +150,12 @@
   </mat-card-content>
   <mat-card-actions>
     <div *ngIf="editingTags; else elseBlock3B">
-      <button mat-button type="submit" color="primary" (click)="saveTags()">
+      <button
+        mat-raised-button
+        type="submit"
+        color="accent"
+        (click)="saveTags()"
+      >
         Save
       </button>
     </div>

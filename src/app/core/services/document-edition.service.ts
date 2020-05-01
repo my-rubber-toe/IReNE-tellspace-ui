@@ -241,7 +241,10 @@ export class DocumentEditionService {
     console.log("this.createSection executed");
     this.docService.createSection(this.activeCaseDocument.id).subscribe((x) => {
       this.activeCaseDocument.section.push(
-        new ContentSection("Untitled Section", "")
+        new ContentSection(
+          `Section No. ${this.activeCaseDocument.section.length + 1} `,
+          ""
+        )
       );
       this.updateSource();
     });

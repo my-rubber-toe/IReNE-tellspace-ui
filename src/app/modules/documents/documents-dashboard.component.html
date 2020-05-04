@@ -5,6 +5,7 @@
     </h2>
     <div #changeButton class="new-button" id="create-doc-button">
       <button
+        *ngIf="!loading"
         mat-button
         (click)="promptNewDocumentForm()"
         matTooltip="Create New Case Study"
@@ -15,19 +16,19 @@
   </div>
   <mat-divider></mat-divider>
 
-    <app-doc-table></app-doc-table>
+  <app-doc-table></app-doc-table>
 
   <mat-card
-  *ngIf="loading"
-  style="display: flex; justify-content: center; align-items: center;"
->
-  <mat-progress-spinner color="primary" mode="indeterminate">
-  </mat-progress-spinner>
-</mat-card>
+    *ngIf="loading"
+    style="display: flex; justify-content: center; align-items: center;"
+  >
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+  </mat-card>
 
-<div *ngIf="docs.length==0 && !loading" class="no-cases-message">
-  <h1>You have no case studies</h1>
-  <h3>Create a case study to share your findings with the world.</h3>
-  <h4>You can start by pressing the + button above</h4>
-</div>
+  <div *ngIf="docs.length == 0 && !loading" class="no-cases-message">
+    <h1>You have no case studies</h1>
+    <h3>Create a case study to share your findings with the world.</h3>
+    <h4>You can start by pressing the + button above</h4>
+  </div>
 </div>

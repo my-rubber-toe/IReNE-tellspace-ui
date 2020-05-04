@@ -1,15 +1,14 @@
 import { Injectable } from "@angular/core";
-import { CaseDocument } from "@app/shared/models/case-document";
+
 import { Observable, of, Subject } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError, map, tap } from "rxjs/operators";
 import { ContentSection } from "@app/shared/models/content-section";
-import { Category } from "@app/shared/models/category";
+
 import { CaseDocumentCreateRequest } from "@app/shared/models/case-document-create-request";
 import { CaseDocumentMetadata } from "@app/shared/models/case-document-metadata";
 import { CaseDocumentResponse } from "@app/shared/models/case-document-response";
-import { environment } from '../../../environments/environment';
-
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -20,7 +19,10 @@ export class DocumentsService {
   private rootUrl = environment.rootUrl; // URL to web api
 
   private httpOptions = {
-    headers: new HttpHeaders({Accept:"application/json", "Content-Type": "application/json; charset-utf-8", }),
+    headers: new HttpHeaders({
+      Accept: "application/json",
+      "Content-Type": "application/json; charset-utf-8",
+    }),
   };
 
   //Route Client Functions:
@@ -28,9 +30,8 @@ export class DocumentsService {
   /** GET document metadata. Will 404 if there are no documents */
   public getDocuments(): Observable<CaseDocumentMetadata[]> {
     const url = `${this.rootUrl}/documents/`;
-    return this.http
-      .get<CaseDocumentMetadata[]>(url, this.httpOptions)
-      .pipe(catchError(this.handleError<CaseDocumentMetadata[]>("getDocuments")));
+    return this.http.get<CaseDocumentMetadata[]>(url, this.httpOptions);
+    //.pipe(catchError(this.handleError<CaseDocumentMetadata[]>("getDocuments")));
   }
 
   /** POST new document on the server */
@@ -88,7 +89,7 @@ export class DocumentsService {
   ): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/section/${pos}`;
     console.log(sec);
-    let body = {section_title : sec.secTitle, section_text: sec.content};
+    let body = { section_title: sec.secTitle, section_text: sec.content };
     return this.http.put(url, body, this.httpOptions).pipe(
       tap((_) => console.log(`edited section title=${sec.secTitle}`)),
       catchError(
@@ -102,9 +103,9 @@ export class DocumentsService {
    */
   public edit(docid: string, type: string, body: any): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/${type}`;
-    return this.http.put(url, body, this.httpOptions).pipe(
-      tap((_) => console.log(`edit type=${type}`))
-    );
+    return this.http
+      .put(url, body, this.httpOptions)
+      .pipe(tap((_) => console.log(`edit type=${type}`)));
   }
 
   /** GET infraestructure types defined on server */
@@ -112,7 +113,7 @@ export class DocumentsService {
     const url = `${this.rootUrl}/general/infrastructure_types`;
     return this.http.get<string[]>(url).pipe(
       catchError(
-        this.handleError<string[]>("getInfrastructureTypes", [""] )
+        this.handleError<string[]>("getInfrastructureTypes", [""])
       )
     );
   }
@@ -122,7 +123,7 @@ export class DocumentsService {
     const url = `${this.rootUrl}/general/damage_types`;
     return this.http.get<string[]>(url, this.httpOptions).pipe(
       catchError(
-        this.handleError<string[]>("getDamageTypes", [""] )
+        this.handleError<string[]>("getDamageTypes", [""])
       )
     );
   }

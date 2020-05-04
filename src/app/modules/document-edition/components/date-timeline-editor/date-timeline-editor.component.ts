@@ -19,6 +19,8 @@ export class DateTimelineEditorComponent implements OnInit {
 
   @Input() incident_date: Date;
 
+  readonly TIMELINE_MAX: number = 5;
+
   timelineForm: FormGroup;
 
   incidentDateControl: FormControl;

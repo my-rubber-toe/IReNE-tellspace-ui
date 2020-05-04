@@ -30,10 +30,9 @@
         [errorStateMatcher]="matcher"
         required
       />
-      <mat-error
-      *ngIf="createDocumentForm.controls['title'].invalid"
-      >Title must hava at least 10 characters</mat-error
-    >
+      <mat-error *ngIf="createDocumentForm.controls['title'].invalid"
+        >Title must hava at least 10 characters</mat-error
+      >
     </mat-form-field>
     <mat-form-field hintLabel="MM/DD/YYYY" color="primary">
       <mat-label>Incident Date</mat-label>
@@ -42,13 +41,15 @@
         [matDatepicker]="picker"
         formControlName="incident_date"
         name="incident_date"
-        [min]="minDate"
         [max]="maxDate"
         [errorStateMatcher]="matcher"
         required
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="createDocumentForm.controls['incident_date'].invalid"
+        >Date must be formated MM/DD/YYYY
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -152,6 +153,7 @@
     </div>
     <button
       mat-raised-button
+      *ngIf="createDocumentForm.get('authors')['controls'].length < AUTHORS_MAX"
       color="primary"
       type="button"
       (click)="addAuthor()"
@@ -218,6 +220,7 @@
     <button
       mat-raised-button
       color="primary"
+      *ngIf="createDocumentForm.get('actors')['controls'].length < ACTORS_MAX"
       type="button"
       (click)="addActor()"
     >

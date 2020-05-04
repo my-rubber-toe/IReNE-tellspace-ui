@@ -36,7 +36,10 @@
               />
             </mat-form-field>
             <button
-              *ngIf="editingActors"
+              *ngIf="
+                editingActors &&
+                actorForm.get('actors')['controls'].length > ACTORS_MIN
+              "
               (click)="removeActor(i)"
               mat-icon-button
               color="warn"
@@ -51,12 +54,14 @@
   <div>
     <button
       mat-raised-button
-      *ngIf="editingActors"
+      *ngIf="
+        editingActors && actorForm.get('actors')['controls'].length < ACTORS_MAX
+      "
       color="primary"
       type="button"
       (click)="addActor()"
     >
-      Add Actor
+      Add another actor
     </button>
   </div>
   <mat-card-actions>

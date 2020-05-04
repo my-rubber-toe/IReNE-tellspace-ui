@@ -52,7 +52,10 @@
               />
             </mat-form-field>
             <button
-              *ngIf="editingAuthors"
+              *ngIf="
+                editingAuthors &&
+                authorForm.get('authors')['controls'].length > AUTHORS_MIN
+              "
               (click)="removeAuthor(i)"
               mat-icon-button
               color="warn"
@@ -67,12 +70,15 @@
   <div>
     <button
       mat-raised-button
-      *ngIf="editingAuthors"
+      *ngIf="
+        editingAuthors &&
+        authorForm.get('authors')['controls'].length < AUTHORS_MAX
+      "
       color="primary"
       type="button"
       (click)="addAuthor()"
     >
-      Add Author
+      Add anther author
     </button>
   </div>
   <mat-card-actions>
@@ -84,15 +90,8 @@
         type="submit"
         [disabled]="authorForm.invalid"
       >
-        Save
+        Save Authors
       </button>
-      <span
-        *ngIf="
-          authorForm.invalid &&
-          authorForm.get('authors')['controls'].length == 0
-        "
-        >There needs to be at least one author</span
-      >
     </div>
     <ng-template #elseBlock>
       <button

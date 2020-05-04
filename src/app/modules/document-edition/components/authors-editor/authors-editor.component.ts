@@ -11,6 +11,9 @@ import { DocumentEditionService } from "@app/core/services/document-edition.serv
 export class AuthorsEditorComponent implements OnInit {
   @Input() authors: Author[];
 
+  readonly AUTHORS_MIN: number = 1;
+  readonly AUTHORS_MAX: number = 10;
+
   authorForm: FormGroup;
 
   editingAuthors: boolean = false;

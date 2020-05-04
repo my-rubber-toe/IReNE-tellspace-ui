@@ -1,13 +1,6 @@
-import { Component, OnInit, EventEmitter, Output } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
-import {
-  FormBuilder,
-  FormArray,
-  FormGroup,
-  FormControl,
-  Validators,
-  FormGroupName,
-} from "@angular/forms";
+import { FormBuilder, FormArray, FormGroup, Validators } from "@angular/forms";
 
 import { DocumentsService } from "@app/core/services/documents.service";
 import { DirtyStateErrorMatcher } from "@app/shared/dirty-state-error.matcher";
@@ -21,9 +14,10 @@ import { CaseDocumentCreateRequest } from "@app/shared/models/case-document-crea
 })
 export class NewDocumentDialogComponent implements OnInit {
   createDocumentForm: FormGroup;
-  //metadata: FormGroupName;
-  minDate: Date;
   maxDate: Date;
+
+  readonly AUTHORS_MAX: number = 10;
+  readonly ACTORS_MAX: number = 5;
 
   public infrastructureList: string[] = ["infraestructure"];
   public damageTypeList: string[] = ["damage_type"];
@@ -37,8 +31,6 @@ export class NewDocumentDialogComponent implements OnInit {
     private datePipe: DatePipe
   ) {
     // Set minimum and maximun dates
-    const currentYear = new Date().getFullYear();
-    this.minDate = new Date(currentYear - 20, 0, 1);
     this.maxDate = new Date();
   }
 

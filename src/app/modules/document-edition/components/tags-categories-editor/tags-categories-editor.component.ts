@@ -23,7 +23,7 @@ export class TagsCategoriesEditorComponent implements OnInit {
   infrastructureList: string[];
   damageList: string[];
   filteredTagList: Observable<string[]>;
-  readonly MAX_TAGS_LENGTH: number = 20;
+  readonly MAX_TAGS_LENGTH: number = 10;
   alltags: string[] = [""];
 
   editingTags: boolean;

@@ -24,9 +24,9 @@
   <mat-card-actions>
     <div *ngIf="editingInfrastructures; else elseBlock1B">
       <button
-        mat-button
+        mat-raised-button
         type="submit"
-        color="primary"
+        color="accent"
         (click)="saveinfrastructures()"
         [disabled]="infrastructuresFormControl.invalid"
       >
@@ -35,7 +35,7 @@
     </div>
     <ng-template #elseBlock1B>
       <button
-        mat-button
+        mat-raised-button
         color="primary"
         (click)="toggleInfrastructuresEditor()"
       >
@@ -78,9 +78,9 @@
   <mat-card-actions>
     <div *ngIf="editingDamages; else elseBlock2B">
       <button
-        mat-button
+        mat-raised-button
         type="submit"
-        color="primary"
+        color="accent"
         [disabled]="damagesFormControl.invalid"
         (click)="saveDamages()"
       >
@@ -88,7 +88,7 @@
       </button>
     </div>
     <ng-template #elseBlock2B>
-      <button mat-button color="primary" (click)="toggleDamagesEditor()">
+      <button mat-raised-button color="primary" (click)="toggleDamagesEditor()">
         Edit Damage Types
       </button>
     </ng-template>
@@ -101,7 +101,10 @@
   <mat-card-content>
     <h3>Tags</h3>
     <div *ngIf="editingTags; else elseBlock3A">
-      <mat-form-field style="width: 100%;">
+      <mat-form-field
+        hintLabel="Assign up to 10 unique tags. Each tag has a maximum of 30 characters."
+        style="width: 100%;"
+      >
         <mat-chip-list #chipList aria-label="tags editing">
           <mat-chip
             *ngFor="let tag of tags"
@@ -114,6 +117,7 @@
           </mat-chip>
           <input
             placeholder="Type Tags Here And Hit Enter"
+            maxlength="50"
             #tagInput
             [formControl]="tagsFormControl"
             [matAutocomplete]="auto"
@@ -130,10 +134,11 @@
             {{ tag }}
           </mat-option>
         </mat-autocomplete>
+        <mat-hint align="end">{{ tags.length || 0 }}/10</mat-hint>
       </mat-form-field>
     </div>
     <ng-template #elseBlock3A>
-      <ng-container *ngIf="tags.length==0">
+      <ng-container *ngIf="tags.length == 0">
         <p>No tags are associated with this case study. Press edit to add.</p>
       </ng-container>
       <mat-chip-list>
@@ -145,12 +150,17 @@
   </mat-card-content>
   <mat-card-actions>
     <div *ngIf="editingTags; else elseBlock3B">
-      <button mat-button type="submit" color="primary" (click)="saveTags()">
+      <button
+        mat-raised-button
+        type="submit"
+        color="accent"
+        (click)="saveTags()"
+      >
         Save
       </button>
     </div>
     <ng-template #elseBlock3B>
-      <button mat-button color="primary" (click)="toggleTagsEditor()">
+      <button mat-raised-button color="primary" (click)="toggleTagsEditor()">
         Edit Tags
       </button>
     </ng-template>

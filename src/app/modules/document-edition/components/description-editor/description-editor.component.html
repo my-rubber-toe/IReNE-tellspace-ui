@@ -1,29 +1,47 @@
 <mat-card>
   <h3>Description</h3>
   <mat-card-content>
-    <form #form="ngForm" (ngSubmit)="save()">
-      <mat-form-field style="width: 100%;">
-        <mat-label>Description</mat-label>
-        <textarea
-          matInput
-          cdkTextareaAutosize
-          [readonly]="isNotEditing"
-          [formControl]="descriptionFormControl"
-          >{{ description }}</textarea
-        >
-      </mat-form-field>
-    </form>
+    <p *ngIf="isNotEditing; else Editor">
+      {{ description || "No description is associated with this case study." }}
+    </p>
+    <ng-template #Editor>
+      <form #form="ngForm" (ngSubmit)="save()">
+        <mat-form-field hintLabel="Max 500 characters" style="width: 100%;">
+          <mat-label>Description</mat-label>
+          <textarea
+            #input
+            matInput
+            cdkTextareaAutosize
+            maxlength="500"
+            [readonly]="isNotEditing"
+            [formControl]="descriptionFormControl"
+          >
+            {{ description }}
+            </textarea
+          >
+          <mat-hint align="end">{{ input.value?.length || 0 }}/500</mat-hint>
+        </mat-form-field>
+      </form>
+    </ng-template>
   </mat-card-content>
   <mat-card-actions>
     <div *ngIf="isNotEditing; else elseBlock">
-      <button mat-button color="primary" (click)="editDescriptionToggle()">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="editDescriptionToggle()"
+      >
         Edit Description
       </button>
     </div>
     <ng-template #elseBlock>
-      <button mat-button type="submit" color="primary" (click)="save()">
+      <button mat-raised-button type="submit" color="accent" (click)="save()">
         Save
       </button>
     </ng-template>
   </mat-card-actions>
 </mat-card>
+
+<button mat-raised-button color="primary" (click)="previewOnSearchSpace()">
+  View case study on Search Space
+</button>

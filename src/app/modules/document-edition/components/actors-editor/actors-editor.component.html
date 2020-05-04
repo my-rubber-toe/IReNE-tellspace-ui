@@ -1,4 +1,4 @@
-<mat-card class="actor-container">
+<mat-card>
   <h3>Actors</h3>
   <form [formGroup]="actorForm">
     <div formArrayName="actors">
@@ -12,6 +12,7 @@
               <mat-label>Actor {{ i + 1 }} Name</mat-label>
               <input
                 [readonly]="!editingActors"
+                maxlength="30"
                 formControlName="actor_FN"
                 matInput
               />
@@ -20,6 +21,7 @@
               <mat-label>Actor {{ i + 1 }} Lastname</mat-label>
               <input
                 [readonly]="!editingActors"
+                maxlength="30"
                 formControlName="actor_LN"
                 matInput
               />
@@ -28,12 +30,16 @@
               <mat-label>Actor {{ i + 1 }} Role</mat-label>
               <input
                 formControlName="role"
+                maxlength="30"
                 matInput
                 [readonly]="!editingActors"
               />
             </mat-form-field>
             <button
-              *ngIf="editingActors"
+              *ngIf="
+                editingActors &&
+                actorForm.get('actors')['controls'].length > ACTORS_MIN
+              "
               (click)="removeActor(i)"
               mat-icon-button
               color="warn"
@@ -48,19 +54,21 @@
   <div>
     <button
       mat-raised-button
-      *ngIf="editingActors"
-      color="accent"
+      *ngIf="
+        editingActors && actorForm.get('actors')['controls'].length < ACTORS_MAX
+      "
+      color="primary"
       type="button"
       (click)="addActor()"
     >
-      Add Actor
+      Add another actor
     </button>
   </div>
   <mat-card-actions>
     <div *ngIf="editingActors; else elseBlock">
       <button
-        mat-button
-        color="primary"
+        mat-raised-button
+        color="accent"
         (click)="saveActors()"
         type="submit"
         [disabled]="actorForm.invalid"
@@ -75,7 +83,7 @@
       >
     </div>
     <ng-template #elseBlock>
-      <button mat-button color="primary" (click)="toggleEditingActors()">
+      <button mat-raised-button color="primary" (click)="toggleEditingActors()">
         Edit Actors
       </button>
     </ng-template>

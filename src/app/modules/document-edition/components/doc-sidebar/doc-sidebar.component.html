@@ -17,11 +17,12 @@
     <button
       class="link-button"
       (click)="addSection()"
+      *ngIf="caseDocument.section.length < SECTION_MAX"
       color="primary"
       matTooltip="Add a new section to the case study"
       mat-raised-button
     >
-      Add Section
+      Add New Section
     </button>
   </div>
   <mat-divider></mat-divider>
@@ -30,7 +31,7 @@
     <div>
       <a
         mat-list-item
-        routerLinkActive="list-item-active"
+        routerLinkActive="active-route"
         routerLink="s/{{ i + 1 }}"
       >
         {{

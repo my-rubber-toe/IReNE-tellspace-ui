@@ -114,7 +114,7 @@ export class DocumentEditionService {
           this.updateSource();
           this.snackBar.open("Timeline Saved");
         },
-        (error) => this.showError(error.error.message.timeline)
+        (error) => this.showError("Timeline Error")
       );
   }
 
@@ -204,7 +204,7 @@ export class DocumentEditionService {
           this.updateSource();
           this.snackBar.open("Tags Saved");
         },
-        (error) => this.showError(error.error.message.tags)
+        (error) => this.showError("Error uploading tags")
       );
   }
 
@@ -221,7 +221,7 @@ export class DocumentEditionService {
           this.updateSource();
           this.snackBar.open("Incident Date Saved");
         },
-        (error) => this.showError(error.error.message.incident_date)
+        (error) => this.showError("Server error")
       );
   }
 
@@ -241,7 +241,10 @@ export class DocumentEditionService {
     console.log("this.createSection executed");
     this.docService.createSection(this.activeCaseDocument.id).subscribe((x) => {
       this.activeCaseDocument.section.push(
-        new ContentSection("Untitled Section", "")
+        new ContentSection(
+          `Section No. ${this.activeCaseDocument.section.length + 1} `,
+          ""
+        )
       );
       this.updateSource();
     });
@@ -255,6 +258,11 @@ export class DocumentEditionService {
         this.activeCaseDocument.section.splice(sectionPosition - 1, 1);
         this.updateSource();
       });
+  }
+
+  /**Opens document page in the search space service in a new tab */
+  public previewDocumentOnSearchSpace() {
+    window.open("https://google.com");
   }
 
   /**Returns the Content Section object refered by sectionPosition. Returns null if section does not exist

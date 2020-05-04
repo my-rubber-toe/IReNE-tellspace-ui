@@ -5,7 +5,6 @@ import { DocumentEditionService } from "@app/core/services/document-edition.serv
 import { ENTER, COMMA } from "@angular/cdk/keycodes";
 import { Observable } from "rxjs";
 import { DocumentsService } from "@app/core/services/documents.service";
-import { Category } from "@app/shared/models/category";
 import {
   MatAutocompleteSelectedEvent,
   MatAutocomplete,
@@ -24,7 +23,7 @@ export class TagsCategoriesEditorComponent implements OnInit {
   infrastructureList: string[];
   damageList: string[];
   filteredTagList: Observable<string[]>;
-
+  readonly MAX_TAGS_LENGTH: number = 10;
   alltags: string[] = [""];
 
   editingTags: boolean;
@@ -63,7 +62,10 @@ export class TagsCategoriesEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.docService.getTags().subscribe((res) => {console.log("res", res);this.alltags = res});
+    this.docService.getTags().subscribe((res) => {
+      console.log("res", res);
+      this.alltags = res;
+    });
     this.docService
       .getDamageTypes()
       .subscribe((res) => (this.damageList = res));
@@ -77,7 +79,6 @@ export class TagsCategoriesEditorComponent implements OnInit {
   }
 
   saveTags() {
-    console.log("saved tags: ", this.tags);
     this.edition.editTags(this.tags);
     this.toggleTagsEditor();
   }
@@ -117,7 +118,15 @@ export class TagsCategoriesEditorComponent implements OnInit {
 
     // Add tags
     if ((value || "").trim()) {
-      this.tags.push(value.trim());
+      let newTag = value.trim();
+      console.log(newTag);
+      //if tag is unique then add
+      if (
+        this.tags.indexOf(newTag) == -1 &&
+        this.tags.length < this.MAX_TAGS_LENGTH
+      ) {
+        this.tags.push(newTag);
+      }
     }
 
     // Reset the input value
@@ -137,7 +146,14 @@ export class TagsCategoriesEditorComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.tags.push(event.option.viewValue);
+    let newTag = event.option.viewValue;
+    //if tag is unique then add
+    if (
+      this.tags.indexOf(newTag) == -1 &&
+      this.tags.length < this.MAX_TAGS_LENGTH
+    ) {
+      this.tags.push(newTag);
+    }
     this.tagInput.nativeElement.value = "";
     this.tagsFormControl.setValue(null);
   }

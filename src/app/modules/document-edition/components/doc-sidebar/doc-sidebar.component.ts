@@ -6,7 +6,7 @@ import { CaseDocument } from "@app/shared/models/case-document";
 @Component({
   selector: "app-doc-sidebar",
   templateUrl: "./doc-sidebar.component.html",
-  styleUrls: ["./doc-sidebar.component.scss"]
+  styleUrls: ["./doc-sidebar.component.scss"],
 })
 export class DocSidebarComponent {
   constructor(
@@ -14,12 +14,16 @@ export class DocSidebarComponent {
     private router: Router
   ) {}
 
+  /**Reference to the active and updated case document opened for edition */
   caseDocument: CaseDocument;
+
+  /**The maximum amount of sections a coaborator can add to the case study */
+  readonly SECTION_MAX: number = 10;
 
   ngOnInit(): void {
     this.editService
       .getDocumentStream()
-      .subscribe(x => (this.caseDocument = x));
+      .subscribe((x) => (this.caseDocument = x));
   }
 
   addSection() {

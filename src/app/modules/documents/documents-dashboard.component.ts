@@ -3,8 +3,9 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { NewDocumentDialogComponent } from "./components/new-document.dialog/new-document.dialog.component";
 import { DocumentsService } from "@app/core/services/documents.service";
 import { CaseDocumentCreateRequest } from "@app/shared/models/case-document-create-request";
-import { CaseDocumentMetadata } from '@app/shared/models/case-document-metadata';
-import { DocTableComponent } from './components/doc-table/doc-table.component';
+import { CaseDocumentMetadata } from "@app/shared/models/case-document-metadata";
+import { DocTableComponent } from "./components/doc-table/doc-table.component";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-documents-dashboard",
@@ -16,15 +17,18 @@ export class DocumentsDashboardComponent implements OnInit {
 
   @ViewChild(DocTableComponent) table: DocTableComponent;
 
-  docs : CaseDocumentMetadata[] = [];
+  docs: CaseDocumentMetadata[] = [];
 
-  loading : boolean;
+  loading: boolean;
+
+  /**Constant maximum nuber of case documentfies that a collaborator can create */
+  readonly DOCUMENTS_MAX: number = 10;
 
   ngOnInit(): void {
     this.loadDocuments();
   }
 
-  private loadDocuments(){
+  private loadDocuments() {
     this.loading = true;
     this.docService.getDocuments().subscribe(
       (documents) => {
@@ -33,23 +37,36 @@ export class DocumentsDashboardComponent implements OnInit {
         this.table.loadTable(this.docs);
       },
       (error) => alert(error)
-    )
+    );
   }
-  
 
   public promptNewDocumentForm(): void {
-    const dialogConfig = new MatDialogConfig();
-    let dialogRef = this.dialog.open(NewDocumentDialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        //TODO: CREATE DOCUMENT CREATE REQUEST FROM SCRATCH
-        console.log("this data ", result);
-        this.docService
-          .createDocument(result as CaseDocumentCreateRequest)
-          .subscribe(
-            (success_response)=>{this.loadDocuments()}
-          );
-      }
-    });
+    if (this.docs.length < this.DOCUMENTS_MAX) {
+      let dialogConfig = new MatDialogConfig();
+      dialogConfig.autoFocus = false; //Disable Autofocus on opened dialog
+      dialogConfig.restoreFocus = false; //Disable focus of dialog open button after closing.
+      dialogConfig.disableClose = true; //Disable close by touching outside the dialog.
+      let dialogRef = this.dialog.open(
+        NewDocumentDialogComponent,
+        dialogConfig
+      );
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          console.log("this data ", result);
+          this.docService
+            .createDocument(result as CaseDocumentCreateRequest)
+            .subscribe((success_response) => {
+              this.loadDocuments();
+            });
+        }
+      });
+    } else {
+      //if the collaborator already has the maximum of allowed case studies
+      Swal.fire(
+        "Maximum Case Studies Limit Reached",
+        `You can own up to ${this.DOCUMENTS_MAX} case studies. Please delete one of your existing case studies and try again`,
+        "error"
+      );
+    }
   }
 }

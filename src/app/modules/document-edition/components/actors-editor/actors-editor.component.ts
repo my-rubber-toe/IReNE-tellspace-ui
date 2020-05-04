@@ -13,6 +13,9 @@ export class ActorsEditorComponent implements OnInit {
 
   actorForm: FormGroup;
 
+  readonly ACTORS_MIN: number = 1;
+  readonly ACTORS_MAX: number = 5;
+
   editingActors: boolean = false;
 
   constructor(

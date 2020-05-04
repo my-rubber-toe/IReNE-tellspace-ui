@@ -11,6 +11,9 @@ import { DocumentEditionService } from "@app/core/services/document-edition.serv
 export class AuthorsEditorComponent implements OnInit {
   @Input() authors: Author[];
 
+  readonly AUTHORS_MIN: number = 1;
+  readonly AUTHORS_MAX: number = 10;
+
   authorForm: FormGroup;
 
   editingAuthors: boolean = false;
@@ -55,7 +58,10 @@ export class AuthorsEditorComponent implements OnInit {
         {
           author_FN: [author.author_FN, Validators.required],
           author_LN: [author.author_LN, Validators.required],
-          author_email: [author.author_email, Validators.email],
+          author_email: [
+            author.author_email,
+            Validators.pattern("^[a-z0-9._%+-]+@upr.edu$"),
+          ],
           author_faculty: [author.author_faculty, Validators.required],
         },
         Validators.required
@@ -82,5 +88,9 @@ export class AuthorsEditorComponent implements OnInit {
     console.log("Saved authors: ", this.authorForm.getRawValue());
     this.edition.editAuthors(this.authorForm.getRawValue());
     this.toggleEditingAuthors();
+  }
+
+  getEmailErrorMessage() {
+    return "Valid @upr.edu email required";
   }
 }

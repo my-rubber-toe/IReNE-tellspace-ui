@@ -1,10 +1,9 @@
 .create-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  /* min-width: 150px;
-  max-width: 500px; */
-  min-width: 30vw;
+  gap: 2vh;
+  align-items: flex-start;
+  width: 30vw;
 }
 
 .full-width {
@@ -13,4 +12,15 @@
 
 .mat-radio-button ~ .mat-radio-button {
   margin-left: 16px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2vh;
+}
+
+.dialog-close-button {
+  float: right;
 }

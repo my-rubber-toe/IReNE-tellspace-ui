@@ -73,6 +73,7 @@ export class AuthenticationService {
             this.setCollaboratorSession(
               result,
               userData.name,
+              userData.email,
               userData.photoUrl
             );
             this.setCollaboratorName(userData.name);
@@ -112,10 +113,12 @@ export class AuthenticationService {
   private setCollaboratorSession(
     token: Tokens,
     name: string,
+    email: string,
     photoUrl: string
   ) {
     console.log("token", token);
     localStorage.setItem("collaborator_name", name);
+    localStorage.setItem("collaborator_email", email);
     localStorage.setItem("access_token", token.access_token);
     localStorage.setItem("refresh_token", token.refresh_token);
     // localStorage.setItem("access_expiration", token.access_expiration);
@@ -176,14 +179,8 @@ export class AuthenticationService {
   /**Returns the system profile of a collaborator
    */
   public getCollaboratorProfile(): Observable<Profile> {
-    //const url = `${this.rootUrl}/me`;
-    //return this.http.get<Profile>(url);
-    return of({
-      first_name: localStorage.getItem("collaborator_name"),
-      last_name: "",
-      email: "TestEmail",
-      faculty: "TestFaculty",
-    } as Profile);
+    const url = `${this.rootUrl}/auth/me`;
+    return this.http.get<Profile>(url);
   }
 
   /**GET request for a new access_token using a refresh token on localStorage.

@@ -1,17 +1,20 @@
 <div class="status-bar">
   <mat-form-field style="width: 100%;" floatLabel="never">
-    <mat-label>Section Title</mat-label>
+    <mat-label>Case Study Title</mat-label>
     <textarea
       matInput
       [formControl]="titleControl"
-      placeholder="Case Title"
       [readonly]="!editingTitle"
-      maxlength="250"
+      minlength="10"
+      maxlength="100"
       value=""
       cdkTextareaAutosize
       cdkAutosizeMinRows="1"
       cdkAutosizeMaxRows="3"
     ></textarea>
+    <mat-error *ngIf="titleControl.invalid"
+      >Title must have at least 10 characters</mat-error
+    >
   </mat-form-field>
   <button
     *ngIf="!editingTitle"
@@ -25,6 +28,7 @@
   <button
     *ngIf="editingTitle"
     mat-button
+    [disabled]="titleControl.invalid"
     color="accent"
     matTooltip="Save Title"
     (click)="saveTitle()"

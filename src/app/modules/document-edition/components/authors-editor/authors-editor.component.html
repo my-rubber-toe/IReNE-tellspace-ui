@@ -1,4 +1,4 @@
-<mat-card class="author-container">
+<mat-card>
   <h3>Authors</h3>
   <form [formGroup]="authorForm">
     <div formArrayName="authors">
@@ -16,6 +16,7 @@
               <input
                 [readonly]="!editingAuthors"
                 formControlName="author_FN"
+                maxlength="30"
                 matInput
               />
             </mat-form-field>
@@ -24,6 +25,7 @@
               <input
                 [readonly]="!editingAuthors"
                 formControlName="author_LN"
+                maxlength="30"
                 matInput
               />
             </mat-form-field>
@@ -33,19 +35,27 @@
                 matInput
                 placeholder="irene.riseup@upr.edu"
                 formControlName="author_email"
+                maxlength="50"
                 [readonly]="!editingAuthors"
               />
+              <mat-error *ngIf="authorForm.controls['authors'].invalid">{{
+                getEmailErrorMessage()
+              }}</mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
               <mat-label>Author {{ i + 1 }} Faculty</mat-label>
               <input
                 formControlName="author_faculty"
+                maxlength="30"
                 matInput
                 [readonly]="!editingAuthors"
               />
             </mat-form-field>
             <button
-              *ngIf="editingAuthors"
+              *ngIf="
+                editingAuthors &&
+                authorForm.get('authors')['controls'].length > AUTHORS_MIN
+              "
               (click)="removeAuthor(i)"
               mat-icon-button
               color="warn"
@@ -60,35 +70,35 @@
   <div>
     <button
       mat-raised-button
-      *ngIf="editingAuthors"
-      color="accent"
+      *ngIf="
+        editingAuthors &&
+        authorForm.get('authors')['controls'].length < AUTHORS_MAX
+      "
+      color="primary"
       type="button"
       (click)="addAuthor()"
     >
-      Add Author
+      Add anther author
     </button>
   </div>
   <mat-card-actions>
     <div *ngIf="editingAuthors; else elseBlock">
       <button
-        mat-button
-        color="primary"
+        mat-raised-button
+        color="accent"
         (click)="saveAuthors()"
         type="submit"
         [disabled]="authorForm.invalid"
       >
-        Save
+        Save Authors
       </button>
-      <span
-        *ngIf="
-          authorForm.invalid &&
-          authorForm.get('authors')['controls'].length == 0
-        "
-        >There needs to be at least one author</span
-      >
     </div>
     <ng-template #elseBlock>
-      <button mat-button color="primary" (click)="toggleEditingAuthors()">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="toggleEditingAuthors()"
+      >
         Edit Authors
       </button>
     </ng-template>

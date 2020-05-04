@@ -14,7 +14,6 @@ export class ProfileComponent implements OnInit {
     first_name: "",
     last_name: "",
     email: "",
-    faculty: "",
   };
 
   constructor(private auth: AuthenticationService) {}

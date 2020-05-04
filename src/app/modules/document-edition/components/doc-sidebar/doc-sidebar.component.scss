@@ -15,3 +15,9 @@
 button {
   white-space: pre-wrap;
 }
+
+// When a route is active, background of the list item must be gray
+.active-route {
+  background-color: grey;
+
+}

@@ -1,4 +1,7 @@
 <!--Template for document creation form-->
+<button mat-icon-button class="dialog-close-button" (click)="cancelAndClose()">
+  <mat-icon class="close-icon" color="warn">close</mat-icon>
+</button>
 <h1 mat-dialog-title>Create Case Study</h1>
 <div mat-dialog-content>
   <form
@@ -6,25 +9,8 @@
     [formGroup]="createDocumentForm"
     (ngSubmit)="onSubmit()"
   >
-    <div>
-      <mat-form-field class="full-width">
-        <input
-          matInput
-          formControlName="title"
-          name="title"
-          maxlength="250"
-          minlength="10"
-          placeholder="Case Study Title (min: 10 characters)"
-          [errorStateMatcher]="matcher"
-          required
-        />
-        <mat-error
-          *ngIf="createDocumentForm.get('title')['controls']?.errors?.required"
-          >Please enter a title</mat-error
-        >
-      </mat-form-field>
-      <br />
-      <label>Case Study Language:&ensp;</label>
+    <div id="language-radio-field">
+      <label>Case Study Content Language:&ensp;</label>
       <mat-radio-group
         aria-label="Select a case language"
         formControlName="language"
@@ -32,59 +18,71 @@
         <mat-radio-button value="English">English</mat-radio-button>
         <mat-radio-button value="Spanish">Spanish</mat-radio-button>
       </mat-radio-group>
-      <br />
-      <mat-form-field color="primary" class="full-width">
-        <mat-label>Incident Date (MM/DD/YYYY)</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          formControlName="incident_date"
-          name="incident_date"
-          [min]="minDate"
-          [max]="maxDate"
-          [errorStateMatcher]="matcher"
-          required
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-
-      <br />
-
-      <mat-form-field class="full-width">
-        <mat-label>Infrastructure Type</mat-label>
-        <mat-select
-          formControlName="infrastructure_type"
-          multiple
-          [errorStateMatcher]="matcher"
-          required
-        >
-          <mat-option
-            *ngFor="let infra_type of infrastructureList"
-            [value]="infra_type"
-            >{{ infra_type }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field>
-
-      <br />
-
-      <mat-form-field class="full-width">
-        <mat-label>Damage Type</mat-label>
-        <mat-select
-          formControlName="damage_type"
-          multiple
-          [errorStateMatcher]="matcher"
-          required
-        >
-          <mat-option *ngFor="let dtype of damageTypeList" [value]="dtype">{{
-            dtype
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <br />
     </div>
-    <div formArrayName="authors">
+    <mat-form-field hintLabel="(min: 10 characters)" class="full-width">
+      <input
+        matInput
+        formControlName="title"
+        name="title"
+        maxlength="100"
+        minlength="10"
+        placeholder="Case Study Title"
+        [errorStateMatcher]="matcher"
+        required
+      />
+      <mat-error *ngIf="createDocumentForm.controls['title'].invalid"
+        >Title must hava at least 10 characters</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field hintLabel="MM/DD/YYYY" color="primary">
+      <mat-label>Incident Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="incident_date"
+        name="incident_date"
+        [max]="maxDate"
+        [errorStateMatcher]="matcher"
+        required
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="createDocumentForm.controls['incident_date'].invalid"
+        >Date must be formated MM/DD/YYYY
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Infrastructure Type</mat-label>
+      <mat-select
+        formControlName="infrastructure_type"
+        multiple
+        [errorStateMatcher]="matcher"
+        required
+      >
+        <mat-option
+          *ngFor="let infra_type of infrastructureList"
+          [value]="infra_type"
+          >{{ infra_type }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Damage Type</mat-label>
+      <mat-select
+        formControlName="damage_type"
+        multiple
+        [errorStateMatcher]="matcher"
+        required
+      >
+        <mat-option *ngFor="let dtype of damageTypeList" [value]="dtype">{{
+          dtype
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+    <div formArrayName="authors" class="container">
       <div
         *ngFor="
           let author of createDocumentForm.get('authors')['controls'];
@@ -118,12 +116,17 @@
               <mat-label>Author {{ i + 1 }} Email</mat-label>
               <input
                 matInput
+                #Email
                 placeholder="irene.riseup@upr.edu"
                 formControlName="email"
                 maxlength="50"
                 [errorStateMatcher]="matcher"
                 required
               />
+              <mat-error
+                *ngIf="createDocumentForm.controls['authors'].invalid"
+                >{{ getEmailErrorMessage() }}</mat-error
+              >
             </mat-form-field>
             <mat-form-field class="full-width">
               <mat-label>Author {{ i + 1 }} Faculty</mat-label>
@@ -139,7 +142,7 @@
               *ngIf="i != 0"
               (click)="removeAuthor(i)"
               mat-icon-button
-              matTooltip="Remove Author"
+              matTooltip="Remove this author"
               color="warn"
             >
               <mat-icon>delete</mat-icon>
@@ -150,14 +153,17 @@
     </div>
     <button
       mat-raised-button
+      *ngIf="createDocumentForm.get('authors')['controls'].length < AUTHORS_MAX"
       color="primary"
       type="button"
       (click)="addAuthor()"
     >
-      Add Author
+      Add another author
     </button>
 
-    <div formArrayName="actors">
+    <br />
+
+    <div formArrayName="actors" class="container">
       <div
         *ngFor="
           let actor of createDocumentForm.get('actors')['controls'];
@@ -211,8 +217,14 @@
         </div>
       </div>
     </div>
-    <button mat-raised-button color="primary" type="button" (click)="addActor()">
-      Add Actor
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="createDocumentForm.get('actors')['controls'].length < ACTORS_MAX"
+      type="button"
+      (click)="addActor()"
+    >
+      Add another actor
     </button>
     <div mat-dialog-actions>
       <button

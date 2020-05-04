@@ -2,22 +2,24 @@
 :host {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 10px;
   gap: 10px;
 }
 
 .actor-container {
   display: flexbox;
   flex-direction: column;
-  padding: 10px;
-  gap: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
 }
 
 .actor-card {
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
-  align-content: flex-start;
+  flex-wrap: wrap;
+  align-items: flex-start;
   gap: 20px;
   padding: 10px;
   @include mat-elevation(5);
+  width: 100%;
 }

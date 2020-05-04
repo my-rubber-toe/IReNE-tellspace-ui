@@ -6,7 +6,7 @@ import { DocumentEditionService } from "@app/core/services/document-edition.serv
 @Component({
   selector: "app-description-editor",
   templateUrl: "./description-editor.component.html",
-  styleUrls: ["./description-editor.component.scss"]
+  styleUrls: ["./description-editor.component.scss"],
 })
 export class DescriptionEditorComponent implements OnInit {
   constructor(private edition: DocumentEditionService) {}
@@ -29,5 +29,9 @@ export class DescriptionEditorComponent implements OnInit {
     console.log("saved description: ", this.descriptionFormControl.value);
     this.edition.editDescription(this.descriptionFormControl.value);
     this.editDescriptionToggle();
+  }
+
+  previewOnSearchSpace() {
+    this.edition.previewDocumentOnSearchSpace();
   }
 }

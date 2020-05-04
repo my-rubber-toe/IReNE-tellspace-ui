@@ -22,7 +22,7 @@ export class DocumentsDashboardComponent implements OnInit {
   loading: boolean;
 
   /**Constant maximum nuber of case documentfies that a collaborator can create */
-  readonly DOCUMENTS_MAX: number = 5;
+  readonly DOCUMENTS_MAX: number = 10;
 
   ngOnInit(): void {
     this.loadDocuments();

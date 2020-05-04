@@ -1,7 +1,9 @@
 <mat-card>
   <h3>Description</h3>
   <mat-card-content>
-    <p *ngIf="isNotEditing; else Editor">{{ description }}</p>
+    <p *ngIf="isNotEditing; else Editor">
+      {{ description || "No description is associated with this case study." }}
+    </p>
     <ng-template #Editor>
       <form #form="ngForm" (ngSubmit)="save()">
         <mat-form-field hintLabel="Max 500 characters" style="width: 100%;">
@@ -39,3 +41,7 @@
     </ng-template>
   </mat-card-actions>
 </mat-card>
+
+<button mat-raised-button color="primary" (click)="previewOnSearchSpace()">
+  View case study on Search Space
+</button>

@@ -260,6 +260,11 @@ export class DocumentEditionService {
       });
   }
 
+  /**Opens document page in the search space service in a new tab */
+  public previewDocumentOnSearchSpace() {
+    window.open("https://google.com");
+  }
+
   /**Returns the Content Section object refered by sectionPosition. Returns null if section does not exist
    * @param sectionPosition section position of the content section to open, starts from 1.
    */

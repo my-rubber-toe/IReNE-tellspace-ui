@@ -36,7 +36,7 @@ export class DocumentsDashboardComponent implements OnInit {
         this.loading = false;
         this.table.loadTable(this.docs);
       },
-      (error) => alert(error)
+      (error) => alert("Server Error")
     );
   }
 

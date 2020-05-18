@@ -1,3 +1,7 @@
+/**Authentication Service to manage requests to the server side authentication procesess
+ * @author Alberto Canela (alberto-canela@upr.edu)
+ */
+
 import { Injectable } from "@angular/core";
 import Swal from "sweetalert2";
 import { Observable, of, BehaviorSubject } from "rxjs";
@@ -61,9 +65,7 @@ export class AuthenticationService {
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
         //on success this will return user data from google.
-        Swal.fire(
-          `Hi ${userData.firstName}, Authenticating with Tell Space.\n Please wait`
-        );
+        Swal.fire(`Authenticating with Tell Space.\n Please wait`);
         Swal.showLoading();
 
         //Check if the user has an email from the upr domain
@@ -97,6 +99,7 @@ export class AuthenticationService {
             "Service available only for users with a upr account",
             "error"
           );
+          this.socialAuthService.signOut();
         }
       },
       (err) => console.log(err) //Logs errors from Google oAuth

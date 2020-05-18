@@ -6,6 +6,7 @@ import { CaseDocumentCreateRequest } from "@app/shared/models/case-document-crea
 import { CaseDocumentMetadata } from "@app/shared/models/case-document-metadata";
 import { DocTableComponent } from "./components/doc-table/doc-table.component";
 import Swal from "sweetalert2";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-documents-dashboard",
@@ -13,7 +14,11 @@ import Swal from "sweetalert2";
   styleUrls: ["./documents-dashboard.component.scss"],
 })
 export class DocumentsDashboardComponent implements OnInit {
-  constructor(public dialog: MatDialog, private docService: DocumentsService) {}
+  constructor(
+    public dialog: MatDialog,
+    private docService: DocumentsService,
+    private router: Router
+  ) {}
 
   @ViewChild(DocTableComponent) table: DocTableComponent;
 
@@ -36,7 +41,28 @@ export class DocumentsDashboardComponent implements OnInit {
         this.loading = false;
         this.table.loadTable(this.docs);
       },
-      (error) => alert("Server Error")
+      (error) => {
+        Swal.fire({
+          title: "Server is not responding",
+          text: "Do you want to try again or exit the application?",
+          icon: "error",
+          showCancelButton: true,
+          confirmButtonColor: "green",
+          cancelButtonColor: "black",
+          cancelButtonText: "Try Again",
+          confirmButtonText: "Exit TellSpace",
+          allowOutsideClick: false
+        }).then((result) => {
+          if (result.value) {
+            //If user chooses to exit clear session and navigate to login
+            localStorage.clear();
+            this.router.navigateByUrl("login");
+          } else {
+            //Reload the entire page to trigger the requests again
+            window.location.reload();
+          }
+        });
+      }
     );
   }
 

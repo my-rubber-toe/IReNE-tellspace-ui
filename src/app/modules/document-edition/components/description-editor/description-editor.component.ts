@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { FormControl } from "@angular/forms";
+import { FormControl, Validators } from "@angular/forms";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
 
 /**Manages the edition of case document descriptions. Reactive Form*/
@@ -9,13 +9,18 @@ import { DocumentEditionService } from "@app/core/services/document-edition.serv
   styleUrls: ["./description-editor.component.scss"],
 })
 export class DescriptionEditorComponent implements OnInit {
-  constructor(private edition: DocumentEditionService) {}
+  constructor(private edition: DocumentEditionService) {
+    this.descriptionFormControl = new FormControl(
+      "",
+      Validators.maxLength(500)
+    );
+  }
 
   @Input() description: string;
 
   isNotEditing: boolean = true;
 
-  descriptionFormControl: FormControl = new FormControl([""]);
+  descriptionFormControl: FormControl;
 
   ngOnInit(): void {
     this.descriptionFormControl.setValue(this.description);

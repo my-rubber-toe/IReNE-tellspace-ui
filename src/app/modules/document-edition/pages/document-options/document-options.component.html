@@ -1,21 +1,64 @@
+<!--Documents Options Template for parameter editors. Author: Alberto Canela (alberto.canela@upr.edu)-->
 <div class="status-bar">
-  <mat-form-field style="width: 100%;" floatLabel="never">
+  <mat-form-field
+    *ngIf="editingTitle"
+    style="width: 100%;"
+    appearance="outline"
+  >
     <mat-label>Case Study Title</mat-label>
-    <textarea
+    <input
+      #titleInput
       matInput
       [formControl]="titleControl"
       [readonly]="!editingTitle"
       minlength="10"
-      maxlength="50"
-      value=""
-      cdkTextareaAutosize
-    ></textarea>
-    <mat-error *ngIf="titleControl.invalid"
+    />
+    <mat-error
+      *ngIf="titleControl.errors != null && titleControl.errors.minlength"
       >Title must have at least 10 characters</mat-error
     >
+    <mat-error
+      *ngIf="titleControl.errors != null && titleControl.errors.maxlength"
+      >Max 50 characters (<b>{{ (titleInput.value?.length || 0) - 50 }}</b> too
+      many)</mat-error
+    >
+    <mat-error
+      *ngIf="titleControl.errors != null && titleControl.errors.pattern"
+      >Title has invalid characters or does not follow format</mat-error
+    >
+    <mat-hint>
+      Min 10 chars. Max 50 chars. Title must start with Uppercase. ({{
+        50 - (titleInput.value?.length || 0)
+      }}
+      chars remaining)
+    </mat-hint>
   </mat-form-field>
+
+  <ng-container *ngIf="!editingTitle">
+    <h2>Case Title: {{ doc.title }}</h2>
+  </ng-container>
+
+  <div *ngIf="editingTitle">
+    <mat-progress-spinner
+      *ngIf="titleloading"
+      color="accent"
+      mode="indeterminate"
+      [diameter]="24"
+    ></mat-progress-spinner>
+    <button
+      *ngIf="!titleloading"
+      mat-button
+      [disabled]="titleControl.invalid"
+      color="accent"
+      matTooltip="Save Title"
+      (click)="saveTitle()"
+    >
+      <mat-icon>check</mat-icon>
+    </button>
+  </div>
+
   <button
-    *ngIf="!editingTitle"
+    *ngIf="!editingTitle && !titleloading"
     mat-button
     color="primary"
     matTooltip="Edit Case Title"
@@ -23,18 +66,9 @@
   >
     <mat-icon>edit</mat-icon>
   </button>
-  <button
-    *ngIf="editingTitle"
-    mat-button
-    [disabled]="titleControl.invalid"
-    color="accent"
-    matTooltip="Save Title"
-    (click)="saveTitle()"
-  >
-    <mat-icon>check</mat-icon>
-  </button>
 </div>
 
+<!--Mat Tab group that represents the different parameters that can be edited-->
 <mat-tab-group>
   <mat-tab label="Description">
     <ng-template matTabContent>

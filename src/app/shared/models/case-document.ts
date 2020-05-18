@@ -21,4 +21,5 @@ export class CaseDocument {
   actor: Actor[];
   section: ContentSection[];
   timeline: Timeline[];
+  docsize?:number;
 }

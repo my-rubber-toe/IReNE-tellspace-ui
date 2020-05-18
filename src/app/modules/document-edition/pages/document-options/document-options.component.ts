@@ -10,19 +10,26 @@ import { FormControl, Validators } from "@angular/forms";
 @Component({
   selector: "app-document-options",
   templateUrl: "./document-options.component.html",
-  styleUrls: ["./document-options.component.scss"]
+  styleUrls: ["./document-options.component.scss"],
 })
 export class DocumentOptionsComponent implements OnInit {
   doc: CaseDocument;
 
   titleControl: FormControl;
+  titleloading: boolean = false;
 
   editingTitle: boolean = false;
   constructor(private editService: DocumentEditionService) {}
 
   ngOnInit(): void {
-    this.titleControl = new FormControl([""], Validators.required);
-    this.editService.getDocumentStream().subscribe(x => {
+    this.titleControl = new FormControl(
+      [""],
+      [
+        Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][A-Z a-z 0-9 À-ÿ :]*[A-Za-z0-9À-ÿ]$/),
+        Validators.maxLength(50),
+      ]
+    );
+    this.editService.getDocumentStream().subscribe((x) => {
       this.doc = x;
       this.titleControl.setValue(x.title);
     });
@@ -33,7 +40,13 @@ export class DocumentOptionsComponent implements OnInit {
   }
 
   saveTitle() {
-    this.editService.editDocumentTitle(this.titleControl.value);
-    this.toggleTitleEdition();
+    this.titleloading = true;
+    this.editService.editDocumentTitle(this.titleControl.value).subscribe(
+      (result) => {
+        this.titleloading = false;
+        this.toggleTitleEdition();
+      },
+      (error) => (this.titleloading = false)
+    );
   }
 }

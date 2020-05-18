@@ -13,6 +13,7 @@ import {
   ActorPutRequest,
 } from "@app/shared/models/put-request-models";
 import { environment } from "environments/environment";
+import { tap } from "rxjs/operators";
 
 /**Service that serves as app-wide store for specific case document data and builds the upstream request bodies */
 @Injectable({
@@ -57,22 +58,25 @@ export class DocumentEditionService {
   }
 
   /**Changes the active document title to the given string and updates the backend*/
-  public editDocumentTitle(newTitle: string) {
-    this.docService
+  public editDocumentTitle(newTitle: string): Observable<any> {
+    return this.docService
       .edit(this.activeCaseDocument.id, "title", { title: newTitle })
-      .subscribe(
-        (response) => {
-          this.activeCaseDocument.title = newTitle;
-          this.updateSource();
-          this.snackBar.open("Title Saved");
-        },
-        (error) => {
-          if (error.status == 500)
-            this.showError(
-              `Case Document ${newTitle} exists on the database, please try another title`
-            );
-          else this.showError(error.error.message.title);
-        }
+      .pipe(
+        tap(
+          (response) => {
+            this.activeCaseDocument.title = newTitle;
+            this.activeCaseDocument.docsize = response.doc_size;
+            this.updateSource();
+            this.snackBar.open("Title Saved");
+          },
+          (error) => {
+            if (error.status == 500)
+              this.showError(
+                `Case Document ${newTitle} exists on the database, please try another title`
+              );
+            else this.showError(error.error.message.title);
+          }
+        )
       );
   }
 
@@ -85,6 +89,7 @@ export class DocumentEditionService {
       .subscribe(
         (response) => {
           this.activeCaseDocument.description = descriptionText;
+          this.activeCaseDocument.docsize = response.doc_size;
           this.updateSource();
           this.snackBar.open("Description Saved");
         },
@@ -112,6 +117,7 @@ export class DocumentEditionService {
       .subscribe(
         (response) => {
           this.activeCaseDocument.timeline = newTimeline;
+          this.activeCaseDocument.docsize = response.doc_size;
           this.updateSource();
           this.snackBar.open("Timeline Saved");
         },
@@ -128,6 +134,7 @@ export class DocumentEditionService {
       .subscribe(
         (response) => {
           this.activeCaseDocument.infrasDocList = infrastructureTypes;
+          this.activeCaseDocument.docsize = response.doc_size;
           this.updateSource();
           this.snackBar.open("Infrastructure Types Saved");
         },
@@ -144,6 +151,7 @@ export class DocumentEditionService {
       .subscribe(
         (response) => {
           this.activeCaseDocument.damageDocList = damageTypes;
+          this.activeCaseDocument.docsize = response.doc_size;
           this.updateSource();
           this.snackBar.open("Damage Types Saved");
         },
@@ -159,6 +167,7 @@ export class DocumentEditionService {
     this.docService.edit(this.activeCaseDocument.id, "actors", body).subscribe(
       (response) => {
         this.activeCaseDocument.actor = actors.actors;
+        this.activeCaseDocument.docsize = response.doc_size;
         this.updateSource();
         this.snackBar.open("Actors Saved");
       },
@@ -174,6 +183,7 @@ export class DocumentEditionService {
     this.docService.edit(this.activeCaseDocument.id, "authors", body).subscribe(
       (response) => {
         this.activeCaseDocument.author = authors.authors;
+        this.activeCaseDocument.docsize = response.doc_size;
         this.updateSource();
         this.snackBar.open("Authors Saved");
       },
@@ -188,6 +198,7 @@ export class DocumentEditionService {
       .subscribe(
         (response) => {
           this.activeCaseDocument.location = locals;
+          this.activeCaseDocument.docsize = response.doc_size;
           this.updateSource();
           this.snackBar.open("Locations Saved");
         },
@@ -202,6 +213,7 @@ export class DocumentEditionService {
       .subscribe(
         (response) => {
           this.activeCaseDocument.tagsDoc = tags;
+          this.activeCaseDocument.docsize = response.doc_size;
           this.updateSource();
           this.snackBar.open("Tags Saved");
         },
@@ -219,6 +231,7 @@ export class DocumentEditionService {
       .subscribe(
         (response) => {
           this.activeCaseDocument.incidentDate = incidentDay;
+          this.activeCaseDocument.docsize = response.doc_size;
           this.updateSource();
           this.snackBar.open("Incident Date Saved");
         },
@@ -228,13 +241,15 @@ export class DocumentEditionService {
 
   /**Send request to update the section on the server*/
   public editSection(sec: ContentSection, position: number): Observable<any> {
-    this.activeCaseDocument.section[position - 1] = sec;
-    this.updateSource();
-    return this.docService.editDocumentSection(
-      this.activeCaseDocument.id,
-      sec,
-      position
-    );
+    return this.docService
+      .editDocumentSection(this.activeCaseDocument.id, sec, position)
+      .pipe(
+        tap((response) => {
+          this.activeCaseDocument.section[position - 1] = sec;
+          this.activeCaseDocument.docsize = response.doc_size;
+          this.updateSource();
+        })
+      );
   }
 
   /**Sends request to create a section to the server and updates cached section list */

@@ -6,20 +6,31 @@
     </p>
     <ng-template #Editor>
       <form #form="ngForm" (ngSubmit)="save()">
-        <mat-form-field hintLabel="Max 500 characters" style="width: 100%;">
+        <mat-form-field style="width: 100%;">
           <mat-label>Description</mat-label>
           <textarea
             #input
             matInput
+            cols="70"
             cdkTextareaAutosize
-            maxlength="500"
             [readonly]="isNotEditing"
             [formControl]="descriptionFormControl"
           >
             {{ description }}
             </textarea
           >
-          <mat-hint align="end">{{ input.value?.length || 0 }}/500</mat-hint>
+          <mat-hint align="start"
+            >Max 500 characters. ({{
+              500 - (input.value?.length || 0)
+            }}
+            Remaining)</mat-hint
+          >
+          <mat-error *ngIf="descriptionFormControl.invalid">
+            Maximum 500 characters. (<b>{{
+              (input.value?.length || 0) - 500
+            }}</b>
+            too many)
+          </mat-error>
         </mat-form-field>
       </form>
     </ng-template>
@@ -35,7 +46,13 @@
       </button>
     </div>
     <ng-template #elseBlock>
-      <button mat-raised-button type="submit" color="accent" (click)="save()">
+      <button
+        mat-raised-button
+        [disabled]="descriptionFormControl.invalid"
+        type="submit"
+        color="accent"
+        (click)="save()"
+      >
         Save
       </button>
     </ng-template>

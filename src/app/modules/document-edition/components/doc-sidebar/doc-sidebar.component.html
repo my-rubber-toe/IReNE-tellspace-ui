@@ -9,7 +9,12 @@
       <mat-icon>settings_icon</mat-icon>
       Case Study Configuration
     </button>
-    <h3>{{ caseDocument.title }}</h3>
+    <h2>{{ caseDocument.title }}</h2>
+    <h4>
+      Space used {{ (caseDocument.docsize * 0.000001 || 0).toFixed(3) }} MB of
+      16 MB
+    </h4>
+
     <button
       class="link-button"
       (click)="addSection()"

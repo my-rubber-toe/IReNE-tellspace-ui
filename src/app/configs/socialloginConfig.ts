@@ -1,8 +1,7 @@
-import {
-  SocialLoginModule,
-  AuthServiceConfig,
-  GoogleLoginProvider,
-} from "angularx-social-login";
+/**Social login configuration: Sets Up the provider for the social login
+ * @author Alberto Canela (alberto.canela@upr.edu)
+ */
+import { AuthServiceConfig, GoogleLoginProvider } from "angularx-social-login";
 /**Returns the configuration of Google oAuth provider */
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig([

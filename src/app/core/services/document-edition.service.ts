@@ -153,7 +153,7 @@ export class DocumentEditionService {
   /**Changes the active document actors to the given Actor array and updates the backend*/
   public editActors(actors: any) {
     let body = {
-      actors: this.getEditActorRequest(this.activeCaseDocument.actor),
+      actors: this.getEditActorRequest(actors.actors),
     };
     this.docService.edit(this.activeCaseDocument.id, "actors", body).subscribe(
       (response) => {
@@ -168,7 +168,7 @@ export class DocumentEditionService {
   /**Changes the active document authors to the given Actor array and updates the backend*/
   public editAuthors(authors: any) {
     let body = {
-      authors: this.getEditAuthorRequest(this.activeCaseDocument.author),
+      authors: this.getEditAuthorRequest(authors.authors),
     };
     this.docService.edit(this.activeCaseDocument.id, "authors", body).subscribe(
       (response) => {

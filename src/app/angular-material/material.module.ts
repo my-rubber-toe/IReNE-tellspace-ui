@@ -1,4 +1,6 @@
-/**Full material dependencies as provided by Google: @todo eliminate the ones we dont need */
+/**Full Angular material dependencies as provided by Google
+ * Added by Alberto Canela (alberto.canela@upr.edu) 
+ */
 
 import { NgModule } from "@angular/core";
 import { A11yModule } from "@angular/cdk/a11y";

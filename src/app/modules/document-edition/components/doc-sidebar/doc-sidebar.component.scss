@@ -12,12 +12,11 @@
   width: 100%;
 }
 
-button {
-  white-space: pre-wrap;
+h3 {
+  word-break: break-all;
 }
 
 // When a route is active, background of the list item must be gray
 .active-route {
   background-color: grey;
-
 }

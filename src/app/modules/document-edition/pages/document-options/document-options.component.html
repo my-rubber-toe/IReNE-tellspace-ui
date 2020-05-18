@@ -6,11 +6,9 @@
       [formControl]="titleControl"
       [readonly]="!editingTitle"
       minlength="10"
-      maxlength="100"
+      maxlength="50"
       value=""
       cdkTextareaAutosize
-      cdkAutosizeMinRows="1"
-      cdkAutosizeMaxRows="3"
     ></textarea>
     <mat-error *ngIf="titleControl.invalid"
       >Title must have at least 10 characters</mat-error

@@ -61,33 +61,43 @@ export class AuthenticationService {
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
         //on success this will return user data from google.
-        console.log("success", userData);
         Swal.fire(
           `Hi ${userData.firstName}, Authenticating with Tell Space.\n Please wait`
         );
         Swal.showLoading();
 
-        this.getLoginToken(userData.idToken).subscribe(
-          (result) => {
-            Swal.fire("Login Successful", "Welcome to Tell Space", "success");
-            this.setCollaboratorSession(
-              result,
-              userData.name,
-              userData.email,
-              userData.photoUrl
-            );
-            this.setCollaboratorName(userData.name);
-            this.router.navigateByUrl(this.redirectUrl || "");
-          },
-          (error) => {
-            Swal.fire(
-              "Login Failed",
-              "Unauthorized Collaborator. Please, request access",
-              "error"
-            );
-            console.log(error);
-          }
-        );
+        //Check if the user has an email from the upr domain
+        if (/^[a-z0-9._%+-]+@upr.edu$/.test(userData.email)) {
+          this.getLoginToken(userData.idToken).subscribe(
+            (result) => {
+              Swal.fire("Login Successful", "Welcome to Tell Space", "success");
+              this.setCollaboratorSession(
+                result,
+                userData.name,
+                userData.email,
+                userData.photoUrl
+              );
+              this.setCollaboratorName(userData.name);
+              this.socialAuthService.signOut();
+              this.router.navigateByUrl(this.redirectUrl || "");
+            },
+            (error) => {
+              Swal.fire(
+                "Login Failed",
+                "Unauthorized Collaborator. Please, request access",
+                "error"
+              );
+              console.log(error);
+            }
+          );
+        } else {
+          //if the user email is invalid
+          Swal.fire(
+            "Login Failed",
+            "Service available only for users with a upr account",
+            "error"
+          );
+        }
       },
       (err) => console.log(err) //Logs errors from Google oAuth
     );
@@ -130,7 +140,6 @@ export class AuthenticationService {
   logout(): void {
     this.logoutFromServer().subscribe((result) => {
       localStorage.clear();
-      this.socialAuthService.signOut();
       this.router.navigateByUrl("login");
       Swal.fire("Logout Successful", "Goodbye", "success");
     });
@@ -153,11 +162,13 @@ export class AuthenticationService {
           },
           (error) => {
             this.expire();
+            this.router.navigateByUrl("login");
             return false;
           }
         );
       } else {
         this.expire();
+        this.router.navigateByUrl("login");
         return false;
       }
     }

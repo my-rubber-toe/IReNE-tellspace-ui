@@ -1,10 +1,6 @@
 <!--Documents Options Template for parameter editors. Author: Alberto Canela (alberto.canela@upr.edu)-->
 <div class="status-bar">
-  <mat-form-field
-    *ngIf="editingTitle"
-    style="width: 100%;"
-    appearance="outline"
-  >
+  <mat-form-field *ngIf="editingTitle" style="width: 60%;" appearance="outline">
     <mat-label>Case Study Title</mat-label>
     <input
       #titleInput
@@ -47,7 +43,7 @@
     ></mat-progress-spinner>
     <button
       *ngIf="!titleloading"
-      mat-button
+      mat-raised-button
       [disabled]="titleControl.invalid"
       color="accent"
       matTooltip="Save Title"
@@ -59,7 +55,7 @@
 
   <button
     *ngIf="!editingTitle && !titleloading"
-    mat-button
+    mat-raised-button
     color="primary"
     matTooltip="Edit Case Title"
     (click)="toggleTitleEdition()"

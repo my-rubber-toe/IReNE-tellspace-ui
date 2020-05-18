@@ -1,4 +1,4 @@
-<!--Template for document creation form-->
+<!--Template for document creation form. Alberto Canela (alberto.canela@upr.edu-->
 <button mat-icon-button class="dialog-close-button" (click)="cancelAndClose()">
   <mat-icon class="close-icon" color="warn">close</mat-icon>
 </button>
@@ -9,6 +9,8 @@
     [formGroup]="createDocumentForm"
     (ngSubmit)="onSubmit()"
   >
+    <h3>I. Case Study Language</h3>
+    <p>Select the main language for the case study text.</p>
     <div id="language-radio-field">
       <label>Case Study Content Language:&ensp;</label>
       <mat-radio-group
@@ -19,21 +21,35 @@
         <mat-radio-button value="Spanish">Spanish</mat-radio-button>
       </mat-radio-group>
     </div>
-    <mat-form-field hintLabel="(min: 10 characters)" class="full-width">
+    <h3>II. Case Study Title</h3>
+    <p>
+      Title must beging with uppercase letter and have at least 10 characters.
+      Only alphanumeric characters are allowed.
+    </p>
+    <mat-form-field class="full-width">
       <input
+        #titleInput
         matInput
         formControlName="title"
         name="title"
-        maxlength="100"
+        maxlength="50"
         minlength="10"
         placeholder="Case Study Title"
         [errorStateMatcher]="matcher"
         required
       />
       <mat-error *ngIf="createDocumentForm.controls['title'].invalid"
-        >Title must hava at least 10 characters</mat-error
+        >Title has invalid characters or has not reached the minimum lenght of
+        10.
+      </mat-error>
+      <mat-hint>
+        Max 50 chars. ({{ 50 - (titleInput.value?.length || 0) }} chars
+        remaining)</mat-hint
       >
     </mat-form-field>
+
+    <h3>III. Incident Date</h3>
+    <p>Most significant date referenced in the new case study.</p>
     <mat-form-field hintLabel="MM/DD/YYYY" color="primary">
       <mat-label>Incident Date</mat-label>
       <input
@@ -52,6 +68,11 @@
       </mat-error>
     </mat-form-field>
 
+    <h3>IV. Infrastructure and Damage Type</h3>
+    <p>
+      Select at least one infrastructure and one damage type that describe the
+      case study
+    </p>
     <mat-form-field>
       <mat-label>Infrastructure Type</mat-label>
       <mat-select
@@ -81,7 +102,15 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
+
     <br />
+
+    <h3>V. Case Study Authors</h3>
+    <p>
+      Provide the name of the people who contributed to this case study. A case
+      study can have up to 10 authors. All authors must have a valid upr email
+      address. Names must begin with uppercase and consist of letters or dashes.
+    </p>
     <div formArrayName="authors" class="container">
       <div
         *ngFor="
@@ -162,6 +191,13 @@
     </button>
 
     <br />
+
+    <h3>VI. Case Study Actors</h3>
+    <p>
+      Provide the name of the people who are represented or play a significant
+      role on the case study. A case study can have up to 5 actors. Names must
+      begin with uppercase and consist of letters or dashes.
+    </p>
 
     <div formArrayName="actors" class="container">
       <div

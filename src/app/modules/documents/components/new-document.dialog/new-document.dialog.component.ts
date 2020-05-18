@@ -37,10 +37,34 @@ export class NewDocumentDialogComponent implements OnInit {
   private initAuthors(): FormGroup {
     return this.fb.group(
       {
-        first_name: ["", Validators.required],
-        last_name: ["", Validators.required],
+        first_name: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(
+              /^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/
+            ),
+          ],
+        ],
+        last_name: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(
+              /^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/
+            ),
+          ],
+        ],
         email: ["", Validators.pattern("^[a-z0-9._%+-]+@upr.edu$")],
-        faculty: ["", Validators.required],
+        faculty: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(
+              /^[A-ZÁÉÍÓÚÑÜ][a-z A-Z : 0-9 À-ÿ]*[.]{0,1}[ ]{0,1}[a-z A-Z : 0-9 À-ÿ]*[a-zA-Z:0-9À-ÿ]$/
+            ),
+          ],
+        ],
       },
       Validators.required
     );
@@ -49,9 +73,33 @@ export class NewDocumentDialogComponent implements OnInit {
   private initActors(): FormGroup {
     return this.fb.group(
       {
-        first_name: ["", Validators.required],
-        last_name: ["", Validators.required],
-        role: ["", Validators.required],
+        first_name: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(
+              /^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/
+            ),
+          ],
+        ],
+        last_name: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(
+              /^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/
+            ),
+          ],
+        ],
+        role: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(
+              /^[A-ZÁÉÍÓÚÑÜ][a-z A-Z : 0-9 À-ÿ]*[.]{0,1}[ ]{0,1}[a-z A-Z : 0-9 À-ÿ]*[a-zA-Z:0-9À-ÿ]$/
+            ),
+          ],
+        ],
       },
       Validators.required
     );
@@ -67,7 +115,7 @@ export class NewDocumentDialogComponent implements OnInit {
 
     this.createDocumentForm = this.fb.group(
       {
-        title: ["", Validators.required],
+        title: ["", Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][A-Z a-z 0-9 À-ÿ :]*[A-Za-z0-9À-ÿ]$/)],
         language: ["English", Validators.required],
         incident_date: ["", Validators.required],
         infrastructure_type: ["", Validators.required],

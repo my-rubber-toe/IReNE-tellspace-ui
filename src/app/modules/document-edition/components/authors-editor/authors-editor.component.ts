@@ -26,10 +26,10 @@ export class AuthorsEditorComponent implements OnInit {
   private initAuthors(): FormGroup {
     return this.fb.group(
       {
-        author_FN: ["", Validators.required],
-        author_LN: ["", Validators.required],
+        author_FN: ["", [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/)]],
+        author_LN: ["", [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/)]],
         author_email: ["", Validators.pattern("^[a-z0-9._%+-]+@upr.edu$")],
-        author_faculty: ["", Validators.required],
+        author_faculty: ["", [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z : 0-9 À-ÿ]*[.]{0,1}[ ]{0,1}[a-z A-Z : 0-9 À-ÿ]*[a-zA-Z:0-9À-ÿ]$/)]],
       },
       Validators.required
     );
@@ -56,13 +56,13 @@ export class AuthorsEditorComponent implements OnInit {
     control.push(
       this.fb.group(
         {
-          author_FN: [author.author_FN, Validators.required],
-          author_LN: [author.author_LN, Validators.required],
+          author_FN: [author.author_FN, [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/)]],
+          author_LN: [author.author_LN, [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/)]],
           author_email: [
             author.author_email,
             Validators.pattern("^[a-z0-9._%+-]+@upr.edu$"),
           ],
-          author_faculty: [author.author_faculty, Validators.required],
+          author_faculty: [author.author_faculty, [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z : 0-9 À-ÿ]*[.]{0,1}[ ]{0,1}[a-z A-Z : 0-9 À-ÿ]*[a-zA-Z:0-9À-ÿ]$/)]],
         },
         Validators.required
       )

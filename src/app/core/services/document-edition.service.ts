@@ -12,6 +12,7 @@ import {
   AuthorPutRequest,
   ActorPutRequest,
 } from "@app/shared/models/put-request-models";
+import { environment } from "environments/environment";
 
 /**Service that serves as app-wide store for specific case document data and builds the upstream request bodies */
 @Injectable({
@@ -262,7 +263,9 @@ export class DocumentEditionService {
 
   /**Opens document page in the search space service in a new tab */
   public previewDocumentOnSearchSpace() {
-    window.open("https://google.com");
+    window.open(
+      `${environment.searchSpacePreview}/${this.activeCaseDocument.id}`
+    ); // URL to web api
   }
 
   /**Returns the Content Section object refered by sectionPosition. Returns null if section does not exist

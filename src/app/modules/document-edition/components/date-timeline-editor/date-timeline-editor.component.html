@@ -53,9 +53,8 @@
   <h3>Case Study Timeline</h3>
 
   <!--IF TIMELINE IS EMPTY SHOW MESSAGE-->
-  <div *ngIf="timeline.length == 0">
+  <div *ngIf="timeline.length == 0 && !editingTimeline">
     <p>Timeline List is Empty. Press edit to add new events.</p>
-    <p></p>
   </div>
 
   <!--TIMELINE EDITORS-->

@@ -144,9 +144,10 @@ export class SectionEditorComponent implements OnInit {
   /**Function that requests the edition service to update the contents of the active section and update changes to the server*/
   uploadData() {
     if (!this.loading) {
+      let trimmedTitle = (this.titleForm.value.title as string).trim();
       this.editService
         .editSection(
-          new ContentSection(this.titleForm.value.title, this.model.editorData),
+          new ContentSection(trimmedTitle, this.model.editorData),
           this.activeSection
         )
         .subscribe(

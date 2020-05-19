@@ -263,7 +263,7 @@ export class DocumentEditionService {
       tap((response) => {
         this.activeCaseDocument.section.push(
           new ContentSection(
-            `Section Number ${this.activeCaseDocument.section.length + 1} `,
+            `Section Number ${this.activeCaseDocument.section.length + 1}`,
             ""
           )
         );

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  rootUrl: "https://test.irene.uprm.edu/tellspace-server",
+  rootUrl: "http://localhost:5000",
   searchSpacePreview: "//test.irene.uprm.edu/searchspace-ui/preview",
 };
 

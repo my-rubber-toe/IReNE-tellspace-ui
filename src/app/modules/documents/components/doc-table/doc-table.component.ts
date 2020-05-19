@@ -61,7 +61,6 @@ export class DocTableComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.docService.removeDocument(id).subscribe((_) => {
-          console.log(index);
           this.dataSource.data.splice(index, 1);
           this.dataSource = new MatTableDataSource(this.dataSource.data);
           this.dataSource.sort = this.sort;

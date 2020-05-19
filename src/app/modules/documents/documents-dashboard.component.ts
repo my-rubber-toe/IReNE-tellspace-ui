@@ -78,7 +78,6 @@ export class DocumentsDashboardComponent implements OnInit {
       );
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          console.log("this data ", result);
           this.docService
             .createDocument(result as CaseDocumentCreateRequest)
             .subscribe(

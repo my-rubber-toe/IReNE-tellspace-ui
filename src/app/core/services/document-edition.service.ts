@@ -267,7 +267,7 @@ export class DocumentEditionService {
     this.docService.createSection(this.activeCaseDocument.id).subscribe((x) => {
       this.activeCaseDocument.section.push(
         new ContentSection(
-          `Section No. ${this.activeCaseDocument.section.length + 1} `,
+          `Section No ${this.activeCaseDocument.section.length + 1} `,
           ""
         )
       );

@@ -119,9 +119,9 @@ export class TagsCategoriesEditorComponent implements OnInit {
     if ((value || "").trim()) {
       let newTag = value.trim();
       console.log(newTag);
-      //if tag is unique then add
+      //if tag is unique and complies with regex add
       if (
-        /^([a-z A-Z / & , - ]*)$/.test(newTag) &&
+        /^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ / & ,]*[a-záéíóúñü]$/.test(newTag) &&
         this.tags.indexOf(newTag) == -1 &&
         this.tags.length < this.MAX_TAGS_LENGTH
       ) {

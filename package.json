@@ -29,12 +29,14 @@
     "@ckeditor/ckeditor5-autosave": "^18.0.0",
     "@ckeditor/ckeditor5-build-classic": "^17.0.0",
     "angularx-social-login": "^2.2.1",
+    "classlist.js": "^1.1.20150312",
     "express": "^4.17.1",
     "path": "^0.12.7",
     "rxjs": "~6.5.4",
     "sweetalert2": "^9.10.6",
     "tslib": "^1.10.0",
     "typescript": "~3.7.5",
+    "web-animations-js": "^2.3.2",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

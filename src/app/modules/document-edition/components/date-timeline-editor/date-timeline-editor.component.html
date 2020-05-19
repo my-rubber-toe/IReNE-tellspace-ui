@@ -78,13 +78,13 @@
                 [readonly]="!editingTimeline"
                 formControlName="event"
                 minlength="10"
-                maxlength="100"
+                maxlength="50"
                 cdkTextareaAutosize
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="6"
               ></textarea>
               <mat-hint *ngIf="editingTimeline"
-                >Min 10 characters. Max 100 characters</mat-hint
+                >Min 10 characters. Max 50 characters</mat-hint
               >
               <mat-error *ngIf="timelineForm.controls['timeline'].invalid">
                 Event description must have at least 10 characters

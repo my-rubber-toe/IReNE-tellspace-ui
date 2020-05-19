@@ -70,11 +70,7 @@ export class DocumentEditionService {
             this.snackBar.open("Title Saved");
           },
           (error) => {
-            if (error.status == 500)
-              this.showError(
-                `Case Document ${newTitle} exists on the database, please try another title`
-              );
-            else this.showError(error.error.message.title);
+            this.showError(error.error.message);
           }
         )
       );
@@ -125,7 +121,7 @@ export class DocumentEditionService {
           this.updateSource();
           this.snackBar.open("Timeline Saved");
         },
-        (error) => this.showError("Timeline Error")
+        (error) => this.showError(error.error.message)
       );
   }
 
@@ -221,7 +217,7 @@ export class DocumentEditionService {
           this.updateSource();
           this.snackBar.open("Tags Saved");
         },
-        (error) => this.showError("Error uploading tags")
+        (error) => this.showError(error.error.message)
       );
   }
 
@@ -239,7 +235,7 @@ export class DocumentEditionService {
           this.updateSource();
           this.snackBar.open("Incident Date Saved");
         },
-        (error) => this.showError("Server error")
+        (error) => this.showError(error.error.message)
       );
   }
 

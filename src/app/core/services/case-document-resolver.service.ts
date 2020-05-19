@@ -83,7 +83,6 @@ export class CaseDocumentResolverService implements Resolve<CaseDocument> {
       response.document.lastModificationDate
     );
     caseDocument.docsize = response.document_size;
-    caseDocument.description = "";
     return caseDocument;
   }
 

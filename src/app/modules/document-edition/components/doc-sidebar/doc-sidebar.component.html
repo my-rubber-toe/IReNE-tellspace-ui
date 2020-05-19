@@ -9,10 +9,10 @@
       <mat-icon>settings_icon</mat-icon>
       Case Study Configuration
     </button>
-    <h2>{{ caseDocument.title }}</h2>
+    <p>{{ caseDocument.title }}</p>
     <h4>
-      Space used {{ (caseDocument.docsize * 0.000001 || 0).toFixed(3) }} MB of
-      16 MB
+      Space used {{ (caseDocument.docsize * 0.000001 || 0).toFixed(2) }} MB of
+      16 MB ({{ (caseDocument.docsize / 160000000 || 0).toFixed(2) }} %)
     </h4>
 
     <button

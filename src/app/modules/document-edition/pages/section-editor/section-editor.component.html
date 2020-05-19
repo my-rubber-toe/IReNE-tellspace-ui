@@ -1,17 +1,34 @@
 <div class="section-editor-container">
   <div class="status-bar">
-    <form [formGroup]="titleForm" style="width: 100%;">
-      <mat-form-field style="width: 100%;" floatLabel="never">
+    <form [formGroup]="titleForm">
+      <mat-form-field style="width: 82%;" appearance="outline">
         <mat-label>Section Title</mat-label>
-        <textarea
-          matInput
-          #title
-          formControlName="title"
-          name="title"
-          maxlength="50"
-          value=""
-          cdkTextareaAutosize
-        ></textarea>
+        <input
+        matInput
+        #title
+        formControlName="title"
+        name="title"
+        minlength="2"
+      />
+      <mat-error
+      *ngIf="title.errors != null && title.errors.minlength"
+      >Title must have at least 10 characters</mat-error
+    >
+    <mat-error
+      *ngIf="title.errors != null && title.errors.maxlength"
+      >Max 50 characters (<b>{{ (title.value?.length || 0) - 50 }}</b> too
+      many)</mat-error
+    >
+    <mat-error
+      *ngIf="title.errors != null && title.errors.pattern"
+      >Title has invalid characters or does not follow format</mat-error
+    >
+    <mat-hint>
+      Min 2 chars. Max 50 chars. Title must start with Uppercase. ({{
+        50 - (title.value?.length || 0)
+      }}
+      chars remaining)
+    </mat-hint>
       </mat-form-field>
     </form>
     <button

@@ -7,6 +7,7 @@ import { ContentSection } from "@app/shared/models/content-section";
 import { DocumentEditionService } from "@app/core/services/document-edition.service";
 import Swal from "sweetalert2";
 import { ChangeEvent } from "@ckeditor/ckeditor5-angular";
+import { HttpErrorResponse } from "@angular/common/http";
 /**Component that handles the section edition editor and implements CKEditor*/
 @Component({
   selector: "app-section-editor",
@@ -61,25 +62,24 @@ export class SectionEditorComponent implements OnInit {
 
   ngOnInit(): void {
     //Initialize title form controller
-    this.titleForm = this.fb.group({ title: ["", Validators.required] });
+    this.titleForm = this.fb.group({
+      title: [
+        "",
+        [
+          Validators.pattern(
+            /^[A-ZÁÉÍÓÚÑÜ][A-Z a-z 0-9 À-ÿ :]*[A-Za-z0-9À-ÿ]$/
+          ),
+          Validators.maxLength(50),
+        ],
+      ],
+    });
 
     //Subscribe to section changes on url, and load corresponding contents
     this.route.paramMap.subscribe((params) => {
       this.loading++; //Set loading to a truthy state
       this.setSaveStatusTrue(); //On change save status must display saved
       this.activeSection = +params.get("secid");
-      const section = this.editService.getActiveSection(this.activeSection);
-      if (section != null) {
-        //<--If section exists in the active document set data on view editors.
-        this.model.editorData = section.content ? section.content : "";
-        this.titleForm.setValue({ title: section.secTitle });
-        //Wait at least debounce time to start allowing put requests
-        setTimeout(() => {
-          this.loading--; //last load should set loading to a falsy state (0).
-        }, SectionEditorComponent.DEBOUNCE_TIME + 10);
-      } else {
-        this.router.navigateByUrl("invalid"); //<--Section number does not exist in the active case document, redirects to invalid.
-      }
+      this.loadSectionData();
     });
 
     //Subscribe to title form changes
@@ -91,6 +91,22 @@ export class SectionEditorComponent implements OnInit {
           this.uploadData();
         }
       });
+  }
+
+  /**Loads the current active section from the document editing service active document */
+  private loadSectionData() {
+    const section = this.editService.getActiveSection(this.activeSection);
+    if (section != null) {
+      //<--If section exists in the active document set data on view editors.
+      this.model.editorData = section.content ? section.content : "";
+      this.titleForm.setValue({ title: section.secTitle });
+      //Wait at least debounce time to start allowing put requests
+      setTimeout(() => {
+        this.loading--; //last load should set loading to a falsy state (0).
+      }, SectionEditorComponent.DEBOUNCE_TIME + 10);
+    } else {
+      this.router.navigateByUrl("invalid"); //<--Section number does not exist in the active case document, redirects to invalid.
+    }
   }
 
   /**Sets this component save status as true, updating UI indicator*/
@@ -132,9 +148,41 @@ export class SectionEditorComponent implements OnInit {
           new ContentSection(this.titleForm.value.title, this.model.editorData),
           this.activeSection
         )
-        .subscribe((response) => {
-          this.setSaveStatusTrue();
-        });
+        .subscribe(
+          (response) => {
+            this.setSaveStatusTrue();
+          },
+          (error: HttpErrorResponse) => {
+            /**If the error was caused because the server document space was exceeded,
+               return the content model to the state before the request*/
+            if (error.status == 503) {
+              this.loadSectionData(); //Reload last sucessfully saved data
+            } else {
+              Swal.fire({
+                title: "Server is not responding",
+                text: "Do you want to retry saving or exit the application?",
+                icon: "error",
+                showCancelButton: true,
+                confirmButtonColor: "green",
+                cancelButtonColor: "black",
+                cancelButtonText: "Try Again",
+                confirmButtonText: "Exit TellSpace",
+                allowOutsideClick: false,
+              }).then((result) => {
+                this.setSaveStatusTrue();
+                if (result.value) {
+                  //If user chooses to exit clear session and navigate to login
+                  localStorage.clear();
+                  this.router.navigate(["/login"]);
+                } else {
+                  //Retry the last save request
+                  this.uploadData();
+                }
+              });
+            }
+            this.setSaveStatusTrue();
+          }
+        );
     }
   }
 

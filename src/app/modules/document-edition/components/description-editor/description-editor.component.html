@@ -46,7 +46,14 @@
       </button>
     </div>
     <ng-template #elseBlock>
+      <<mat-progress-spinner
+        *ngIf="isSaving"
+        color="accent"
+        mode="indeterminate"
+        [diameter]="24"
+      ></mat-progress-spinner>
       <button
+        *ngIf="!isSaving"
         mat-raised-button
         [disabled]="descriptionFormControl.invalid"
         type="submit"

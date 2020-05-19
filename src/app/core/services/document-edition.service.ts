@@ -81,19 +81,21 @@ export class DocumentEditionService {
   }
 
   /**Changes the active document description to the given string and updates the backend*/
-  public editDescription(descriptionText: string) {
-    this.docService
+  public editDescription(descriptionText: string): Observable<any> {
+    return this.docService
       .edit(this.activeCaseDocument.id, "description", {
         description: descriptionText,
       })
-      .subscribe(
-        (response) => {
-          this.activeCaseDocument.description = descriptionText;
-          this.activeCaseDocument.docsize = response.doc_size;
-          this.updateSource();
-          this.snackBar.open("Description Saved");
-        },
-        (error) => this.showError(error.error.message.description)
+      .pipe(
+        tap(
+          (response) => {
+            this.activeCaseDocument.description = descriptionText;
+            this.activeCaseDocument.docsize = response.doc_size;
+            this.updateSource();
+            this.snackBar.open("Description Saved");
+          },
+          (error) => this.showError(error.error.message.description)
+        )
       );
   }
 

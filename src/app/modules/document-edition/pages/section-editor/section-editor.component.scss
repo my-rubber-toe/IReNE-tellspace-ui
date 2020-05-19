@@ -9,10 +9,11 @@
 .status-bar {
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
+  gap: 2vw;
   font-size: 20px;
 }
+
 //The following .css is based on code provided in the ckeditor5 documentation for autosave
 
 #snippet-autosave-status_spinner {

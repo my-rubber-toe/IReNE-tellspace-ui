@@ -1,10 +1,9 @@
+/**Case Document Resolver Service that loads the content of a specific case study into the case study edition service
+ * @author Alberto Canela (alberto.canela@upr.edu)
+ */
+
 import { Injectable } from "@angular/core";
-import {
-  Router,
-  Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot,
-} from "@angular/router";
+import { Router, Resolve, ActivatedRouteSnapshot } from "@angular/router";
 import { Observable, of, EMPTY } from "rxjs";
 import { mergeMap, take } from "rxjs/operators";
 
@@ -32,8 +31,7 @@ export class CaseDocumentResolverService implements Resolve<CaseDocument> {
    * redirects the application to the invalid route.
    */
   resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    route: ActivatedRouteSnapshot
   ): Observable<CaseDocument> | Observable<never> {
     let id = route.paramMap.get("docid");
     Swal.fire(`Loading Case Document\n Please wait`);
@@ -41,16 +39,14 @@ export class CaseDocumentResolverService implements Resolve<CaseDocument> {
     return this.docService.getDocumentById(id).pipe(
       take(1),
       mergeMap((caseDoc) => {
-        console.log(caseDoc);
         if (caseDoc) {
-          caseDoc.id = id;
+          caseDoc.document.id = id;
           let parsedDoc = this.parseCaseDocument(caseDoc);
           this.editService.setActiveCaseDocument(parsedDoc);
           Swal.close();
           return of(parsedDoc);
         } else {
           // id not found
-          console.log("document not found");
           this.router.navigate(["/invalid"]);
           Swal.close();
           return EMPTY;
@@ -65,9 +61,9 @@ export class CaseDocumentResolverService implements Resolve<CaseDocument> {
    */
   private parseCaseDocument(response: CaseDocumentResponse): CaseDocument {
     let caseDocument = new CaseDocument();
-    Object.assign(caseDocument, response);
+    Object.assign(caseDocument, response.document);
     if (caseDocument.timeline) {
-      caseDocument.timeline = response.timeline.map((timeEvent) => {
+      caseDocument.timeline = response.document.timeline.map((timeEvent) => {
         return {
           event: timeEvent.event,
           eventStartDate: this.parseDateString(timeEvent.eventStartDate),
@@ -77,13 +73,16 @@ export class CaseDocumentResolverService implements Resolve<CaseDocument> {
     } else {
       caseDocument.timeline = [];
     }
-    caseDocument.incidentDate = this.parseDateString(response.incidentDate);
+    caseDocument.incidentDate = this.parseDateString(
+      response.document.incidentDate
+    );
     caseDocument.lastModificationDate = this.parseDateString(
-      response.lastModificationDate
+      response.document.lastModificationDate
     );
     caseDocument.creationDate = this.parseDateString(
-      response.lastModificationDate
+      response.document.lastModificationDate
     );
+    caseDocument.docsize = response.document_size;
     return caseDocument;
   }
 

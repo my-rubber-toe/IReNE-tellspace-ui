@@ -36,7 +36,6 @@ export class DocumentsService {
 
   /** POST new document on the server */
   public createDocument(req: CaseDocumentCreateRequest): Observable<any> {
-    console.log("sending create");
     const url = `${this.rootUrl}/documents/create`;
     return this.http
       .post(url, req, this.httpOptions)
@@ -47,7 +46,6 @@ export class DocumentsService {
   public removeDocument(docid: string): Observable<any> {
     const url = `${this.rootUrl}/documents/remove/${docid}`;
     return this.http.delete(url, this.httpOptions).pipe(
-      tap((_) => console.log(`removeDocument id=${docid}`)),
       catchError(this.handleError<any>(`remove document docid=${docid}`))
     );
   }
@@ -56,7 +54,6 @@ export class DocumentsService {
   public getDocumentById(docid: string): Observable<CaseDocumentResponse> {
     const url = `${this.rootUrl}/documents/${docid}`;
     return this.http.get<CaseDocumentResponse>(url).pipe(
-      tap((_) => console.log(`getDocumentByID id=${docid}`)),
       catchError(
         this.handleError<CaseDocumentResponse>(`getDocumentById docid=${docid}`)
       )
@@ -67,7 +64,6 @@ export class DocumentsService {
   public createSection(docid: string): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/section/create`;
     return this.http.post(url, {}, this.httpOptions).pipe(
-      tap((_) => console.log(`createSection docid=${docid}`)),
       catchError(this.handleError<any>("createSection"))
     );
   }
@@ -76,7 +72,6 @@ export class DocumentsService {
   public removeSection(docid: string, secid: number): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/section/remove/${secid}`;
     return this.http.delete(url, this.httpOptions).pipe(
-      tap((_) => console.log(`createSection secid=${secid} docid=${docid}`)),
       catchError(this.handleError<any>("deleteSection"))
     );
   }
@@ -88,10 +83,8 @@ export class DocumentsService {
     pos: number
   ): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/section/${pos}`;
-    console.log(sec);
     let body = { section_title: sec.secTitle, section_text: sec.content };
     return this.http.put(url, body, this.httpOptions).pipe(
-      tap((_) => console.log(`edited section title=${sec.secTitle}`)),
       catchError(
         this.handleError<any>(`editDocumentSection title=${sec.secTitle}`)
       )

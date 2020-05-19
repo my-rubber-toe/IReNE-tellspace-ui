@@ -89,7 +89,6 @@ export class AuthenticationService {
                 "Unauthorized Collaborator. Please, request access",
                 "error"
               );
-              console.log(error);
             }
           );
         } else {
@@ -129,13 +128,11 @@ export class AuthenticationService {
     email: string,
     photoUrl: string
   ) {
-    console.log("token", token);
     localStorage.setItem("collaborator_name", name);
     localStorage.setItem("collaborator_email", email);
     localStorage.setItem("access_token", token.access_token);
     localStorage.setItem("refresh_token", token.refresh_token);
-    // localStorage.setItem("access_expiration", token.access_expiration);
-    let expiration = localStorage.setItem("photo_url", photoUrl);
+    localStorage.setItem("photo_url", photoUrl);
   }
 
   /**Main logout function called to logut from the server and clear local storage
@@ -160,7 +157,6 @@ export class AuthenticationService {
       if (token && now < this.parseJWTExpiration(token)) {
         this.refreshToken().subscribe(
           (access_token) => {
-            console.log("Refreshed Token");
             return true;
           },
           (error) => {

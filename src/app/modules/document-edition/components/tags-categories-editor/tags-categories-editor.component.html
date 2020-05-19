@@ -101,10 +101,7 @@
   <mat-card-content>
     <h3>Tags</h3>
     <div *ngIf="editingTags; else elseBlock3A">
-      <mat-form-field
-        hintLabel="Assign up to 10 unique tags. Each tag has a maximum of 30 characters."
-        style="width: 100%;"
-      >
+      <mat-form-field style="width: 100%;">
         <mat-chip-list #chipList aria-label="tags editing">
           <mat-chip
             *ngFor="let tag of tags"
@@ -134,7 +131,10 @@
             {{ tag }}
           </mat-option>
         </mat-autocomplete>
-        <mat-hint align="end">{{ tags.length || 0 }}/10</mat-hint>
+        <mat-hint align="start"
+          >Assign up to 10 unique tags. Each tag has a maximum of 30
+          characters.({{ tags.length || 0 }}/10 tags)</mat-hint
+        >
       </mat-form-field>
     </div>
     <ng-template #elseBlock3A>

@@ -135,7 +135,6 @@ export class SectionEditorComponent implements OnInit {
   /**Callback function to save the data currently on the editor. Runs if loading is on a falsy state */
   saveData(data: string) {
     if (!this.loading) {
-      console.log("saved", data);
       this.uploadData();
     }
   }

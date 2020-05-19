@@ -122,6 +122,7 @@ export class TagsCategoriesEditorComponent implements OnInit {
       console.log(newTag);
       //if tag is unique then add
       if (
+        /^([a-z A-Z / & , - ]*)$/.test(newTag) &&
         this.tags.indexOf(newTag) == -1 &&
         this.tags.length < this.MAX_TAGS_LENGTH
       ) {

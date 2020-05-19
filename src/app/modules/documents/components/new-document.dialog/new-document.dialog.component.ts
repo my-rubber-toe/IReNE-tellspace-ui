@@ -115,7 +115,12 @@ export class NewDocumentDialogComponent implements OnInit {
 
     this.createDocumentForm = this.fb.group(
       {
-        title: ["", Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][A-Z a-z 0-9 À-ÿ :]*[A-Za-z0-9À-ÿ]$/)],
+        title: [
+          "",
+          Validators.pattern(
+            /^[A-ZÁÉÍÓÚÑÜ][A-Z a-z 0-9 À-ÿ :]*[A-Za-z0-9À-ÿ]$/
+          ),
+        ],
         language: ["English", Validators.required],
         incident_date: ["", Validators.required],
         infrastructure_type: ["", Validators.required],

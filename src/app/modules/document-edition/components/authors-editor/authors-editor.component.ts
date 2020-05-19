@@ -28,7 +28,7 @@ export class AuthorsEditorComponent implements OnInit {
       {
         author_FN: ["", [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/)]],
         author_LN: ["", [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/)]],
-        author_email: ["", Validators.pattern("^[a-z0-9._%+-]+@upr.edu$")],
+        author_email: ["", Validators.pattern("^[a-z0-9._%+-]+@upr\.edu$")],
         author_faculty: ["", [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z : 0-9 À-ÿ]*[.]{0,1}[ ]{0,1}[a-z A-Z : 0-9 À-ÿ]*[a-zA-Z:0-9À-ÿ]$/)]],
       },
       Validators.required
@@ -60,7 +60,7 @@ export class AuthorsEditorComponent implements OnInit {
           author_LN: [author.author_LN, [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/)]],
           author_email: [
             author.author_email,
-            Validators.pattern("^[a-z0-9._%+-]+@upr.edu$"),
+            Validators.pattern("^[a-z0-9._%+-]+@upr\.edu$"),
           ],
           author_faculty: [author.author_faculty, [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z : 0-9 À-ÿ]*[.]{0,1}[ ]{0,1}[a-z A-Z : 0-9 À-ÿ]*[a-zA-Z:0-9À-ÿ]$/)]],
         },

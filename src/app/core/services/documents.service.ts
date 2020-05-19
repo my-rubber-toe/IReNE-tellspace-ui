@@ -89,13 +89,7 @@ export class DocumentsService {
   ): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/section/${pos}`;
     let body = { section_title: sec.secTitle, section_text: sec.content };
-    return this.http
-      .put(url, body, this.httpOptions)
-      .pipe(
-        catchError(
-          this.handleError<any>(`editDocumentSection title=${sec.secTitle}`)
-        )
-      );
+    return this.http.put(url, body, this.httpOptions);
   }
 
   /** PUT: edit document metadata on the server

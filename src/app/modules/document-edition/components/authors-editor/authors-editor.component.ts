@@ -44,7 +44,7 @@ export class AuthorsEditorComponent implements OnInit {
             ),
           ],
         ],
-        author_email: ["", Validators.pattern("^[a-z0-9._%+-]+@upr.edu$")],
+        author_email: ["", Validators.pattern("^[a-z0-9._%+-]+@upr\\.edu$")],
         author_faculty: [
           "",
           [
@@ -97,7 +97,7 @@ export class AuthorsEditorComponent implements OnInit {
           ],
           author_email: [
             author.author_email,
-            Validators.pattern("^[a-z0-9._%+-]+@upr.edu$"),
+            Validators.pattern("^[a-z0-9._%+-]+@upr\\.edu$"),
           ],
           author_faculty: [
             author.author_faculty,

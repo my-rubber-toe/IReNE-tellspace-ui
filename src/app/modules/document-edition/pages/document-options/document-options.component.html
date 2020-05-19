@@ -1,6 +1,6 @@
 <!--Documents Options Template for parameter editors. Author: Alberto Canela (alberto.canela@upr.edu)-->
 <div class="status-bar">
-  <mat-form-field *ngIf="editingTitle" style="width: 82%;" appearance="outline">
+  <mat-form-field *ngIf="editingTitle" style="width: 82%;  margin-right: 1em;" appearance="outline">
     <mat-label>Case Study Title</mat-label>
     <input
       #titleInput
@@ -31,9 +31,11 @@
   </mat-form-field>
 
   <ng-container *ngIf="!editingTitle">
-    <h2>Case Title: {{ doc.title }}</h2>
+    <div style="margin-right: 1em">
+      <h2>Case Title: {{ doc.title }}</h2>
+    </div>
   </ng-container>
-
+  
   <div *ngIf="editingTitle">
     <mat-progress-spinner
       *ngIf="titleloading"

@@ -39,7 +39,7 @@
         required
       />
       <mat-error *ngIf="createDocumentForm.controls['title'].invalid"
-        >Title has invalid characters or has not reached the minimum lenght of
+        >Title has invalid characters or has not reached the minimum length of
         10.
       </mat-error>
       <mat-hint>
@@ -58,13 +58,14 @@
         formControlName="incident_date"
         name="incident_date"
         [max]="maxDate"
+        [min]="minDate"
         [errorStateMatcher]="matcher"
         required
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="createDocumentForm.controls['incident_date'].invalid"
-        >Date must be formated MM/DD/YYYY
+        >Date must be formated as MM/DD/YYYY
       </mat-error>
     </mat-form-field>
 

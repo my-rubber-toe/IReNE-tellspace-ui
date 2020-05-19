@@ -31,12 +31,15 @@ export class DateTimelineEditorComponent implements OnInit {
 
   maxDateEnd: Date;
 
+  minDateStart: Date;
+
   constructor(
     private fb: FormBuilder,
     private edition: DocumentEditionService
   ) {
     // Set minimum and maximun dates
     this.maxDateEnd = new Date();
+    this.minDateStart = new Date(1493, 11, 19); //Set minimum aceptable date as the discovery of Puerto Rico
   }
 
   private initTimelineEvent(): FormGroup {

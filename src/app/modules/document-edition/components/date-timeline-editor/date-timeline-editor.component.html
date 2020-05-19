@@ -96,6 +96,7 @@
                 matInput
                 [matDatepicker]="picker"
                 [max]="timelineForm.value.timeline[i].eventEndDate"
+                [min]="minDateStart"
                 [readonly]="!editingTimeline"
                 formControlName="eventStartDate"
                 name="eventStartDate"

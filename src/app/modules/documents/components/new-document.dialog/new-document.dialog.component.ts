@@ -15,6 +15,7 @@ import { CaseDocumentCreateRequest } from "@app/shared/models/case-document-crea
 export class NewDocumentDialogComponent implements OnInit {
   createDocumentForm: FormGroup;
   maxDate: Date;
+  minDate: Date;
 
   readonly AUTHORS_MAX: number = 10;
   readonly ACTORS_MAX: number = 5;
@@ -32,6 +33,7 @@ export class NewDocumentDialogComponent implements OnInit {
   ) {
     // Set minimum and maximun dates
     this.maxDate = new Date();
+    this.minDate = new Date(1493, 11, 19); //Set minimum aceptable date as the discovery of Puerto Rico
   }
 
   private initAuthors(): FormGroup {

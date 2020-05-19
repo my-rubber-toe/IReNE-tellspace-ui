@@ -37,43 +37,48 @@ export class DocumentsService {
   /** POST new document on the server */
   public createDocument(req: CaseDocumentCreateRequest): Observable<any> {
     const url = `${this.rootUrl}/documents/create`;
-    return this.http
-      .post(url, req, this.httpOptions)
-      .pipe(catchError(this.handleError<any>("createDocument")));
+    return this.http.post(url, req, this.httpOptions);
+    //.pipe(catchError(this.handleError<any>("createDocument")));
   }
 
   /** DELETE document on the server */
   public removeDocument(docid: string): Observable<any> {
     const url = `${this.rootUrl}/documents/remove/${docid}`;
-    return this.http.delete(url, this.httpOptions).pipe(
-      catchError(this.handleError<any>(`remove document docid=${docid}`))
-    );
+    return this.http
+      .delete(url, this.httpOptions)
+      .pipe(
+        catchError(this.handleError<any>(`remove document docid=${docid}`))
+      );
   }
 
   /** GET document by id. Will 404 if id not found */
   public getDocumentById(docid: string): Observable<CaseDocumentResponse> {
     const url = `${this.rootUrl}/documents/${docid}`;
-    return this.http.get<CaseDocumentResponse>(url).pipe(
-      catchError(
-        this.handleError<CaseDocumentResponse>(`getDocumentById docid=${docid}`)
-      )
-    );
+    return this.http
+      .get<CaseDocumentResponse>(url)
+      .pipe(
+        catchError(
+          this.handleError<CaseDocumentResponse>(
+            `getDocumentById docid=${docid}`
+          )
+        )
+      );
   }
 
   /** POST new section */
   public createSection(docid: string): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/section/create`;
-    return this.http.post(url, {}, this.httpOptions).pipe(
-      catchError(this.handleError<any>("createSection"))
-    );
+    return this.http
+      .post(url, {}, this.httpOptions)
+      .pipe(catchError(this.handleError<any>("createSection")));
   }
 
   /** POST remove a section */
   public removeSection(docid: string, secid: number): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/section/remove/${secid}`;
-    return this.http.delete(url, this.httpOptions).pipe(
-      catchError(this.handleError<any>("deleteSection"))
-    );
+    return this.http
+      .delete(url, this.httpOptions)
+      .pipe(catchError(this.handleError<any>("deleteSection")));
   }
 
   /** PUT: update the document section on the server */
@@ -84,11 +89,13 @@ export class DocumentsService {
   ): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/section/${pos}`;
     let body = { section_title: sec.secTitle, section_text: sec.content };
-    return this.http.put(url, body, this.httpOptions).pipe(
-      catchError(
-        this.handleError<any>(`editDocumentSection title=${sec.secTitle}`)
-      )
-    );
+    return this.http
+      .put(url, body, this.httpOptions)
+      .pipe(
+        catchError(
+          this.handleError<any>(`editDocumentSection title=${sec.secTitle}`)
+        )
+      );
   }
 
   /** PUT: edit document metadata on the server

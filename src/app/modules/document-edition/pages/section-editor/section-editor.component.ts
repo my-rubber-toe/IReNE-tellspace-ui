@@ -8,6 +8,7 @@ import { DocumentEditionService } from "@app/core/services/document-edition.serv
 import Swal from "sweetalert2";
 import { ChangeEvent } from "@ckeditor/ckeditor5-angular";
 import { HttpErrorResponse } from "@angular/common/http";
+import { AuthenticationService } from "@app/core/services/authentication.service";
 /**Component that handles the section edition editor and implements CKEditor*/
 @Component({
   selector: "app-section-editor",
@@ -57,7 +58,8 @@ export class SectionEditorComponent implements OnInit {
     private fb: FormBuilder,
     private editService: DocumentEditionService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private auth: AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -170,9 +172,8 @@ export class SectionEditorComponent implements OnInit {
               }).then((result) => {
                 this.setSaveStatusTrue();
                 if (result.value) {
-                  //If user chooses to exit clear session and navigate to login
-                  localStorage.clear();
-                  this.router.navigate(["/login"]);
+                  //If user chooses to exit, logout from the application
+                  this.auth.logout();
                 } else {
                   //Retry the last save request
                   this.uploadData();

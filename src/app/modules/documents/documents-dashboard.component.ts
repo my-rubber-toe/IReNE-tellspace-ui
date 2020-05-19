@@ -51,7 +51,7 @@ export class DocumentsDashboardComponent implements OnInit {
           cancelButtonColor: "black",
           cancelButtonText: "Try Again",
           confirmButtonText: "Exit TellSpace",
-          allowOutsideClick: false
+          allowOutsideClick: false,
         }).then((result) => {
           if (result.value) {
             //If user chooses to exit clear session and navigate to login
@@ -81,9 +81,18 @@ export class DocumentsDashboardComponent implements OnInit {
           console.log("this data ", result);
           this.docService
             .createDocument(result as CaseDocumentCreateRequest)
-            .subscribe((success_response) => {
-              this.loadDocuments();
-            });
+            .subscribe(
+              (response) => {
+                this.loadDocuments();
+              },
+              (error) => {
+                Swal.fire(
+                  "Server Error",
+                  "Something went wrong with the server",
+                  "error"
+                );
+              }
+            );
         }
       });
     } else {

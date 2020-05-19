@@ -17,6 +17,9 @@ export class DocSidebarComponent {
   /**Reference to the active and updated case document opened for edition */
   caseDocument: CaseDocument;
 
+  /**Creating Section Flag used to limit the section creation form */
+  creatingSection: boolean = false;
+
   /**The maximum amount of sections a coaborator can add to the case study */
   readonly SECTION_MAX: number = 10;
 
@@ -27,7 +30,10 @@ export class DocSidebarComponent {
   }
 
   addSection() {
-    this.editService.createSection();
+    this.creatingSection = true;
+    this.editService
+      .createSection()
+      .subscribe((success) => (this.creatingSection = false));
   }
 
   public navigateToCaseStudyRoot(): void {

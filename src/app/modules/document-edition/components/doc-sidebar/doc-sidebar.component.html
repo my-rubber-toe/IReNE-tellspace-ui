@@ -18,13 +18,19 @@
     <button
       class="link-button"
       (click)="addSection()"
-      *ngIf="caseDocument.section.length < SECTION_MAX"
+      *ngIf="!creatingSection && caseDocument.section.length < SECTION_MAX"
       color="primary"
       matTooltip="Add a new section to the case study"
       mat-raised-button
     >
       Add New Section
     </button>
+    <mat-progress-spinner
+      *ngIf="creatingSection"
+      color="accent"
+      mode="indeterminate"
+      [diameter]="24"
+    ></mat-progress-spinner>
   </div>
   <mat-divider></mat-divider>
 

@@ -258,16 +258,18 @@ export class DocumentEditionService {
   }
 
   /**Sends request to create a section to the server and updates cached section list */
-  public createSection() {
-    this.docService.createSection(this.activeCaseDocument.id).subscribe((x) => {
-      this.activeCaseDocument.section.push(
-        new ContentSection(
-          `Section No ${this.activeCaseDocument.section.length + 1} `,
-          ""
-        )
-      );
-      this.updateSource();
-    });
+  public createSection(): Observable<any> {
+    return this.docService.createSection(this.activeCaseDocument.id).pipe(
+      tap((response) => {
+        this.activeCaseDocument.section.push(
+          new ContentSection(
+            `Section Number ${this.activeCaseDocument.section.length + 1} `,
+            ""
+          )
+        );
+        this.updateSource();
+      })
+    );
   }
 
   /**Sends request to remove a section to the server and updates cached section list */

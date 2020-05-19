@@ -14,6 +14,11 @@
       </button>
     </div>
   </div>
+  <div *ngIf="!loading" class="no-cases-message">
+    <h1>You have {{ docs.length }} case studies</h1>
+    <h3>Create up to 10 case studies to share your findings with the world.</h3>
+    <h4>You can start by pressing the + button above</h4>
+  </div>
   <mat-divider></mat-divider>
 
   <app-doc-table></app-doc-table>
@@ -25,10 +30,4 @@
     <mat-progress-spinner color="primary" mode="indeterminate">
     </mat-progress-spinner>
   </mat-card>
-
-  <div *ngIf="!loading" class="no-cases-message">
-    <h1>You have {{ docs.length }} case studies</h1>
-    <h3>Create up to 10 case studies to share your findings with the world.</h3>
-    <h4>You can start by pressing the + button above</h4>
-  </div>
 </div>

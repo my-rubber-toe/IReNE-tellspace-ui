@@ -73,24 +73,8 @@ export class NewDocumentDialogComponent implements OnInit {
   private initActors(): FormGroup {
     return this.fb.group(
       {
-        first_name: [
-          "",
-          [
-            Validators.required,
-            Validators.pattern(
-              /^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/
-            ),
-          ],
-        ],
-        last_name: [
-          "",
-          [
-            Validators.required,
-            Validators.pattern(
-              /^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/
-            ),
-          ],
-        ],
+        first_name: ["", [Validators.required]],
+        last_name: ["", [Validators.nullValidator]],
         role: [
           "",
           [

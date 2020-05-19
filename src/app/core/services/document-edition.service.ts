@@ -94,7 +94,9 @@ export class DocumentEditionService {
             this.updateSource();
             this.snackBar.open("Description Saved");
           },
-          (error) => this.showError(error.error.message.description)
+          (error) => {
+            this.showError(error.error.message);
+          }
         )
       );
   }
@@ -140,7 +142,7 @@ export class DocumentEditionService {
           this.updateSource();
           this.snackBar.open("Infrastructure Types Saved");
         },
-        (error) => this.showError(error.error.message.infrastructure_types)
+        (error) => this.showError(error.error.message)
       );
   }
 
@@ -157,7 +159,7 @@ export class DocumentEditionService {
           this.updateSource();
           this.snackBar.open("Damage Types Saved");
         },
-        (error) => this.showError(error.error.message.damage_types)
+        (error) => this.showError(error.error.message)
       );
   }
 
@@ -173,7 +175,7 @@ export class DocumentEditionService {
         this.updateSource();
         this.snackBar.open("Actors Saved");
       },
-      (error) => this.showError(error.error.message.actors)
+      (error) => this.showError(error.error.message)
     );
   }
 
@@ -189,7 +191,7 @@ export class DocumentEditionService {
         this.updateSource();
         this.snackBar.open("Authors Saved");
       },
-      (error) => this.showError(error.error.message.authors)
+      (error) => this.showError(error.error.message)
     );
   }
 
@@ -204,7 +206,7 @@ export class DocumentEditionService {
           this.updateSource();
           this.snackBar.open("Locations Saved");
         },
-        (error) => this.showError(error.error.message.locations)
+        (error) => this.showError(error.error.message)
       );
   }
 
@@ -246,11 +248,16 @@ export class DocumentEditionService {
     return this.docService
       .editDocumentSection(this.activeCaseDocument.id, sec, position)
       .pipe(
-        tap((response) => {
-          this.activeCaseDocument.section[position - 1] = sec;
-          this.activeCaseDocument.docsize = response.doc_size;
-          this.updateSource();
-        })
+        tap(
+          (response) => {
+            this.activeCaseDocument.section[position - 1] = sec;
+            this.activeCaseDocument.docsize = response.doc_size;
+            this.updateSource();
+          },
+          (error) => {
+            if (error.status == 507) this.showError(error.error.message);
+          }
+        )
       );
   }
 

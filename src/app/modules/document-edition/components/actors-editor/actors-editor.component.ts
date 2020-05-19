@@ -26,9 +26,17 @@ export class ActorsEditorComponent implements OnInit {
   private initActors(): FormGroup {
     return this.fb.group(
       {
-        actor_FN: ["", [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/)]],
-        actor_LN: ["", [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/)]],
-        role: ["", [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z : 0-9 À-ÿ]*[.]{0,1}[ ]{0,1}[a-z A-Z : 0-9 À-ÿ]*[a-zA-Z:0-9À-ÿ]$/)]],
+        actor_FN: ["", [Validators.required]],
+        actor_LN: ["", [Validators.nullValidator]],
+        role: [
+          "",
+          [
+            Validators.required,
+            Validators.pattern(
+              /^[A-ZÁÉÍÓÚÑÜ][a-z A-Z : 0-9 À-ÿ]*[.]{0,1}[ ]{0,1}[a-z A-Z : 0-9 À-ÿ]*[a-zA-Z:0-9À-ÿ]$/
+            ),
+          ],
+        ],
       },
       Validators.required
     );
@@ -52,9 +60,17 @@ export class ActorsEditorComponent implements OnInit {
     control.push(
       this.fb.group(
         {
-          actor_FN: [actor.actor_FN, [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/)]],
-          actor_LN: [actor.actor_LN, [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z À-ÿ]*(-){0,1}[a-z A-Z À-ÿ]*[a-záéíóúñü]$/)]],
-          role: [actor.role, [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÑÜ][a-z A-Z : 0-9 À-ÿ]*[.]{0,1}[ ]{0,1}[a-z A-Z : 0-9 À-ÿ]*[a-zA-Z:0-9À-ÿ]$/)]],
+          actor_FN: [actor.actor_FN, [Validators.required]],
+          actor_LN: [actor.actor_LN, [Validators.nullValidator]],
+          role: [
+            actor.role,
+            [
+              Validators.required,
+              Validators.pattern(
+                /^[A-ZÁÉÍÓÚÑÜ][a-z A-Z : 0-9 À-ÿ]*[.]{0,1}[ ]{0,1}[a-z A-Z : 0-9 À-ÿ]*[a-zA-Z:0-9À-ÿ]$/
+              ),
+            ],
+          ],
         },
         Validators.required
       )

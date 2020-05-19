@@ -25,7 +25,7 @@ export class DocTableComponent implements OnInit {
     "published",
     "lastModificationDate",
     "creationDate",
-    "actions"
+    "actions",
   ];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -45,7 +45,7 @@ export class DocTableComponent implements OnInit {
     this.router.navigateByUrl("/edit/" + element.id);
   }
 
-  loadTable( metadata:CaseDocumentMetadata[]){
+  loadTable(metadata: CaseDocumentMetadata[]) {
     this.dataSource.data = metadata;
   }
 
@@ -61,7 +61,8 @@ export class DocTableComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.docService.removeDocument(id).subscribe((_) => {
-          this.dataSource.data.splice(index,1);
+          console.log(index);
+          this.dataSource.data.splice(index, 1);
           this.dataSource = new MatTableDataSource(this.dataSource.data);
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;

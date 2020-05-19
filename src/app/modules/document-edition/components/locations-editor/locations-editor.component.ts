@@ -68,12 +68,12 @@ export class LocationsEditorComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add tags
+    // Add locations
     if ((value || "").trim()) {
       let local = value.trim();
-      console.log(local);
-      //if tag is unique then add
+      //if location is unique then add
       if (
+        this.towns.indexOf(local) != -1 &&
         this.locations.indexOf(local) == -1 &&
         this.locations.length < this.MAX_LOCATIONS_LENGTH
       ) {

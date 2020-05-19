@@ -88,12 +88,10 @@ export class DateTimelineEditorComponent implements OnInit {
   }
 
   toggleEditingTimeline() {
-    console.log(this.timelineForm.status);
     this.editingTimeline = !this.editingTimeline;
   }
 
   saveTimeline() {
-    console.log("Saved timeline: ", this.timelineForm.getRawValue());
     this.edition.editTimeline(this.timelineForm.getRawValue().timeline);
     this.toggleEditingTimeline();
   }
@@ -103,7 +101,6 @@ export class DateTimelineEditorComponent implements OnInit {
   }
 
   saveIncidentDate() {
-    console.log("Saved incident date: ", this.incidentDateControl.value);
     this.edition.editIncidentDate(this.incidentDateControl.value as Date);
     this.toggleEditingIncidentDate();
   }

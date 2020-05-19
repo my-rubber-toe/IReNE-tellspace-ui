@@ -63,7 +63,6 @@ export class TagsCategoriesEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.docService.getTags().subscribe((res) => {
-      console.log("res", res);
       this.alltags = res;
     });
     this.docService

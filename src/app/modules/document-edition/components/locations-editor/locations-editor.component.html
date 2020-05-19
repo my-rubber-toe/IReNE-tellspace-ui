@@ -2,10 +2,7 @@
   <mat-card-content>
     <h3>Locations</h3>
     <div *ngIf="editingLocations; else elseBlock3A">
-      <mat-form-field
-        hintLabel="Add up to 5 Puerto Rico towns. (City, PR)"
-        style="width: 100%;"
-      >
+      <mat-form-field style="width: 100%;">
         <mat-chip-list #chipList aria-label="locations editing">
           <mat-chip
             *ngFor="let local of locations"
@@ -38,7 +35,11 @@
             {{ local }}
           </mat-option>
         </mat-autocomplete>
-        <mat-hint align="end">{{ locations.length || 0 }}/5</mat-hint>
+        <mat-hint align="start"
+          >Add up to 5 Puerto Rico towns. (City, PR) ({{
+            locations.length || 0
+          }}/5)</mat-hint
+        >
       </mat-form-field>
     </div>
     <ng-template #elseBlock3A>

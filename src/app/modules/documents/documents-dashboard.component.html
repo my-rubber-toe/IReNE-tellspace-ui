@@ -26,9 +26,9 @@
     </mat-progress-spinner>
   </mat-card>
 
-  <div *ngIf="docs.length == 0 && !loading" class="no-cases-message">
-    <h1>You have no case studies</h1>
-    <h3>Create a case study to share your findings with the world.</h3>
+  <div *ngIf="!loading" class="no-cases-message">
+    <h1>You have {{ docs.length }} case studies</h1>
+    <h3>Create up to 10 case studies to share your findings with the world.</h3>
     <h4>You can start by pressing the + button above</h4>
   </div>
 </div>

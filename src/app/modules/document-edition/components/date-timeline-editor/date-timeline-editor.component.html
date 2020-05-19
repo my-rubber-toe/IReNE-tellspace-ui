@@ -4,7 +4,6 @@
     <h3>{{ incident_date | date: "MM/dd/yyyy" }}</h3>
   </div>
   <mat-form-field
-    hintLabel="MM/DD/YYYY"
     color="primary"
     class="example-full-width"
     *ngIf="editingIncidentDate"
@@ -26,10 +25,11 @@
     <mat-error *ngIf="incidentDateControl.invalid">
       Unrecognized date format
     </mat-error>
+    <mat-hint>MM/DD/YYYY</mat-hint>
   </mat-form-field>
   <button
     *ngIf="!editingIncidentDate"
-    mat-button
+    mat-raised-button
     color="primary"
     matTooltip="Edit Incident Date"
     (click)="toggleEditingIncidentDate()"
@@ -38,7 +38,7 @@
   </button>
   <button
     *ngIf="editingIncidentDate"
-    mat-button
+    mat-raised-button
     color="accent"
     matTooltip="Save Incident Date"
     (click)="saveIncidentDate()"
@@ -52,12 +52,13 @@
 <mat-card>
   <h3>Case Study Timeline</h3>
 
+  <!--TIMELINE EDITORS-->
+  <p>Identify up to 5 significant events on this case study.</p>
+
   <!--IF TIMELINE IS EMPTY SHOW MESSAGE-->
   <div *ngIf="timeline.length == 0 && !editingTimeline">
     <p>Timeline List is Empty. Press edit to add new events.</p>
   </div>
-
-  <!--TIMELINE EDITORS-->
 
   <form [formGroup]="timelineForm">
     <div formArrayName="timeline">

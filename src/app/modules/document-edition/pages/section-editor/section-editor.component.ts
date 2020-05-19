@@ -156,7 +156,7 @@ export class SectionEditorComponent implements OnInit {
           (error: HttpErrorResponse) => {
             /**If the error was caused because the server document space was exceeded,
                return the content model to the state before the request*/
-            if (error.status == 503) {
+            if (error.status == 507) {
               this.loadSectionData(); //Reload last sucessfully saved data
             } else {
               Swal.fire({

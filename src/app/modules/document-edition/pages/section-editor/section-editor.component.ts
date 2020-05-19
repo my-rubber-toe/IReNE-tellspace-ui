@@ -173,7 +173,8 @@ export class SectionEditorComponent implements OnInit {
                 this.setSaveStatusTrue();
                 if (result.value) {
                   //If user chooses to exit, logout from the application
-                  this.auth.logout();
+                  localStorage.clear();
+                  window.location.reload();
                 } else {
                   //Retry the last save request
                   this.uploadData();

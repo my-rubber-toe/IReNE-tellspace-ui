@@ -103,9 +103,7 @@ export class DocumentsService {
    */
   public edit(docid: string, type: string, body: any): Observable<any> {
     const url = `${this.rootUrl}/documents/${docid}/edit/${type}`;
-    return this.http
-      .put(url, body, this.httpOptions)
-      .pipe(tap((_) => console.log(`edit type=${type}`)));
+    return this.http.put(url, body, this.httpOptions);
   }
 
   /** GET infraestructure types defined on server */

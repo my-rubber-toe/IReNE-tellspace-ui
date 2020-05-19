@@ -263,7 +263,6 @@ export class DocumentEditionService {
 
   /**Sends request to create a section to the server and updates cached section list */
   public createSection() {
-    console.log("this.createSection executed");
     this.docService.createSection(this.activeCaseDocument.id).subscribe((x) => {
       this.activeCaseDocument.section.push(
         new ContentSection(
